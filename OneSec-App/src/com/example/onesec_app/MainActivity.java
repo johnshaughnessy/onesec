@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.View;
 
+import com.example.onesec.impl.second.Cabinet;
 import com.example.onesec.impl.second.Second;
 
 public class MainActivity extends Activity {
@@ -15,14 +16,12 @@ public class MainActivity extends Activity {
 	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 	public static final int MEDIA_TYPE_VIDEO = 2;
 	private Second second;
+	private Cabinet cabinet;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        
-
     }
     
     @Override
@@ -36,7 +35,13 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
     		if(resultCode == RESULT_OK) {
-    			// Video successfully captured and saved to videoUri specified in Intent
+    			// Video successfully captured and saved to videoUri
+    			second.addToCabinet();
+    			
+    			// Send ID to NewSecondActivity and start activity
+    			Intent newSecondIntent = new Intent(this, NewSecondActivity.class);
+    			newSecondIntent.putExtra("id", second.getId());
+    			startActivity(newSecondIntent);
     		}
     		else if(resultCode == RESULT_CANCELED) {
     			// User cancelled video capture
@@ -63,8 +68,4 @@ public class MainActivity extends Activity {
     	// Start Intent to capture video
     	startActivityForResult(takeVideoIntent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
     }
-    
-    
-   // private getOutputMediaFileUri()
-    
 }
