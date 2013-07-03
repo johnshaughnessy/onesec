@@ -111,7 +111,7 @@ public class Second {
 */
 	
     
-    public boolean addToKitchen(){
+    public boolean addToCabinet(){
     	if (videoUriIsValid() && createThumbnail()){
     		Kitchen.allSeconds.add(this);
     		return true;

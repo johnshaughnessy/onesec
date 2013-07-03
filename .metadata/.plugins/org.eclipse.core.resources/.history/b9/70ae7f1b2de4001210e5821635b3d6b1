@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
     	if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
     		if(resultCode == RESULT_OK) {
     			// Video successfully captured and saved to videoUri
-    			second.addToKitchen();
+    			second.addToCabinet();
     			
     			// Send ID to NewSecondActivity and start activity
     			Intent newSecondIntent = new Intent(this, NewSecondActivity.class);
@@ -60,14 +60,14 @@ public class MainActivity extends Activity {
     	Uri videoUri = second.getVideoUri();
     	
     	// Create Intent to capture video
-        Intent takeSecondIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         
         // Create file to save the video and name it
-        takeSecondIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
-        takeSecondIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
-        takeSecondIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
+        takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+        takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
+        takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
         
     	// Start Intent to capture video
-    	startActivityForResult(takeSecondIntent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+    	startActivityForResult(takeVideoIntent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
     }
 }

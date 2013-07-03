@@ -11,12 +11,6 @@ public class Kitchen {
 	public static ArrayList<Batter> allBatters;
 	public static ArrayList<Cake>   allCakes;
 	
-	public Kitchen(){
-		allCakes = new ArrayList<Cake>();
-		allBatters = new ArrayList<Batter>();
-		allSeconds = new ArrayList<Second>();
-	}
-	
 	public static Cake getCake(String id){
 		for (Cake cake : allCakes ) {
 			if (cake.getId().equals(id)){
