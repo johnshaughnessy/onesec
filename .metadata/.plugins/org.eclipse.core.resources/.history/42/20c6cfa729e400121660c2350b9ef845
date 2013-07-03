@@ -1,0 +1,51 @@
+package com.example.onesec.impl.cake;
+
+import java.util.Date;
+
+import android.net.Uri;
+
+public class Cake {
+	
+	private Batter batter;
+	private int id;
+	private Date date;
+	private Uri videoUri;
+	private Uri thumbnailUri;
+	public String title;
+	
+	public Cake(Batter bat, Uri vUri, Uri tUri) {
+		batter = bat;
+		videoUri = vUri;
+		thumbnailUri = tUri;
+	}
+
+	public Batter getBatter() {
+		return batter;
+	}
+	public void setBatter(Batter batter) {
+		this.batter = batter;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public Uri getVideoUri() {
+		return videoUri;
+	}
+
+	public Uri getThumbnailUri() {
+		return thumbnailUri;
+	}
+}

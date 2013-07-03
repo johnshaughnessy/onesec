@@ -1,0 +1,13 @@
+package com.example.onesec;
+
+import java.util.ArrayList;
+
+import com.example.onesec.impl.cake.Batter;
+import com.example.onesec.impl.second.Cabinet;
+import com.example.onesec.impl.second.Second;
+
+public class Kitchen {
+	public static ArrayList<Second> allSeconds;	
+	public static ArrayList<Batter> allBatters;
+	public static ArrayList<Cake>   allCakes;
+}

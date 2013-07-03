@@ -1,0 +1,29 @@
+package com.example.onesec.impl.second;
+
+import java.util.ArrayList;
+
+
+public class Cabinet {
+	public static ArrayList<Second> allSeconds;	
+	
+	public Cabinet() {
+		allSeconds = new ArrayList<Second>();
+	}
+	
+	public static void add(Second newItem) {
+		allSeconds.add(newItem);
+	}
+	
+	public void remove(Second oldItem) {
+		allSeconds.remove(oldItem);
+	}
+	
+	public static Second getSecond(String id) {
+		for (Second sec : allSeconds){
+			if (sec.getId() == id){
+				return sec;
+			}
+		}
+		return null;
+	}
+}

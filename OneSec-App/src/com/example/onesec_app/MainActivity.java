@@ -8,7 +8,7 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.View;
 
-import com.example.onesec.impl.second.Cabinet;
+import com.example.onesec.Kitchen;
 import com.example.onesec.impl.second.Second;
 
 public class MainActivity extends Activity {
@@ -16,12 +16,14 @@ public class MainActivity extends Activity {
 	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 	public static final int MEDIA_TYPE_VIDEO = 2;
 	private Second second;
-	private Cabinet cabinet;
+	@SuppressWarnings("unused")
+	private Kitchen kitchen;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        kitchen = new Kitchen();
     }
     
     @Override
@@ -36,7 +38,7 @@ public class MainActivity extends Activity {
     	if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
     		if(resultCode == RESULT_OK) {
     			// Video successfully captured and saved to videoUri
-    			second.addToCabinet();
+    			second.addToKitchen();
     			
     			// Send ID to NewSecondActivity and start activity
     			Intent newSecondIntent = new Intent(this, NewSecondActivity.class);
@@ -58,14 +60,14 @@ public class MainActivity extends Activity {
     	Uri videoUri = second.getVideoUri();
     	
     	// Create Intent to capture video
-        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        Intent takeSecondIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         
         // Create file to save the video and name it
-        takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
-        takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
-        takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
+        takeSecondIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+        takeSecondIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
+        takeSecondIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
         
     	// Start Intent to capture video
-    	startActivityForResult(takeVideoIntent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+    	startActivityForResult(takeSecondIntent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
     }
 }

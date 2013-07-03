@@ -1,0 +1,30 @@
+package com.example.onesec.impl.cake;
+
+import java.util.ArrayList;
+
+import com.example.onesec.impl.second.Second;
+
+public class Counter {
+	public static ArrayList<Batter> allBatters;	
+	
+	public Counter() {
+		allBatters = new ArrayList<Batter>();
+	}
+	
+	public static void add(Batter newItem) {
+		allBatters.add(newItem);
+	}
+	
+	public void remove(Batter oldItem) {
+		allBatters.remove(oldItem);
+	}
+	
+	public static Second getSecond(int id) {
+		for (Second sec : allSeconds){
+			if (sec.getId() == id){
+				return sec;
+			}
+		}
+		return null;
+	}
+}

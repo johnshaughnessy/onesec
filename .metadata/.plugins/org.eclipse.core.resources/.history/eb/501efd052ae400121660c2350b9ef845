@@ -1,0 +1,5 @@
+package com.example.onesec.impl.cake;
+
+public class Counter {
+
+}
