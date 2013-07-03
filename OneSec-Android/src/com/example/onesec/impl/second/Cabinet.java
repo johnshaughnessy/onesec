@@ -1,7 +1,6 @@
 package com.example.onesec.impl.second;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Cabinet {
@@ -19,30 +18,35 @@ public class Cabinet {
 		allSeconds.remove(oldItem);
 	}
 	
-	public Second getSecond(int position) {
-		return allSeconds.get(position);
-	}
-	
-    public static void setAllSecondsToUnchecked() {
-		for (Second sec : allSeconds) {
-			sec.setChecked(false);
-		}
-	}
-
-	public static void setAllSecondsToChecked() {
-		for (Second sec : allSeconds) {
-			sec.setChecked(true);
-		}
-	}
-	
-	public List<Second> getChecked() {
-		List<Second> secondsList = new ArrayList<Second>();
-		for (Second sec : allSeconds) {
-			if (sec.isChecked()) {
-				secondsList.add(sec);
+	public Second getSecond(int id) {
+		for (Second sec : allSeconds){
+			if (sec.getId() == id){
+				return sec;
 			}
 		}
-		
-		return secondsList;
+		return null;
 	}
+	
+//    public static void setAllSecondsToUnchecked() {
+//		for (Second sec : allSeconds) {
+//			sec.setChecked(false);
+//		}
+//	}
+//
+//	public static void setAllSecondsToChecked() {
+//		for (Second sec : allSeconds) {
+//			sec.setChecked(true);
+//		}
+//	}
+//	
+//	public List<Second> getChecked() {
+//		List<Second> secondsList = new ArrayList<Second>();
+//		for (Second sec : allSeconds) {
+//			if (sec.isChecked()) {
+//				secondsList.add(sec);
+//			}
+//		}
+//		
+//		return secondsList;
+//	}
 }
