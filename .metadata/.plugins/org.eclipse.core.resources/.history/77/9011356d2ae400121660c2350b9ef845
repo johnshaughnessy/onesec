@@ -16,7 +16,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.coremedia.iso.boxes.Container;
-import com.example.onesec.Kitchen;
+import com.example.onesec.impl.second.Cabinet;
 import com.example.onesec.impl.second.Second;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
@@ -119,7 +119,7 @@ public class Batter {
 		List<Movie> movies = new ArrayList<Movie>();
 		for( String id : idList ){
 			try {
-				movies.add(Kitchen.getSecond(id).getMovie());
+				movies.add(Cabinet.getSecond(id).getMovie());
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

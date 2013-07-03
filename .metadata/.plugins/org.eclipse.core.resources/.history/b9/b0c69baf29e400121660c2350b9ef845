@@ -33,7 +33,7 @@ public class Cake {
 		this.title = title;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 

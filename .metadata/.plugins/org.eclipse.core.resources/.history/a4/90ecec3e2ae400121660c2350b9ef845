@@ -16,7 +16,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.coremedia.iso.boxes.Container;
-import com.example.onesec.Kitchen;
+import com.example.onesec.impl.second.Cabinet;
 import com.example.onesec.impl.second.Second;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
@@ -25,12 +25,12 @@ import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
 
 public class Batter {
 
-	private List<String> idList;
+	private List<Integer> idList;
 	private String id;
 	
 	public Batter()
 	{
-		idList = new ArrayList<String>();
+		idList = new ArrayList<Integer>();
 		id = generateId();
 	}
 	
@@ -50,7 +50,7 @@ public class Batter {
 	
 	public void move(int start, int end)
 	{
-		String idToMove = idList.get(start);
+		int idToMove = idList.get(start);
 		// Shift all the seconds forward
 		for (int i = start; i < end; ++i){
 			idList.set(i, idList.get(i+1));
@@ -117,9 +117,9 @@ public class Batter {
 	
 	private List<Movie> getMovieList(){
 		List<Movie> movies = new ArrayList<Movie>();
-		for( String id : idList ){
+		for (int id : idList ){
 			try {
-				movies.add(Kitchen.getSecond(id).getMovie());
+				movies.add(Cabinet.getSecond(id).getMovie());
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
