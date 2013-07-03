@@ -1,0 +1,9 @@
+package com.example.onesec.impl.cake;
+
+import java.util.List;
+
+public class Batter {
+
+	private List<Integer> idList;
+	
+}

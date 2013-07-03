@@ -1,0 +1,60 @@
+package com.example.onesec;
+
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+
+/**
+ * Adapter for our image files.
+ */
+public class SecondsAdapter extends BaseAdapter {
+
+    private final Context context; 
+
+    public SecondAdapter(Context localContext) {
+        context = localContext;
+    }
+
+    public int getCount() 
+    {
+        return list.size();
+    }
+    public Object getItem(int position) 
+    {
+        return position;
+    }
+    public long getItemId(int position) 
+    {
+        return position;
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) 
+    {
+        ImageView picturesView;
+        if (convertView == null) {
+            picturesView = new ImageView(context);
+
+             if(list.get(position).contains(".jpg"))
+            {
+                 bitmap = BitmapFactory.decodeFile(list.get(position)); //Creation of Thumbnail of image
+            }
+            else if(list.get(position).contains(".mp4"))
+            {
+                bitmap = ThumbnailUtils.createVideoThumbnail(list.get(position), 0); //Creation of Thumbnail of video
+            }
+            picturesView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            picturesView.setPadding(8, 8, 8, 8);
+            picturesView.setLayoutParams(new GridView.LayoutParams(100, 100));
+        }
+        else 
+        {
+            picturesView = (ImageView)convertView;
+        }
+        return picturesView;
+    }
+}

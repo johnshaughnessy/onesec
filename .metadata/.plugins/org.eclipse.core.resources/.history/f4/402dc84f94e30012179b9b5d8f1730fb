@@ -1,0 +1,15 @@
+package com.example.onesec.impl.cake;
+
+public class Cake {
+	
+	private Batter batter;
+	public String title;
+	
+	public Cake(String t){
+		title = t;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+}

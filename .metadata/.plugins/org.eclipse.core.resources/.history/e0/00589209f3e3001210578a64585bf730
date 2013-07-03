@@ -1,0 +1,31 @@
+package com.example.onesec;
+
+import java.io.IOException;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+import com.example.onesec.impl.cake.Cake;
+import com.example.onesec.impl.second.Cabinet;
+
+public class NewCakeActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_new_video);
+		
+		//SecondsData.makeVideoFromChecked(new MovieData("cake"));
+	}
+	
+	public void saveNewVideo(View v) throws IOException{
+		EditText name = (EditText) findViewById(R.id.newVideoName);
+		Cabinet.makeVideoFromChecked("cakename");
+		Intent i = new Intent(this, MainActivity.class);
+		startActivity(i);
+	}
+
+}

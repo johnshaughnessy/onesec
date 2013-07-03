@@ -1,0 +1,42 @@
+package com.example.onesec;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+
+/**
+ * Adapter for our image files.
+ */
+public class SecondsAdapter extends BaseAdapter {
+	
+
+    private final Context context; 
+
+    public SecondsAdapter(Context localContext) {
+    	Log.v("secondsAdapter", "making seconds adapter");
+        context = localContext;
+    }
+
+
+    public View getView(int position, View convertView, ViewGroup parent) 
+    {
+    	System.out.println("Is this even called?!?!?" + position);
+        ImageView thumbnail;
+        if (convertView == null) {
+            thumbnail = new ImageView(context);             
+            thumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            //thumbnail.setPadding(8, 8, 8, 8);
+            thumbnail.setLayoutParams(new GridView.LayoutParams(100, 100));
+        }
+        else 
+        {
+            thumbnail = (ImageView)convertView;
+        }
+        thumbnail.setImageBitmap(SecondsData.data.get(position).getThumbnail(context.getContentResolver()));
+        return thumbnail;
+    }
+}

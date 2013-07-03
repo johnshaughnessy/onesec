@@ -1,0 +1,160 @@
+package com.example.onesec.impl.second;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.coremedia.iso.boxes.Container;
+import com.example.onesec.impl.cake.Cake;
+import com.googlecode.mp4parser.authoring.Movie;
+import com.googlecode.mp4parser.authoring.Track;
+import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
+import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
+
+
+public class Cabinet {
+	public static ArrayList<Second> allSeconds;	
+	
+	public Cabinet(){
+		allSeconds = new ArrayList<Second>();
+	}
+	
+	public void add(Second newItem){
+		allSeconds.add(newItem);
+	}
+	
+	public void remove(Second oldItem)
+	{
+		allSeconds.remove(oldItem);
+	}
+	
+	public Second getSecond(int position)
+	{
+		return allSeconds.get(position);
+	}
+	
+    public static void setAllSecondsToUnchecked() {
+		for (Second sec : allSeconds){
+			sec.setChecked(false);
+		}
+	}
+
+	public static void setAllSecondsToChecked() {
+		for (Second sec : allSeconds){
+			sec.setChecked(true);
+		}
+	}
+	
+	public List<Second> getChecked()
+	{
+		List<Second> secondsList = new ArrayList<Second>();
+		for(Second sec : allSeconds)
+		{
+			if(sec.isChecked())
+			{
+				secondsList.add(sec);
+			}
+		}
+		
+		return secondsList;
+	}
+
+	private static List<Movie> getCheckedMovies() throws FileNotFoundException, IOException {
+		List<Movie> movies = new ArrayList<Movie>();
+		for (Second sec : allSeconds){
+			if (sec.isChecked()){
+				System.out.println(sec.getVideoUri().toString() + " isChecked");
+				movies.add(sec.getMovie());
+			}
+		}
+		
+		return movies;
+	}
+
+	public void initialize(Context context)
+    {		
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+		        Environment.DIRECTORY_MOVIES), "OneSec");
+		
+		if (!mediaStorageDir.isDirectory()){
+			//TODO  The app will probably crash if this isn't taken care of better
+			Toast.makeText(context, "No videos found", Toast.LENGTH_SHORT).show();
+		}
+		
+		for (File movie : mediaStorageDir.listFiles()) {
+			if (movie.toString().endsWith(".mp4")){
+				System.out.println("initializing " + movie.getPath());
+				this.add(new Second(Uri.fromFile(movie)));
+			}
+		}
+    }
+
+	public static void makeVideoFromChecked(Cake cake) throws IOException {
+		List<Movie> inMovies = getCheckedMovies();
+		makeVideo(inMovies, cake);
+        
+	}
+
+	private static void makeVideo(List<Movie> inMovies, Cake cake) throws IOException{
+		if (inMovies.size() == 0){
+        	return;
+        }
+		List<Track> videoTracks = new LinkedList<Track>();
+        List<Track> audioTracks = new LinkedList<Track>();
+        
+        
+        for (Movie m : inMovies) {
+            for (Track t : m.getTracks()) {
+                if (t.getHandler().equals("soun")) {
+                    audioTracks.add(t);
+                }
+                if (t.getHandler().equals("vide")) {
+                    videoTracks.add(t);
+                }
+            }
+        }
+
+        Movie result = new Movie();
+        if (audioTracks.size() > 0) {
+            result.addTrack(new AppendTrack(audioTracks.toArray(new Track[audioTracks.size()])));
+            
+        }
+        if (videoTracks.size() > 0) {
+            result.addTrack(new AppendTrack(videoTracks.toArray(new Track[videoTracks.size()])));
+        }
+        
+        Container out = new DefaultMp4Builder().build(result);
+
+        
+        File cakeStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_MOVIES), "OneSec/Cakes");
+        
+     // Create the storage directory if it does not exist
+        if (! cakeStorageDir.exists()){
+            if (! cakeStorageDir.mkdirs()){
+                Log.d("OneSec", "failed to create directory");
+                return;
+            }
+        }
+        
+        File output = new File(cakeStorageDir.getPath() + File.separator +
+                cake.getTitle() + ".mp4");
+        FileOutputStream fos = new FileOutputStream(output);
+        out.writeContainer(fos.getChannel());
+        fos.close();
+	}
+	
+//	public Second getSecondAtPosition(int position){
+//		return data.get(position);	
+//	}
+}

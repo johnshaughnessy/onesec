@@ -1,0 +1,13 @@
+package com.example.onesec;
+
+public class MovieData {
+	public String title;
+	
+	public MovieData(String t){
+		title = t;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+}

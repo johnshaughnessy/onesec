@@ -1,0 +1,30 @@
+package com.example.onesec.impl.cake;
+
+import java.util.List;
+
+import com.example.onesec.impl.second.Second;
+
+public class Batter {
+
+	private List<Integer> idList;
+	
+	public Batter()
+	{
+		
+	}
+	
+	public void addSecond(Second second)
+	{
+		
+	}
+	
+	public void removeSecond(Second second)
+	{
+		
+	}
+	
+	public void move(int start, int end)
+	{
+		
+	}
+}

@@ -1,0 +1,88 @@
+package com.example.onesec;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
+
+import android.content.ContentResolver;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.provider.MediaStore;
+
+public class Second {
+	public Uri thumbnailUri;
+	public Uri videoUri;
+	public Date date;
+	
+	public Second(Uri vidUri){
+		videoUri = vidUri;
+		thumbnailUri = createBitmapUri(vidUri);
+		date = getDateFromUri();		
+	}
+	
+	// TODO: This nonsense
+	@SuppressWarnings("deprecation")
+	private Date getDateFromUri(){
+		String dateString = videoUri.getLastPathSegment();
+		if (dateString.substring(0, 3).equals("VID")){
+			int year = Integer.parseInt(dateString.substring(4, 8));
+			int month = Integer.parseInt(dateString.substring(8, 10));
+			int day = Integer.parseInt(dateString.substring(10, 12));
+			int hour = Integer.parseInt(dateString.substring(13, 15));
+			int minute = Integer.parseInt(dateString.substring(15, 17));
+			int second = Integer.parseInt(dateString.substring(17, 19));
+
+			return new Date(year, month, day, hour, minute, second);
+		}
+		return new Date();
+		
+	}
+	
+	public Uri createBitmapUri(Uri vidUri)
+	{
+		String path = vidUri.getPath().replace("VID", "BMP").replace("mp4", "png");
+		System.out.println("path is " + path);
+		File thumbnailFile = new File(path);
+		
+		if(!thumbnailFile.exists())
+		{
+			System.out.println("creating thumbnail");
+			Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path, 3);
+			System.out.println("Is thumbnail null? :" + (thumbnail == null));
+			FileOutputStream out;
+			try {
+				out = new FileOutputStream(thumbnailFile);
+				boolean tof = thumbnail.compress(Bitmap.CompressFormat.PNG, 90, out);
+				System.out.println("Seriously fuck " + tof);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			System.out.println("thumbnail already exists");
+		}
+		
+		return Uri.fromFile(thumbnailFile);		
+	}
+	
+	public Bitmap getThumbnail(ContentResolver cr)
+	{
+		try {
+			return MediaStore.Images.Media.getBitmap(cr, thumbnailUri);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null; // TODO me
+	}
+	
+	
+
+}

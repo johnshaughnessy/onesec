@@ -1,0 +1,135 @@
+package com.example.onesec;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.coremedia.iso.boxes.Container;
+import com.googlecode.mp4parser.authoring.Movie;
+import com.googlecode.mp4parser.authoring.Track;
+import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
+import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
+
+public class SecondsData {
+	public static ArrayList<Second> data;
+	
+	public SecondsData(){
+		data = new ArrayList<Second>();
+	}
+	
+	public void add(Second newItem){
+		data.add(newItem);
+	}
+	    
+    public void initialize(Context context)
+    {		
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+		        Environment.DIRECTORY_MOVIES), "OneSec");
+		
+		if (!mediaStorageDir.isDirectory()){
+			//TODO  The app will probably crash if this isn't taken care of better
+			Toast.makeText(context, "No videos found", Toast.LENGTH_SHORT).show();
+		}
+		
+		for (File movie : mediaStorageDir.listFiles()) {
+			if (movie.toString().endsWith(".mp4")){
+				System.out.println("initializing " + movie.getPath());
+				this.add(new Second(Uri.fromFile(movie)));
+			}
+		}
+    }
+
+	public static void makeVideoFromChecked(MovieData md) throws IOException {
+		List<Movie> inMovies = getCheckedMovies();
+		makeVideo(inMovies, md);
+        
+	}
+
+	private static List<Movie> getCheckedMovies() throws FileNotFoundException, IOException {
+		List<Movie> movies = new ArrayList<Movie>();
+		for (Second sec : data){
+			if (sec.isChecked){
+				System.out.println(sec.videoUri.toString() + " isChecked");
+				movies.add(sec.getMovie());
+			}
+		}
+		
+		return movies;
+	}
+
+	private static void makeVideo(List<Movie> inMovies, MovieData md) throws IOException{
+		if (inMovies.size() == 0){
+        	return;
+        }
+		List<Track> videoTracks = new LinkedList<Track>();
+        List<Track> audioTracks = new LinkedList<Track>();
+        
+        
+        for (Movie m : inMovies) {
+            for (Track t : m.getTracks()) {
+                if (t.getHandler().equals("soun")) {
+                    audioTracks.add(t);
+                }
+                if (t.getHandler().equals("vide")) {
+                    videoTracks.add(t);
+                }
+            }
+        }
+
+        Movie result = new Movie();
+        if (audioTracks.size() > 0) {
+            result.addTrack(new AppendTrack(audioTracks.toArray(new Track[audioTracks.size()])));
+            
+        }
+        if (videoTracks.size() > 0) {
+            result.addTrack(new AppendTrack(videoTracks.toArray(new Track[videoTracks.size()])));
+        }
+        
+        Container out = new DefaultMp4Builder().build(result);
+
+        
+        File cakeStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_MOVIES), "OneSec/Cakes");
+        
+     // Create the storage directory if it does not exist
+        if (! cakeStorageDir.exists()){
+            if (! cakeStorageDir.mkdirs()){
+                Log.d("OneSec", "failed to create directory");
+                return;
+            }
+        }
+        
+        File output = new File(cakeStorageDir.getPath() + File.separator +
+                md.getTitle() + ".mp4");
+        FileOutputStream fos = new FileOutputStream(output);
+        out.writeContainer(fos.getChannel());
+        fos.close();
+	}
+
+	public static void setAllSecondsToUnchecked() {
+		for (Second sec : data){
+			sec.isChecked = false;
+		}
+		
+	}
+
+	public static void setAllSecondsToChecked() {
+		for (Second sec : data){
+			sec.isChecked = true;
+		}
+	}
+	
+//	public Second getSecondAtPosition(int position){
+//		return data.get(position);	
+//	}
+}

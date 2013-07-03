@@ -1,0 +1,7 @@
+package com.example.onesec.impl.cake;
+
+public class Batter {
+
+	private List<int> idList;
+	
+}
