@@ -70,6 +70,8 @@ public class Second {
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date);
+        Log.v("makeSecondFile", "timestamp is " + timeStamp);
+        Log.v("makeSecondFile", "type is " + type);
         
         File mediaFile;
        
