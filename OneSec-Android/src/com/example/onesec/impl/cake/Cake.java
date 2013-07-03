@@ -7,7 +7,7 @@ import android.net.Uri;
 public class Cake {
 	
 	private Batter batter;
-	private int id;
+	private String id;
 	private Date date;
 	private Uri videoUri;
 	private Uri thumbnailUri;
@@ -33,7 +33,7 @@ public class Cake {
 		this.title = title;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

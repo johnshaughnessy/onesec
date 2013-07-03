@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.example.onesec.Kitchen;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 
@@ -26,7 +27,7 @@ public class Second {
 	private static final int MEDIA_TYPE_VIDEO = 0;
 	private static final int MEDIA_TYPE_THUMBNAIL = 1;
 	
-	private int id;
+	private String id;
 	private Uri videoUri;
 	private Uri thumbnailUri;
 	private Date date;
@@ -38,8 +39,8 @@ public class Second {
 		thumbnailUri = makeThumbnailUri(date);
 	}
 	
-	private int generateId() {
-		return (new Random()).nextInt();
+	private String generateId() {
+		return "sec_" +(new Random()).nextInt();
 	}
 
 	/** Create a file Uri for saving an image or video */
@@ -110,9 +111,9 @@ public class Second {
 */
 	
     
-    public boolean addToCabinet(){
+    public boolean addToKitchen(){
     	if (videoUriIsValid() && createThumbnail()){
-    		Cabinet.add(this);
+    		Kitchen.allSeconds.add(this);
     		return true;
     	}
     	return false;
@@ -148,7 +149,7 @@ public class Second {
 		return thumbnailUri;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
