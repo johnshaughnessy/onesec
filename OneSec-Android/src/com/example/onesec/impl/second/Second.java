@@ -58,7 +58,7 @@ public class Second {
         // using Environment.getExternalStorageState() before doing this.
     	
     	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_MOVIES), "OneSec");
+                Environment.DIRECTORY_MOVIES), "OneSec/Seconds");
 
         // Create the storage directory if it does not exist
         if (! mediaStorageDir.exists()){

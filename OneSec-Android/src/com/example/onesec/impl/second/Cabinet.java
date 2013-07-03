@@ -18,7 +18,7 @@ public class Cabinet {
 		allSeconds.remove(oldItem);
 	}
 	
-	public Second getSecond(int id) {
+	public static Second getSecond(int id) {
 		for (Second sec : allSeconds){
 			if (sec.getId() == id){
 				return sec;
@@ -26,27 +26,4 @@ public class Cabinet {
 		}
 		return null;
 	}
-	
-//    public static void setAllSecondsToUnchecked() {
-//		for (Second sec : allSeconds) {
-//			sec.setChecked(false);
-//		}
-//	}
-//
-//	public static void setAllSecondsToChecked() {
-//		for (Second sec : allSeconds) {
-//			sec.setChecked(true);
-//		}
-//	}
-//	
-//	public List<Second> getChecked() {
-//		List<Second> secondsList = new ArrayList<Second>();
-//		for (Second sec : allSeconds) {
-//			if (sec.isChecked()) {
-//				secondsList.add(sec);
-//			}
-//		}
-//		
-//		return secondsList;
-//	}
 }
