@@ -1,10 +1,19 @@
 package com.example.onesec_app;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -23,8 +32,98 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        Log.v("******", "CALLING SENDREQUEST");
+        String output = sendRequest();
+        Log.v("******", output);
+        
         kitchen = new Kitchen();
     }
+    
+    private String sendRequest()
+    {
+    	String uri = "https://www.google.com";
+    	
+    	URL url = null;
+    	try {
+    		url = new URL(uri);
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	HttpURLConnection urlConnection = null;
+    	try {
+    		urlConnection = (HttpURLConnection)url.openConnection();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    	Log.v("conn", "just made urlconnection");
+    	
+    	try {
+    		urlConnection.setDoInput(true);
+    		Log.v("conn", "about to make inputstream");
+    	    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+    	    Log.v("conn", "just got inputstream");
+    	    String response = readStream(in);
+    	    Log.v("conn", "just read response");
+    	    return response;
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	} finally {
+    	    urlConnection.disconnect();
+    	}
+    	
+    	return null;
+//    	AsyncHttpClient client = new AsyncHttpClient();
+//    	client.get("http://www.google.com", new AsyncHttpResponseHandler() {
+//    	    @Override
+//    	    public void onSuccess(String response) {
+//    	        System.out.println(response);
+//    	    }
+//    	});
+//    	
+//    	RequestParams params = new RequestParams();
+//    	params.put("name", "value");
+//    	params.put("more", "data");
+//
+//    	// Testing for OneSecRestClient
+//    	try {
+//    		(new OneSecRestClientUsage()) .getPublicTimeline();
+//    	} catch (JSONException e) {
+//    		// TODO Auto-generated catch block
+//    		e.printStackTrace();
+//    	}
+    }
+    
+    private String readStream(InputStream in)
+	{
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		String result = null;
+		String line = null;
+		Log.v("readStream", "about to read stream");
+		// Read first line
+		try {
+			line = reader.readLine();
+			Log.v("readStream", "first line is " + line);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		result = line;
+		
+		// Read rest of lines
+		try {
+			while((line=reader.readLine()) != null){
+			    result += line;
+			    Log.v("readStream", "next line is " + line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+    
+    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
