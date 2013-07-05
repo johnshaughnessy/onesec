@@ -3,11 +3,12 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.example.onesec.R.drawable"/>
 <fullyQualifiedTypeName name="android.net.Uri"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.view.View"/>
 <fullyQualifiedTypeName name="com.example.onesec.R.id"/>
 <fullyQualifiedTypeName name="com.googlecode.mp4parser.authoring.Movie"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="com.example.onesec.impl.second.Cabinet"/>
 <fullyQualifiedTypeName name="com.example.onesec.Kitchen"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
 </qualifiedTypeNameHistroy>

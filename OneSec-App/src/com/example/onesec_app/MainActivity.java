@@ -1,13 +1,5 @@
 package com.example.onesec_app;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +11,9 @@ import android.view.View;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.second.Second;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends Activity {
 	
@@ -33,95 +28,55 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        Log.v("******", "CALLING SENDREQUEST");
-        String output = sendRequest();
-        Log.v("******", output);
-        
         kitchen = new Kitchen();
+        
+        for (int i = 0; i < 1; ++i){
+        	makeRequest();
+        	Log.v("js client", "request made");
+        }
+        
     }
     
-    private String sendRequest()
-    {
-    	String uri = "https://www.google.com";
-    	
-    	URL url = null;
-    	try {
-    		url = new URL(uri);
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    	
-    	HttpURLConnection urlConnection = null;
-    	try {
-    		urlConnection = (HttpURLConnection)url.openConnection();
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    	Log.v("conn", "just made urlconnection");
-    	
-    	try {
-    		urlConnection.setDoInput(true);
-    		Log.v("conn", "about to make inputstream");
-    	    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-    	    Log.v("conn", "just got inputstream");
-    	    String response = readStream(in);
-    	    Log.v("conn", "just read response");
-    	    return response;
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	} finally {
-    	    urlConnection.disconnect();
-    	}
-    	
-    	return null;
-//    	AsyncHttpClient client = new AsyncHttpClient();
-//    	client.get("http://www.google.com", new AsyncHttpResponseHandler() {
-//    	    @Override
-//    	    public void onSuccess(String response) {
-//    	        System.out.println(response);
-//    	    }
-//    	});
-//    	
-//    	RequestParams params = new RequestParams();
-//    	params.put("name", "value");
-//    	params.put("more", "data");
-//
-//    	// Testing for OneSecRestClient
-//    	try {
-//    		(new OneSecRestClientUsage()) .getPublicTimeline();
-//    	} catch (JSONException e) {
-//    		// TODO Auto-generated catch block
-//    		e.printStackTrace();
-//    	}
+    public static void makeRequest() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        
+        RequestParams params = new RequestParams();
+        params.put("second", "\"date\"=>\"fsdjk\"");
+        params.put("second_uid", "jsdkfa");
+
+        client.post("http://54.218.123.27:3000/seconds", params, new AsyncHttpResponseHandler() {
+        	@Override
+            public void onStart() {
+                Log.v("js client", "onStart()");
+                super.onStart();
+            }
+        	@Override
+            public void onSuccess(String response) {
+        		Log.v("js client", "onSuccess");
+                System.out.println(response);
+            }
+        	
+            @Override
+            public void onFailure(Throwable e, String response) {
+                // Response failed :(
+            	Log.v("js client", "onFailure() has the response: " + response);
+            	e.printStackTrace();
+            	super.onFailure(e, response);
+            }
+            
+            @Override
+            public void onFinish() {
+                // Completed the request (either success or failure)
+            	Log.v("js client", "onFinish()");
+            	super.onFinish();
+            }
+
+        });
+        
+        
     }
     
-    private String readStream(InputStream in)
-	{
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		String result = null;
-		String line = null;
-		Log.v("readStream", "about to read stream");
-		// Read first line
-		try {
-			line = reader.readLine();
-			Log.v("readStream", "first line is " + line);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		result = line;
-		
-		// Read rest of lines
-		try {
-			while((line=reader.readLine()) != null){
-			    result += line;
-			    Log.v("readStream", "next line is " + line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
+    
     
     
     
