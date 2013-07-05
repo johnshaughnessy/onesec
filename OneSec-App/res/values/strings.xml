@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OneSec-App</string>
+    <string name="app_name">OneSec</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_new_second">NewSecondActivity</string>
@@ -9,9 +9,13 @@
     <string name="title_activity_view_seconds">ViewSecondsActivity</string>
     <string name="title_activity_view_cakes">ViewCakesActivity</string>
     <string name="title_activity_recipe">RecipeActivity</string>
+    <string name="myseconds">My Seconds:</string>
     
     <string name="text_takeSecond">Capture the moment</string>
     <string name="text_viewSeconds">View Seconds</string>
     <string name="text_viewCakes">View Cakes</string>
+    <string name="text_test">Test</string>
+    
+    <string name="done">So beautiful omg</string>
 
 </resources>

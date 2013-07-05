@@ -20,7 +20,8 @@
         android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/takeSecond"
-		android:text="@string/text_viewSeconds" />
+		android:text="@string/text_viewSeconds"
+		android:onClick="viewSeconds" />
     
     <Button
         android:id="@+id/viewCakes"

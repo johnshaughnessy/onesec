@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     	}
     }
     
-    public void takeSecond(View v){
+    public void takeSecond(View v) {
     	// Create new [empty] Second and get its location
     	second = new Second();
     	Uri videoUri = second.getVideoUri();
@@ -70,4 +70,11 @@ public class MainActivity extends Activity {
     	// Start Intent to capture video
     	startActivityForResult(takeSecondIntent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
     }
+    
+    public void viewSeconds(View v) {
+    	// Create Intent to go to ViewSecondsActivity
+    	Intent viewSecondsIntent = new Intent(this, ViewSecondsActivity.class);
+    	startActivity(viewSecondsIntent);
+    }
+
 }
