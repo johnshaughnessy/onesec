@@ -1,0 +1,33 @@
+package com.example.onesec.impl.http;
+
+import org.json.*;
+
+import com.loopj.android.http.*;
+
+class TwitterRestClientUsage {
+    public void getPublicTimeline() throws JSONException {
+        OneSecRestClient.get("statuses/public_timeline.json", null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONArray timeline) {
+                // Pull out the first event on the public timeline
+                JSONObject firstEvent;
+				try {
+					firstEvent = (JSONObject) timeline.get(0);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                String tweetText;
+				try {
+					tweetText = firstEvent.getString("text");
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+                // Do something with the response
+                System.out.println(tweetText);
+            }
+        });
+    }
+}
