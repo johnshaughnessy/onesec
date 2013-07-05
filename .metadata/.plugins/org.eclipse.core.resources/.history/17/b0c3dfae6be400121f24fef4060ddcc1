@@ -1,0 +1,27 @@
+package com.example.onesec.impl.http;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+
+public class OneSecRestClientUsage {
+	public static void getRequestTest() {
+		OneSecRestClient.get("blog", null, new JsonHttpResponseHandler() {
+			
+			@Override
+			public void onSuccess(JSONArray response){
+				JSONObject firstEvent = null;
+				try {
+					firstEvent = (JSONObject) response.get(0);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(firstEvent.toString());
+			}
+		});
+	}
+}

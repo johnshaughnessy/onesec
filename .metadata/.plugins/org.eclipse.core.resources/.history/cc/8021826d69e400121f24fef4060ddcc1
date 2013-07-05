@@ -1,0 +1,10 @@
+package com.example.onesec.impl.http;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+
+public class OneSecRestClientUsage {
+	public void getRequestTest() {
+		OneSecRestClient.get("seconds/5", null, new JsonHttpResponseHandler())
+	}
+}

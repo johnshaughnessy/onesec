@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.second.Second;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends Activity {
 	
@@ -23,8 +27,58 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         kitchen = new Kitchen();
+        
+        for (int i = 0; i < 1; ++i){
+        	makeRequest();
+        	Log.v("js client", "request made");
+        }
+        
     }
+    
+    public static void makeRequest() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        
+        RequestParams params = new RequestParams();
+        params.put("second", "\"date\"=>\"fsdjk\"");
+        params.put("second_uid", "jsdkfa");
+
+        client.post("http://54.218.123.27:3000/seconds", params, new AsyncHttpResponseHandler() {
+        	@Override
+            public void onStart() {
+                Log.v("js client", "onStart()");
+                super.onStart();
+            }
+        	@Override
+            public void onSuccess(String response) {
+        		Log.v("js client", "onSuccess");
+                System.out.println(response);
+            }
+        	
+            @Override
+            public void onFailure(Throwable e, String response) {
+                // Response failed :(
+            	Log.v("js client", "onFailure() has the response: " + response);
+            	e.printStackTrace();
+            	super.onFailure(e, response);
+            }
+            
+            @Override
+            public void onFinish() {
+                // Completed the request (either success or failure)
+            	Log.v("js client", "onFinish()");
+            	super.onFinish();
+            }
+
+        });
+        
+        
+    }
+    
+    
+    
+    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

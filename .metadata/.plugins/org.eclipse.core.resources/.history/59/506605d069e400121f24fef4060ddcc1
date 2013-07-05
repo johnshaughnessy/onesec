@@ -1,0 +1,20 @@
+package com.example.onesec.impl.http;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+
+public class OneSecRestClientUsage {
+	public void getRequestTest() {
+		OneSecRestClient.get("seconds/5", null, new JsonHttpResponseHandler() {
+			
+			@Override
+			public void onSuccess(JSONArray response){
+				JSONObject firstEvent = response.get(0);
+				System.out.println(firstEvent.toString());
+			}
+		});
+	}
+}
