@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.onesec_app"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+	<uses-permission android:name="android.permission.INTERNET" />
+    
+    <uses-feature android:name="android.hardware.camera" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.onesec_app.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.onesec_app.NewSecondActivity"
+            android:label="@string/title_activity_new_second"
+            android:parentActivityName="com.example.onesec_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.onesec.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.onesec_app.NewCakeActivity"
+            android:label="@string/title_activity_new_cake"
+            android:parentActivityName="com.example.onesec_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.onesec.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.onesec_app.ViewSecondsActivity"
+            android:label="@string/title_activity_view_seconds"
+            android:parentActivityName="com.example.onesec_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.onesec_app.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.onesec_app.ViewCakesActivity"
+            android:label="@string/title_activity_view_cakes"
+            android:parentActivityName="com.example.onesec_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.onesec_app.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.onesec_app.RecipeActivity"
+            android:label="@string/title_activity_recipe"
+            android:parentActivityName="com.example.onesec_app.ViewCakesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.onesec_app.ViewCakesActivity" />
+        </activity>
+    </application>
+
+</manifest>
