@@ -1,0 +1,44 @@
+package com.example.onesec.impl.http;
+
+import android.util.Log;
+
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+public class OneSecRestClientUsage {
+	public void saveSecondToServer(){
+		RequestParams params = new RequestParams();
+        params.put("second[date]", "nested date");
+        params.put("second[uid]", "nested uid");
+
+        OneSecRestClient.post("seconds", params, new AsyncHttpResponseHandler() {
+        	@Override
+            public void onStart() {
+                Log.v("js client", "onStart()");
+                super.onStart();
+            }
+        	@Override
+            public void onSuccess(String response) {
+        		Log.v("js client", "onSuccess");
+                System.out.println(response);
+            }
+        	
+            @Override
+            public void onFailure(Throwable e, String response) {
+                // Response failed :(
+            	Log.v("js client", "onFailure() has the response: " + response);
+            	e.printStackTrace();
+            	super.onFailure(e, response);
+            }
+            
+            @Override
+            public void onFinish() {
+                // Completed the request (either success or failure)
+            	Log.v("js client", "onFinish()");
+            	super.onFinish();
+            }
+
+        });
+	}
+
+}

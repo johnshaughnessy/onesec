@@ -1,0 +1,20 @@
+package com.example.onesec_app;
+
+import android.app.Activity;
+import android.net.Uri;
+import android.os.Bundle;
+
+public class NewSecondActivity extends Activity {
+
+	private String id;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_new_second);
+		
+		String vUriPath = getIntent().getExtras().getString("sec_vUri");
+		Log.v("new second", "vUriPath is " + vUriPath);
+	}
+
+}
