@@ -133,15 +133,19 @@ public class MainActivity extends Activity {
     		if(resultCode == RESULT_OK) {
     			System.out.println("afterwards, second is null: " + (second == null));
     			// Video successfully captured and saved to videoUri
-    			second.addToKitchen();
+    			long newRowId = second.addToKitchen(this);
+    			Log.v("onActivityResult", "newRowId = " + newRowId);
     			OneSecRestClientUsage client = new OneSecRestClientUsage();
+    			
+    			// TODO put this in addToKitchen later
     			client.saveSecondToServer(second);
     			
     			// Send ID to NewSecondActivity and start activity
-    			Intent newSecondIntent = new Intent(this, NewSecondActivity.class);
-    			newSecondIntent.putExtra("sec_vUri", second.getVideoUri().getPath());
-    			newSecondIntent.putExtra("sec_uid", second.getId());
-    			startActivity(newSecondIntent);
+    			Intent intent = new Intent(this, NewSecondActivity.class);
+    			intent.putExtra("id", newRowId);
+    			intent.putExtra("sec_vUri", second.getVideoUri().getPath());
+    			intent.putExtra("sec_uid", second.getId());
+    			startActivity(intent);
     		}
     		else if(resultCode == RESULT_CANCELED) {
     			// User cancelled video capture
@@ -158,22 +162,22 @@ public class MainActivity extends Activity {
     	Uri videoUri = second.getVideoUri();
     	
     	// Create Intent to capture video
-        Intent takeSecondIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         
         // Create file to save the video and name it
-        takeSecondIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
-        takeSecondIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
-        takeSecondIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
         
         System.out.println("beforehand, second is null:" + (second == null));
     	// Start Intent to capture video
-    	startActivityForResult(takeSecondIntent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+    	startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
     }
     
     public void viewSeconds(View v) {
     	// Create Intent to go to ViewSecondsActivity
-    	Intent viewSecondsIntent = new Intent(this, ViewSecondsActivity.class);
-    	startActivity(viewSecondsIntent);
+    	Intent intent = new Intent(this, ViewSecondsActivity.class);
+    	startActivity(intent);
     }
 
 }

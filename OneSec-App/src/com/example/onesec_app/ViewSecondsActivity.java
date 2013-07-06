@@ -35,19 +35,14 @@ public class ViewSecondsActivity extends Activity {
 	 */
 	private void showSeconds()
 	{
-		Log.v("showSeconds", "about to show seconds");
 		List<Second> seconds = Kitchen.allSeconds;
-		Log.v("showSeconds", "got " + seconds.size() + " seconds");
 		//Log.v("showSeconds", "first second date is " + Utilities.dateToString(seconds.get(0).getDate()));
 		secondsListView = (ListView)findViewById(R.id.secondsListView);
 		
-		Log.v("showSeconds", "about to make a SecondsAdapter");
 		SecondsAdapter adapter = new SecondsAdapter(this, 
 		        R.layout.listview_seconds_row, seconds);
 		
-		Log.v("showSeconds", "about to set adapter");
 		secondsListView.setAdapter(adapter);
-		Log.v("showSeconds", "just set adapter");
 	}
 
 	/**
