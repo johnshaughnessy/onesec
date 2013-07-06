@@ -1,24 +1,22 @@
 package com.example.onesec_app;
 
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.onesec.Kitchen;
-import com.example.onesec.impl.second.Second;
-import com.example.onesec_app.adapters.SecondsAdapter;
+import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec_app.adapters.SecondsCursorAdapter;
 
 public class ViewSecondsActivity extends Activity {
 
-	private ListView secondsListView;
+//	private ListView secondsListView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +33,35 @@ public class ViewSecondsActivity extends Activity {
 	 */
 	private void showSeconds()
 	{
-		List<Second> seconds = Kitchen.allSeconds;
-		//Log.v("showSeconds", "first second date is " + Utilities.dateToString(seconds.get(0).getDate()));
-		secondsListView = (ListView)findViewById(R.id.secondsListView);
+		Cursor c = Kitchen.getSecondsCursor(this);
 		
-		SecondsAdapter adapter = new SecondsAdapter(this, 
-		        R.layout.listview_seconds_row, seconds);
+//		ViewBinder viewBinder = new ViewBinder(){
+//			@Override
+//			public boolean setViewValue(TextView view, Cursor cursor, int columnIndex){
+//				if (columnIndex == KitchenContract.THUMBNAIL_PATH_COL_NUM){
+//					view.set
+//					
+//				}
+//			}
+//		};
 		
-		secondsListView.setAdapter(adapter);
+		String[] fromColumns = {KitchenContract.SecondEntry.COLUMN_NAME_DATE, KitchenContract.SecondEntry.COLUMN_NAME_THUMBNAIL_PATH};
+		int[] toViews = {R.id.secondDate, R.id.secondThumbnail};
+		c.moveToFirst();
+		SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
+		        R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
+		ListView listView = (ListView)findViewById(R.id.secondsListView);
+		listView.setAdapter(adapter);
+		
+		
+//		List<Second> seconds = Kitchen.allSeconds;
+//		//Log.v("showSeconds", "first second date is " + Utilities.dateToString(seconds.get(0).getDate()));
+//		secondsListView = (ListView)findViewById(R.id.secondsListView);
+//		
+//		SecondsAdapter adapter = new SecondsAdapter(this, 
+//		        R.layout.listview_seconds_row, seconds);
+//		
+//		secondsListView.setAdapter(adapter);
 	}
 
 	/**

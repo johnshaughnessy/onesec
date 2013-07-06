@@ -10,9 +10,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -20,8 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.example.onesec.impl.database.KitchenContract.SecondEntry;
-import com.example.onesec.impl.database.KitchenDbHelper;
+import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec.impl.util.Utilities;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
@@ -36,6 +34,7 @@ public class Second {
 	private Uri thumbnailUri;
 	private Date date;
 	
+	// FUCKIN SEXY AS SHIT CONSTRUCTIFYIERS
 	public Second(){
 		id = generateId();
 		date = new Date();
@@ -43,11 +42,21 @@ public class Second {
 		thumbnailUri = makeThumbnailUri(date);
 	}
 	
+	// HOTT
 	public Second(String id, Date date, Uri vUri, Uri tUri){
 		this.id = id;
 		this.date = date;
 		videoUri = vUri;
 		thumbnailUri = tUri;
+	}
+	
+	// TODO ME #AHHHH.... SFO
+	public Second(Cursor c){
+		id = c.getString(KitchenContract.SECOND_ID_COL_NUM);
+		date = Utilities.stringToDate(c.getString(KitchenContract.DATE_COL_NUM));
+		videoUri = Uri.fromFile(new File(c.getString(KitchenContract.VIDEO_PATH_COL_NUM)));
+		thumbnailUri = Uri.fromFile(new File(c.getString(KitchenContract.THUMBNAIL_PATH_COL_NUM)));
+
 	}
 	
 	private String generateId() {
@@ -104,56 +113,18 @@ public class Second {
         return mediaFile;
     }
 	
-/*
-//	@SuppressWarnings("deprecation")
-//	// This is actually the worst.
-//	private Date getDateFromUri(){
-//		String dateString = videoUri.getLastPathSegment();
-//		if (!dateString.substring(4,5).equals("c")){
-//			int year = Integer.parseInt(dateString.substring(4, 8));
-//			int month = Integer.parseInt(dateString.substring(8, 10));
-//			int day = Integer.parseInt(dateString.substring(10, 12));
-//			int hour = Integer.parseInt(dateString.substring(13, 15));
-//			int minute = Integer.parseInt(dateString.substring(15, 17));
-//			int second = Integer.parseInt(dateString.substring(17, 19));
-//
-//			return new Date(year, month, day, hour, minute, second);
-//		}
-//		return new Date();
-//		
-//	}
-*/
-	
     
-    public long addToKitchen(Context context){
-    	Log.v("second", "preparing to add to kitchen");
-    	if (videoUriIsValid() && createThumbnail()){
-    		Log.v("second", "adding to kitchen");
-    		// Create new DBHelper
-    		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
-    		
-    		// Gets the data repository in write mode
-    		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-    		// Create a new map of values, where column names are the keys
-    		ContentValues values = new ContentValues();
-    		values.put(SecondEntry.COLUMN_NAME_SECOND_ID, id);
-    		values.put(SecondEntry.COLUMN_NAME_DATE, Utilities.dateToString(date));
-    		values.put(SecondEntry.COLUMN_NAME_VIDEO_PATH, videoUri.getPath());
-    		values.put(SecondEntry.COLUMN_NAME_THUMBNAIL_PATH, thumbnailUri.getPath());
-
-    		// Insert the new row, returning the primary key value of the new row
-    		long newRowId;
-    		newRowId = db.insert(
-    		         SecondEntry.TABLE_NAME,
-    		         SecondEntry.COLUMN_NAME_NULLABLE,
-    		         values);
-    		// note: COLUMN_NAME_NULLABLE=null means a row won't be inserted when there are no data values
-    		
-    		return newRowId;
-    	}
-    	Log.v("second", "failed to add to kitchen");
-    	return -1;
+//    public long addToKitchen(Context context){
+//    	Log.v("second", "preparing to add to kitchen");
+//    	if (videoUriIsValid() && createThumbnail()){
+//    		Kitchen.saveSecondToLocalDb(this);
+//    	}
+//    	Log.v("second", "failed to add to kitchen");
+//    	return -1;
+//    }
+//    
+    public boolean isReadyForSave(){
+    	return (videoUriIsValid() && createThumbnail());
     }
     
     
@@ -195,8 +166,7 @@ public class Second {
 	}
 
 	private boolean videoUriIsValid() {
-		// TODO Auto gen
-		return true;
+		return (new File(videoUri.getPath())).exists();
 	}
 
 	// Getters and setters

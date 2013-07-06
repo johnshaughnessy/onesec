@@ -3,6 +3,10 @@ package com.example.onesec.impl.database;
 import android.provider.BaseColumns;
 
 public final class KitchenContract {
+	public static final int SECOND_ID_COL_NUM = 0;
+	public static final int DATE_COL_NUM = 1;
+	public static final int VIDEO_PATH_COL_NUM = 2;
+	public static final int THUMBNAIL_PATH_COL_NUM = 3;
 
 	// Empty constructor to prevent misuse
 	public KitchenContract() {}
