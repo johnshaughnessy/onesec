@@ -1,0 +1,9 @@
+package com.example.onesec.impl.http;
+
+
+public class OneSecRestClientUsage {
+	public void getRequestTest() {
+		String url = "http://localhost:3000/";
+		OneSecRestClient.get(, params, responseHandler)
+	}
+}

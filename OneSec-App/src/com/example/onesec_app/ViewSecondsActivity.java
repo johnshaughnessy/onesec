@@ -14,7 +14,6 @@ import android.widget.ListView;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.second.Second;
-import com.example.onesec.impl.util.Utilities;
 import com.example.onesec_app.adapters.SecondsAdapter;
 
 public class ViewSecondsActivity extends Activity {
