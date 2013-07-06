@@ -1,16 +1,22 @@
 package com.example.onesec_app;
 
-import com.example.onesec_app.R;
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.onesec.Kitchen;
+import com.example.onesec.impl.http.OneSecRestClient;
 import com.example.onesec.impl.second.Second;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends Activity {
 	
@@ -25,6 +31,41 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        RequestParams params = new RequestParams();
+        params.put("user[email]", "a@b.com");
+        params.put("user[password]", "password");
+//        String token = "";
+//        params.put("token", token);
+        
+        OneSecRestClient.post("users/sign_in", params, new AsyncHttpResponseHandler() {
+        	@Override
+            public void onStart() {
+                Log.v("js client", "onStart()");
+                super.onStart();
+            }
+        	@Override
+            public void onSuccess(String response) {
+        		Log.v("js client", "onSuccess");
+        		Log.v("js client", response);
+            }
+        	
+            @Override
+            public void onFailure(Throwable e, String response) {
+                // Response failed :(
+            	Log.v("js client", "onFailure() has the response: " + response);
+            	e.printStackTrace();
+            	super.onFailure(e, response);
+            }
+            
+            @Override
+            public void onFinish() {
+                // Completed the request (either success or failure)
+            	Log.v("js client", "onFinish()");
+            	super.onFinish();
+            }
+
+        });
     }
     
     
