@@ -1,10 +1,14 @@
 package com.example.onesec_app;
 
+import java.io.IOException;
 import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,7 +35,7 @@ public class NewSecondActivity extends Activity {
 		id = getIntent().getStringExtra("id");	// get ID from intent
 		System.out.println("Id is " + id);
 		
-		previewSecond();
+		//previewSecond();
 	}
 	
 	public void previewSecond() {
@@ -51,4 +55,19 @@ public class NewSecondActivity extends Activity {
     	startActivity(viewSecondsIntent);
     }
 
+	
+//	public void playSecond(View view) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
+//		String url = "https://onesecvids.s3.amazonaws.com/uploads/second/video/18/VID_20130705_151401.mp4?AWSAccessKeyId=AKIAIR367AZSNWO4RXXQ&Signature=JWx2g2Y5rW9Cqw74r6zDvJwLfok%3D&Expires=1373066101"; // your URL here
+//		MediaPlayer mediaPlayer = new MediaPlayer();
+//		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//		mediaPlayer.setDataSource(url);
+//		
+//		OnPreparedListener opl = new OnPreparedListener() {
+//			public void onPrepared(MediaPlayer mp) {
+//				mp.start();
+//			}
+//		};
+//		mediaPlayer.setOnPreparedListener(opl);
+//		mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
+//	}
 }

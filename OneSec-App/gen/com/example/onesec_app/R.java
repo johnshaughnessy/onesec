@@ -58,6 +58,7 @@ public final class R {
         public static final int done=0x7f05000d;
         public static final int hello_world=0x7f050002;
         public static final int myseconds=0x7f050008;
+        public static final int play_second=0x7f05000e;
         public static final int text_takeSecond=0x7f050009;
         public static final int text_test=0x7f05000c;
         public static final int text_viewCakes=0x7f05000b;

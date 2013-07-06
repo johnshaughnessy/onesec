@@ -27,5 +27,7 @@
         android:layout_below="@id/date"
         android:text="@string/done"
         android:onClick="viewSeconds" />
-    
+
+
 </RelativeLayout>
+
