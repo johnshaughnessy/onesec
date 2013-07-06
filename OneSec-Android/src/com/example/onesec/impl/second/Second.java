@@ -133,7 +133,7 @@ public class Second {
 		File thumbnailFile = new File(thumbnailUri.getPath());
 		
 		if(!thumbnailFile.exists()){
-			Bitmap thumbBmp = ThumbnailUtils.createVideoThumbnail(videoUri.getPath(), 3);
+			Bitmap thumbBmp = ThumbnailUtils.createVideoThumbnail(videoUri.getPath(), 1);
 			FileOutputStream out;
 			try{
 				out = new FileOutputStream(thumbnailFile);

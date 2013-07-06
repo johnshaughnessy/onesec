@@ -10,24 +10,27 @@
 
     <Button
         android:id="@+id/takeSecond"
-        android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/text_takeSecond" 
-		android:onClick="takeSecond"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_device_access_camera_dark"
+        android:onClick="takeSecond" />
     
     <Button
         android:id="@+id/viewSeconds"
-        android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/takeSecond"
-		android:text="@string/text_viewSeconds"
-		android:onClick="viewSeconds" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/takeSecond"
+        android:layout_centerHorizontal="true"
+        android:onClick="viewSeconds"
+        android:text="@string/text_viewSeconds" />
     
     <Button
         android:id="@+id/viewCakes"
-        android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/viewSeconds"
-		android:text="@string/text_viewCakes" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viewSeconds"
+        android:layout_centerHorizontal="true"
+        android:text="@string/text_viewCakes" />
 
 </RelativeLayout>

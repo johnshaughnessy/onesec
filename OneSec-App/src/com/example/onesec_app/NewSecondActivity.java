@@ -1,8 +1,14 @@
 package com.example.onesec_app;
 
+import java.text.DateFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,11 +37,39 @@ public class NewSecondActivity extends Activity {
 		previewSecond();
 	}
 	
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.new_second, menu);
+        return true;
+    }
+	
+	
+	
 	public void previewSecond() {
 		Second second = Kitchen.getSecondById(this, rowId);
 		
-		dateView.setText(Utilities.dateToString(second.getDate()));
+		dateView.setText(getDateString(second.getDate()));
 		thumbnailView.setImageBitmap(second.getThumbnail(this));
+	}
+	
+	private String getDateString(Date date) {
+		String dateStr = Utilities.dateToString(date);
+		String year = dateStr.substring(0, 4);
+		String month = getMonth(Integer.parseInt(dateStr.substring(4, 6)));
+		String day = dateStr.substring(6, 8);
+		int hour = Integer.parseInt(dateStr.substring(9, 11));
+		int minute = Integer.parseInt(dateStr.substring(11, 13));
+		int second = Integer.parseInt(dateStr.substring(13, 15));
+
+		String secondNum = NumberFormat.getNumberInstance(Locale.US).format((hour*3600)+(minute*60)+second);
+		
+		return "Second " + secondNum + " on " + month + " " + day + ", " + year;
+	}
+	
+	private String getMonth(int month) {
+	    return new DateFormatSymbols().getMonths()[month-1];
 	}
 	
     public void viewSeconds(View v) {
