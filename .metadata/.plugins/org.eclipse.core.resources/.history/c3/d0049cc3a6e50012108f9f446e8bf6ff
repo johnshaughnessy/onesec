@@ -1,0 +1,7 @@
+package com.example.onesec.impl.http;
+
+import com.loopj.android.http.AsyncHttpClient;
+
+public class OneSecAsyncHttpClient extends AsyncHttpClient {
+
+}

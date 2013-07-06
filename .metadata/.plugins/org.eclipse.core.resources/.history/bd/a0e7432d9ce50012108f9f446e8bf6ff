@@ -1,0 +1,184 @@
+package com.example.onesec.impl.second;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+
+import com.example.onesec.Kitchen;
+import com.googlecode.mp4parser.authoring.Movie;
+import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
+
+public class Second {
+	
+	private static final int MEDIA_TYPE_VIDEO = 0;
+	private static final int MEDIA_TYPE_THUMBNAIL = 1;
+	
+	private String id;
+	private Uri videoUri;
+	private Uri thumbnailUri;
+	private Date date;
+	
+	public Second(){
+		id = generateId();
+		date = new Date();
+		videoUri = makeVideoUri(date);
+		thumbnailUri = makeThumbnailUri(date);
+	}
+	
+	private String generateId() {
+		return "sec_" +(new Random()).nextInt();
+	}
+
+	/** Create a file Uri for saving an image or video */
+    private static Uri makeVideoUri(Date date){
+    	return Uri.fromFile(makeSecondFile(date, MEDIA_TYPE_VIDEO));
+    }
+    
+    /** Create a file Uri for saving an image or video */
+    private static Uri makeThumbnailUri(Date date){
+          return Uri.fromFile(makeSecondFile(date, MEDIA_TYPE_THUMBNAIL));
+    }
+
+	/** Create a File for saving an image or video */
+    private static File makeSecondFile(Date date, int type){    	
+        // TODO: To be safe, we should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+    	
+    	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_MOVIES), "OneSec/Seconds");
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("OneSec", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date);
+        Log.v("makeSecondFile", "timestamp is " + timeStamp);
+        Log.v("makeSecondFile", "type is " + type);
+        
+        File mediaFile;
+       
+        if (type == MEDIA_TYPE_VIDEO){
+        	mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+        	"VID_"+ timeStamp + ".mp4");
+        } else if (type == MEDIA_TYPE_THUMBNAIL){
+        	mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+            "PIC_"+ timeStamp + ".png");
+        } else {
+        	Log.d("OneSec", "failed to create mediaFile");
+        	return null;
+        }
+        
+        return mediaFile;
+    }
+	
+/*
+//	@SuppressWarnings("deprecation")
+//	// This is actually the worst.
+//	private Date getDateFromUri(){
+//		String dateString = videoUri.getLastPathSegment();
+//		if (!dateString.substring(4,5).equals("c")){
+//			int year = Integer.parseInt(dateString.substring(4, 8));
+//			int month = Integer.parseInt(dateString.substring(8, 10));
+//			int day = Integer.parseInt(dateString.substring(10, 12));
+//			int hour = Integer.parseInt(dateString.substring(13, 15));
+//			int minute = Integer.parseInt(dateString.substring(15, 17));
+//			int second = Integer.parseInt(dateString.substring(17, 19));
+//
+//			return new Date(year, month, day, hour, minute, second);
+//		}
+//		return new Date();
+//		
+//	}
+*/
+	
+    
+    public boolean addToKitchen(){
+    	if (videoUriIsValid() && createThumbnail()){
+    		Log.v("second", "adding to kitchen");
+    		Kitchen.allSeconds.add(this);
+    		return true;
+    	}
+    	Log.v("second", "failed to add to kitchen");
+    	return false;
+    }
+    
+    
+    
+	private boolean createThumbnail() {
+		File thumbnailFile = new File(thumbnailUri.getPath());
+		
+		if(!thumbnailFile.exists()){
+			Bitmap thumbBmp = ThumbnailUtils.createVideoThumbnail(videoUri.getPath(), 3);
+			FileOutputStream out;
+			try{
+				out = new FileOutputStream(thumbnailFile);
+				thumbBmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean videoUriIsValid() {
+		// TODO Auto gen
+		return true;
+	}
+
+	// Getters and setters
+	public Uri getThumbnailUri()
+	{
+		return thumbnailUri;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public Uri getVideoUri() {
+		return videoUri;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+	
+	@SuppressWarnings("resource")
+	public Movie getMovie() throws FileNotFoundException, IOException {
+		// TODO Figure out why everything throws exceptions and requires suppression.
+		return MovieCreator.build(new FileInputStream(videoUri.getPath()).getChannel());
+	}
+	
+	public Bitmap getThumbnail(Context ctx)
+	{
+		try {
+			return MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), thumbnailUri);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+}

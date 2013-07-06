@@ -36,6 +36,7 @@ public class Kitchen {
 	}
 	
 	public static Second getSecond(String id){
+		// TODO this is inefficient
 		for (Second second : allSeconds ) {
 			if (second.getId().equals(id)){
 				return second;

@@ -1,0 +1,29 @@
+package com.example.onesec_app;
+
+import android.app.Activity;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
+public class NewSecondActivity extends Activity {
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_new_second);
+		
+		String vUriPath = getIntent().getExtras().getString("sec_vUri");
+		Log.v("new second", "vUriPath is " + vUriPath);
+	}
+	
+	public void playSecond(View view){
+		String url = "http://"; // your URL here
+		MediaPlayer mediaPlayer = new MediaPlayer();
+		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+		mediaPlayer.setDataSource(url);
+		mediaPlayer.prepare(); // might take long! (for buffering, etc)
+		mediaPlayer.start();
+	}
+}

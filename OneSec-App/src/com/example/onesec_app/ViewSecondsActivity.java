@@ -1,21 +1,53 @@
 package com.example.onesec_app;
 
-import android.os.Bundle;
+import java.util.List;
+
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.widget.ListView;
+
+import com.example.onesec.Kitchen;
+import com.example.onesec.impl.second.Second;
+import com.example.onesec_app.adapters.SecondsAdapter;
 
 public class ViewSecondsActivity extends Activity {
 
+	private ListView secondsListView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_seconds);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		showSeconds();
+	}
+	
+	/*
+	 * Loads all Seconds
+	 */
+	private void showSeconds()
+	{
+		Log.v("showSeconds", "about to show seconds");
+		List<Second> seconds = Kitchen.allSeconds;
+		Log.v("showSeconds", "got " + seconds.size() + " seconds");
+		//Log.v("showSeconds", "first second date is " + Utilities.dateToString(seconds.get(0).getDate()));
+		secondsListView = (ListView)findViewById(R.id.secondsListView);
+		
+		Log.v("showSeconds", "about to make a SecondsAdapter");
+		SecondsAdapter adapter = new SecondsAdapter(this, 
+		        R.layout.listview_seconds_row, seconds);
+		
+		Log.v("showSeconds", "about to set adapter");
+		secondsListView.setAdapter(adapter);
+		Log.v("showSeconds", "just set adapter");
 	}
 
 	/**
