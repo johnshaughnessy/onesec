@@ -13,5 +13,6 @@
     <string name="text_takeSecond">Capture the moment</string>
     <string name="text_viewSeconds">View Seconds</string>
     <string name="text_viewCakes">View Cakes</string>
+    <string name="play_second">Play</string>
 
 </resources>

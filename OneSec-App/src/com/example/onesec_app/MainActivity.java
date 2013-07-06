@@ -1,7 +1,6 @@
 package com.example.onesec_app;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,10 +15,8 @@ import android.view.Menu;
 import android.view.View;
 
 import com.example.onesec.Kitchen;
+import com.example.onesec.impl.http.OneSecRestClientUsage;
 import com.example.onesec.impl.second.Second;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends Activity {
 	
@@ -42,95 +39,45 @@ public class MainActivity extends Activity {
         
     }
     
-    public static void makeRequest() {
-        AsyncHttpClient client = new AsyncHttpClient();
-        
-        RequestParams params = new RequestParams();
-        params.put("second[date]", "nested date");
-        params.put("second[uid]", "nested uid");
-
-        client.post("http://54.218.123.27:3000/seconds", params, new AsyncHttpResponseHandler() {
-        	@Override
-            public void onStart() {
-                Log.v("js client", "onStart()");
-                super.onStart();
-            }
-        	@Override
-            public void onSuccess(String response) {
-        		Log.v("js client", "onSuccess");
-                System.out.println(response);
-            }
-        	
-            @Override
-            public void onFailure(Throwable e, String response) {
-                // Response failed :(
-            	Log.v("js client", "onFailure() has the response: " + response);
-            	e.printStackTrace();
-            	super.onFailure(e, response);
-            }
-            
-            @Override
-            public void onFinish() {
-                // Completed the request (either success or failure)
-            	Log.v("js client", "onFinish()");
-            	super.onFinish();
-            }
-
-        });
-        
-        
-    }
+//    public static void makeRequest() {
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        
+//        RequestParams params = new RequestParams();
+//        params.put("second[date]", "nested date");
+//        params.put("second[uid]", "nested uid");
+//
+//        client.post("http://54.218.123.27:3000/seconds", params, new AsyncHttpResponseHandler() {
+//        	@Override
+//            public void onStart() {
+//                Log.v("js client", "onStart()");
+//                super.onStart();
+//            }
+//        	@Override
+//            public void onSuccess(String response) {
+//        		Log.v("js client", "onSuccess");
+//                System.out.println(response);
+//            }
+//        	
+//            @Override
+//            public void onFailure(Throwable e, String response) {
+//                // Response failed :(
+//            	Log.v("js client", "onFailure() has the response: " + response);
+//            	e.printStackTrace();
+//            	super.onFailure(e, response);
+//            }
+//            
+//            @Override
+//            public void onFinish() {
+//                // Completed the request (either success or failure)
+//            	Log.v("js client", "onFinish()");
+//            	super.onFinish();
+//            }
+//
+//        });
+//        
+//        
+//    }
     
-    public static void storeSecond(Second second) {
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.setTimeout(30000);
-        
-        RequestParams params = new RequestParams();
-        params.put("second[date]", second.getDate().toString());
-        params.put("second[uid]", second.getId());
-        
-        File videoFile = new File(second.getVideoUri().getPath());
-        
-        try {
-			params.put("second[video]", videoFile);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-       
-
-        client.post("http://54.218.123.27:3000/seconds", params, new AsyncHttpResponseHandler() {
-        	@Override
-            public void onStart() {
-                Log.v("js client", "onStart()");
-                super.onStart();
-            }
-        	@Override
-            public void onSuccess(String response) {
-        		Log.v("js client", "onSuccess");
-                System.out.println(response);
-            }
-        	
-            @Override
-            public void onFailure(Throwable e, String response) {
-                // Response failed :(
-            	Log.v("js client", "onFailure() has the response: " + response);
-            	e.printStackTrace();
-            	super.onFailure(e, response);
-            }
-            
-            @Override
-            public void onFinish() {
-                // Completed the request (either success or failure)
-            	Log.v("js client", "onFinish()");
-            	super.onFinish();
-            }
-
-        });
-        
-       
-        
-        
-    }
     
     @Override
     protected void onSaveInstanceState (Bundle outState){
@@ -187,11 +134,13 @@ public class MainActivity extends Activity {
     			System.out.println("afterwards, second is null: " + (second == null));
     			// Video successfully captured and saved to videoUri
     			second.addToKitchen();
-    			storeSecond(second);
+    			OneSecRestClientUsage client = new OneSecRestClientUsage();
+    			client.saveSecondToServer(second);
     			
     			// Send ID to NewSecondActivity and start activity
     			Intent newSecondIntent = new Intent(this, NewSecondActivity.class);
-    			newSecondIntent.putExtra("id", second.getId());
+    			newSecondIntent.putExtra("sec_vUri", second.getVideoUri().getPath());
+    			newSecondIntent.putExtra("sec_uid", second.getId());
     			startActivity(newSecondIntent);
     		}
     		else if(resultCode == RESULT_CANCELED) {
