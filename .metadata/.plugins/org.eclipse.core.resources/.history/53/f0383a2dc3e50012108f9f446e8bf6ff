@@ -1,0 +1,57 @@
+package com.example.onesec.impl.http;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+
+import android.util.Log;
+
+import com.example.onesec.impl.second.Second;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+public class OneSecRestClientUsage {
+	public void saveSecondToServer(Second second){
+		RequestParams params = new RequestParams();
+        params.put("second[date]", second.getDate().toString());
+        params.put("second[uid]", second.getId());
+        
+        File videoFile = new File(second.getVideoUri().getPath());
+        
+        try {
+			params.put("second[video]", videoFile);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+       
+
+        OneSecRestClient.post("seconds", params, new AsyncHttpResponseHandler() {
+        	@Override
+            public void onStart() {
+                Log.v("js client", "onStart()");
+                super.onStart();
+            }
+        	@Override
+            public void onSuccess(String response) {
+        		Log.v("js client", "onSuccess");
+        		Log.v("js client", response);
+            }
+        	
+            @Override
+            public void onFailure(Throwable e, String response) {
+                // Response failed :(
+            	Log.v("js client", "onFailure() has the response: " + response);
+            	e.printStackTrace();
+            	super.onFailure(e, response);
+            }
+            
+            @Override
+            public void onFinish() {
+                // Completed the request (either success or failure)
+            	Log.v("js client", "onFinish()");
+            	super.onFinish();
+            }
+
+        });
+	}
+
+}
