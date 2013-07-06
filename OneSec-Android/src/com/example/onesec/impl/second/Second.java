@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -18,7 +20,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.example.onesec.Kitchen;
+import com.example.onesec.impl.database.KitchenContract.SecondEntry;
+import com.example.onesec.impl.database.KitchenDbHelper;
+import com.example.onesec.impl.util.Utilities;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 
@@ -62,19 +66,22 @@ public class Second {
 
 	/** Create a File for saving an image or video */
     private static File makeSecondFile(Date date, int type){    	
-        // TODO: To be safe, we should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
+    	if(!isExternalStorageWritable()) {
+    		// TODO error - can't write to external storage
+    		Log.v("makeSecondFile", "external storage isn't writable");
+    		return null;
+    	}
     	
-    	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_MOVIES), "OneSec/Seconds");
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                Log.d("OneSec", "failed to create directory");
-                return null;
-            }
-        }
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_MOVIES), "OneSec/Seconds");
+		
+		// Create the storage directory if it does not exist
+		if (! mediaStorageDir.exists()){
+			if (! mediaStorageDir.mkdirs()){
+				Log.d("OneSec", "failed to create directory");
+				return null;
+			}
+		}
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date);
@@ -118,15 +125,35 @@ public class Second {
 */
 	
     
-    public boolean addToKitchen(){
+    public long addToKitchen(Context context){
     	Log.v("second", "preparing to add to kitchen");
     	if (videoUriIsValid() && createThumbnail()){
     		Log.v("second", "adding to kitchen");
-    		Kitchen.allSeconds.add(this);
-    		return true;
+    		// Create new DBHelper
+    		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
+    		
+    		// Gets the data repository in write mode
+    		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+    		// Create a new map of values, where column names are the keys
+    		ContentValues values = new ContentValues();
+    		values.put(SecondEntry.COLUMN_NAME_SECOND_ID, id);
+    		values.put(SecondEntry.COLUMN_NAME_DATE, Utilities.dateToString(date));
+    		values.put(SecondEntry.COLUMN_NAME_VIDEO_PATH, videoUri.getPath());
+    		values.put(SecondEntry.COLUMN_NAME_THUMBNAIL_PATH, thumbnailUri.getPath());
+
+    		// Insert the new row, returning the primary key value of the new row
+    		long newRowId;
+    		newRowId = db.insert(
+    		         SecondEntry.TABLE_NAME,
+    		         SecondEntry.COLUMN_NAME_NULLABLE,
+    		         values);
+    		// note: COLUMN_NAME_NULLABLE=null means a row won't be inserted when there are no data values
+    		
+    		return newRowId;
     	}
     	Log.v("second", "failed to add to kitchen");
-    	return false;
+    	return -1;
     }
     
     
@@ -146,6 +173,25 @@ public class Second {
 			}
 		}
 		return true;
+	}
+	
+	/* Checks if external storage is available for read and write */
+	public static boolean isExternalStorageWritable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
+
+	/* Checks if external storage is available to at least read */
+	public static boolean isExternalStorageReadable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state) ||
+	        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+	        return true;
+	    }
+	    return false;
 	}
 
 	private boolean videoUriIsValid() {
