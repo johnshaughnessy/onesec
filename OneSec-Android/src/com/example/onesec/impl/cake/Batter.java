@@ -24,17 +24,18 @@ import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
 
 public class Batter {
 
-	private List<String> idList;
-	private String id;
+	private List<String> idList;		// IDs of Seconds in batter
+	private String id;					// ID of batter
+	private Uri uri;					// URI of batter
 	
 	public Batter()
 	{
 		idList = new ArrayList<String>();
-		id = generateId();
+		id = generateId();		
 	}
 	
 	private String generateId() {
-		return "cake" + (new Random()).nextInt();
+		return "bat_" + (new Random()).nextInt();
 	}
 
 	public void addSecond(Second second)
@@ -58,14 +59,15 @@ public class Batter {
 	}
 	
 	public Cake bake() throws IOException{
-		Uri cakeVidUri = bakeCakeAndReturnUri();
-		Uri cakeThumbUri = makeThumbnailAndReturnUri(cakeVidUri);
+		Uri cakeVidUri = bakeCake();
+		Uri cakeThumbUri = makeThumbnail(cakeVidUri);
 		return new Cake(this, cakeVidUri, cakeThumbUri);
 	}
 
-
-
-	private Uri bakeCakeAndReturnUri() throws IOException {
+	/*
+	 * Bakes cake and returns its URI
+	 */
+	private Uri bakeCake() throws IOException {
 		// Set up Tracks
 		List<Track> videoTracks = new LinkedList<Track>();
         List<Track> audioTracks = new LinkedList<Track>();
@@ -81,56 +83,43 @@ public class Batter {
             }
         }
         
-        // Use tracks to concatenate into result
-        Movie result = new Movie();
+        // Use tracks to concatenate into cake
+        Movie cake = new Movie();
         if (audioTracks.size() > 0) {
-            result.addTrack(new AppendTrack(audioTracks.toArray(new Track[audioTracks.size()])));
-            
+            cake.addTrack(new AppendTrack(audioTracks.toArray(new Track[audioTracks.size()])));
         }
         if (videoTracks.size() > 0) {
-            result.addTrack(new AppendTrack(videoTracks.toArray(new Track[videoTracks.size()])));
+            cake.addTrack(new AppendTrack(videoTracks.toArray(new Track[videoTracks.size()])));
         }
         
         // Build .mp4
-        Container out = new DefaultMp4Builder().build(result);
-
+        Container out = new DefaultMp4Builder().build(cake);
         
         File cakeStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES), "OneSec/Cakes");
         
         // Create the storage directory if it does not exist
-        if (! cakeStorageDir.exists()){
-            if (! cakeStorageDir.mkdirs()){
+        if (!cakeStorageDir.exists()){
+            if (!cakeStorageDir.mkdirs()){
                 Log.d("OneSec", "failed to create directory");
                 return null;
             }
         }
         
-        File output = new File(cakeStorageDir.getPath() + File.separator +
-                id + ".mp4");
+        // Save Cake to directory
+        String cakePath = cakeStorageDir.getPath() + File.separator + id + ".mp4";
+        File output = new File(cakePath);
         FileOutputStream fos = new FileOutputStream(output);
         out.writeContainer(fos.getChannel());
         fos.close();
-		return null;
+        
+		return Uri.parse(cakePath);
 	}
 	
-	private List<Movie> getMovieList(){
-		List<Movie> movies = new ArrayList<Movie>();
-//		for( String id : idList ){
-//			try {
-//				movies.add(Kitchen.getSecond(id).getMovie());
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-		return movies;
-	}
-	
-	private Uri makeThumbnailAndReturnUri(Uri cakeVidUri) {
+	/*
+	 * Make thumbnail and return its URI
+	 */
+	private Uri makeThumbnail(Uri cakeVidUri) {
 		Uri thumbnailUri = convertVidUri(cakeVidUri);
 		
 		File thumbnailFile = new File(thumbnailUri.getPath());
@@ -154,8 +143,28 @@ public class Batter {
 		return null;
 	}
 	
+	private List<Movie> getMovieList(){
+			List<Movie> movies = new ArrayList<Movie>();
+	//		for( String id : idList ){
+	//			try {
+	//				movies.add(Kitchen.getSecond(id).getMovie());
+	//			} catch (FileNotFoundException e) {
+	//				// TODO Auto-generated catch block
+	//				e.printStackTrace();
+	//			} catch (IOException e) {
+	//				// TODO Auto-generated catch block
+	//				e.printStackTrace();
+	//			}
+	//		}
+			return movies;
+		}
+
 	public String getId(){
 		return id;
+	}
+	
+	public Uri getUri() {
+		return uri;
 	}
 	
 }

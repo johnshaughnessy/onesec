@@ -202,5 +202,11 @@ public class MainActivity extends Activity {
     	Intent intent = new Intent(this, ViewSecondsActivity.class);
     	startActivity(intent);
     }
+    
+    public void viewCakes(View v) {
+    	// Create intent to go to ViewCakesActivity
+    	Intent intent = new Intent(this, ViewCakesActivity.class);
+    	startActivity(intent);
+    }
 
 }

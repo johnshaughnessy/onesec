@@ -53,9 +53,9 @@ public class Second {
 	// TODO ME #AHHHH.... SFO
 	public Second(Cursor c){
 		id = c.getString(KitchenContract.SECOND_ID_COL_NUM);
-		date = Utilities.stringToDate(c.getString(KitchenContract.DATE_COL_NUM));
-		videoUri = Uri.fromFile(new File(c.getString(KitchenContract.VIDEO_PATH_COL_NUM)));
-		thumbnailUri = Uri.fromFile(new File(c.getString(KitchenContract.THUMBNAIL_PATH_COL_NUM)));
+		date = Utilities.stringToDate(c.getString(KitchenContract.SECOND_DATE_COL_NUM));
+		videoUri = Uri.fromFile(new File(c.getString(KitchenContract.SECOND_VIDEO_PATH_COL_NUM)));
+		thumbnailUri = Uri.fromFile(new File(c.getString(KitchenContract.SECOND_THUMBNAIL_PATH_COL_NUM)));
 
 	}
 	
@@ -63,12 +63,12 @@ public class Second {
 		return "sec_" +(new Random()).nextInt();
 	}
 
-	/** Create a file Uri for saving an image or video */
+	/** Create a file URI for saving an image or video */
     private static Uri makeVideoUri(Date date){
     	return Uri.fromFile(makeSecondFile(date, MEDIA_TYPE_VIDEO));
     }
     
-    /** Create a file Uri for saving an image or video */
+    /** Create a file URI for saving an image or video */
     private static Uri makeThumbnailUri(Date date){
           return Uri.fromFile(makeSecondFile(date, MEDIA_TYPE_THUMBNAIL));
     }
@@ -126,8 +126,6 @@ public class Second {
     public boolean isReadyForSave(){
     	return (videoUriIsValid() && createThumbnail());
     }
-    
-    
     
 	private boolean createThumbnail() {
 		File thumbnailFile = new File(thumbnailUri.getPath());

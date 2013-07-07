@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.onesec.Kitchen;
+import com.example.onesec.impl.cake.Batter;
 import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec_app.adapters.SecondsCursorAdapter;
 
@@ -21,6 +22,7 @@ public class ViewSecondsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setTitle("My Seconds");
 		setContentView(R.layout.activity_view_seconds);
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -31,19 +33,9 @@ public class ViewSecondsActivity extends Activity {
 	/*
 	 * Loads all Seconds
 	 */
-	private void showSeconds()
-	{
+	private void showSeconds() {
 		Cursor c = Kitchen.getSecondsCursor(this);
-		
-//		ViewBinder viewBinder = new ViewBinder(){
-//			@Override
-//			public boolean setViewValue(TextView view, Cursor cursor, int columnIndex){
-//				if (columnIndex == KitchenContract.THUMBNAIL_PATH_COL_NUM){
-//					view.set
-//					
-//				}
-//			}
-//		};
+
 		
 		String[] fromColumns = {KitchenContract.SecondEntry.COLUMN_NAME_DATE, KitchenContract.SecondEntry.COLUMN_NAME_THUMBNAIL_PATH};
 		int[] toViews = {R.id.secondDate, R.id.secondThumbnail};
@@ -52,16 +44,15 @@ public class ViewSecondsActivity extends Activity {
 		        R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
 		ListView listView = (ListView)findViewById(R.id.secondsListView);
 		listView.setAdapter(adapter);
+	}
+	
+	private void selectSeconds() {
+		Batter batter = new Batter();
 		
+	}
+	
+	private void bakeCake(Batter batter) {
 		
-//		List<Second> seconds = Kitchen.allSeconds;
-//		//Log.v("showSeconds", "first second date is " + Utilities.dateToString(seconds.get(0).getDate()));
-//		secondsListView = (ListView)findViewById(R.id.secondsListView);
-//		
-//		SecondsAdapter adapter = new SecondsAdapter(this, 
-//		        R.layout.listview_seconds_row, seconds);
-//		
-//		secondsListView.setAdapter(adapter);
 	}
 
 	/**
