@@ -1,16 +1,22 @@
 package com.example.onesec_app;
 
-import com.example.onesec_app.R;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.onesec.Kitchen;
+import com.example.onesec.impl.http.OneSecRestClient;
 import com.example.onesec.impl.second.Second;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends Activity {
 	
@@ -20,11 +26,58 @@ public class MainActivity extends Activity {
 	private Second second;
 	@SuppressWarnings("unused")
 	private Kitchen kitchen;
+	String token;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //setToken();
+    }
+    
+    private void setToken()
+    {
+    	RequestParams params = new RequestParams();
+    	params.put("email", "a@b.com");
+    	params.put("password", "password");
+//        String token = "";
+//        params.put("token", token);
+    	
+    	OneSecRestClient.post("tokens.json", params, new AsyncHttpResponseHandler() {
+    		@Override
+    		public void onStart() {
+    			Log.v("js client", "onStart()");
+    			super.onStart();
+    		}
+    		@Override
+    		public void onSuccess(String response) {
+    			Log.v("js client", "onSuccess");
+    			
+    			try {
+    				JSONObject jObject = new JSONObject(response);
+					token = jObject.getString("token");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+    			Log.v("js client", "token is " + token + "!!!!!!!");
+    		}
+    		
+    		@Override
+    		public void onFailure(Throwable e, String response) {
+    			// Response failed :(
+    			Log.v("js client", "onFailure() has the response: " + response);
+    			e.printStackTrace();
+    			super.onFailure(e, response);
+    		}
+    		
+    		@Override
+    		public void onFinish() {
+    			// Completed the request (either success or failure)
+    			Log.v("js client", "onFinish()");
+    			super.onFinish();
+    		}
+    	});
     }
     
     
