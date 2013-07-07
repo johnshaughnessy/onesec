@@ -91,7 +91,7 @@ public class Kitchen {
 		    };
 
 		// How you want the results sorted in the resulting Cursor
-		String sortOrder = null;
+		String sortOrder = SecondEntry._ID + " DESC";
 		
 		Cursor c = db.query(
 			    SecondEntry.TABLE_NAME,  // The table to query

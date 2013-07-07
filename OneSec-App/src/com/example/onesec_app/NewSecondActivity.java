@@ -65,7 +65,7 @@ public class NewSecondActivity extends Activity {
 
 		String secondNum = NumberFormat.getNumberInstance(Locale.US).format((hour*3600)+(minute*60)+second);
 		
-		return "Second " + secondNum + " on " + month + " " + day + ", " + year;
+		return "Second " + secondNum + " of " + month + " " + day + ", " + year;
 	}
 	
 	private String getMonth(int month) {

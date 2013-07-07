@@ -3,6 +3,7 @@ package com.example.onesec_app;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +37,19 @@ public class MainActivity extends Activity {
         //setToken();
     }
     
+//    @Override
+//    protected void onResume() {
+//    	checkLogin();
+//    }
+    
+//    private void checkLogin() {
+//    	AccountManager am = new AccountManager(); 
+//    	if (am.getUserData("user") == null) {
+//    	    Intent i = new Intent(this, LoginActivity.class);
+//    	    startActivityForResult(i, GlobalContext.REQUEST_LOGIN);
+//    	}
+//    }
+    
     private void setToken()
     {
     	RequestParams params = new RequestParams();
@@ -44,7 +58,7 @@ public class MainActivity extends Activity {
 //        String token = "";
 //        params.put("token", token);
     	
-    	OneSecRestClient.post("tokens.json", params, new AsyncHttpResponseHandler() {
+    	OneSecRestClient.post("users", params, new AsyncHttpResponseHandler() {
     		@Override
     		public void onStart() {
     			Log.v("js client", "onStart()");
