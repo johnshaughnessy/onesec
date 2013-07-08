@@ -1,0 +1,35 @@
+package com.example.onesec_app.adapters;
+
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.widget.ImageView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+
+import com.example.onesec.impl.cake.Cake;
+
+public class CakesCursorAdapter extends SimpleCursorAdapter {
+	Context context; 
+    int layoutResourceId;    
+    List<Cake> cakesList;
+    
+    @SuppressLint("NewApi")
+	public CakesCursorAdapter(Context context, int layoutResourceId, Cursor c, String[] from, int[] to, int flags) {
+        super(context, layoutResourceId, c, from, to, 0);
+    }
+    
+    @Override
+    public void setViewText(TextView textView, String string)
+    {
+    	textView.setText(string);
+    }
+    
+    public void setViewImage(ImageView imageView, String thumbnailUri)
+    {
+    	imageView.setImageURI(Uri.parse(thumbnailUri));
+    }
+}

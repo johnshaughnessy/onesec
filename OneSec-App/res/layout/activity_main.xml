@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/viewSeconds"
         android:layout_centerHorizontal="true"
+        android:onClick="viewCakes"
         android:text="@string/text_viewCakes" />
 
 </RelativeLayout>
