@@ -1,12 +1,17 @@
 package com.example.onesec.impl.cake;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import android.content.Context;
@@ -27,18 +32,42 @@ import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
 public class Batter {
 
 	private List<String> idList;		// IDs of Seconds in batter
-	private String id;					// ID of batter
+	private static String id;			// ID of batter
 	private Uri uri;					// URI of batter
 	
 	public Batter()
 	{
 		idList = new ArrayList<String>();
-		id = generateId();		
+		id = generateId();
+		uri = makeBatterUri();
 	}
 	
 	private String generateId() {
-		return "bat_" + (new Random()).nextInt();
+		return "BAT_" + (new Random()).nextInt();
 	}
+	
+	// Create a file URI to save batter
+    private static Uri makeBatterUri(){
+    	return Uri.fromFile(makeBatterFile());
+    }
+    
+    // Create a File to save batter
+    private static File makeBatterFile(){
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_MOVIES), "OneSec/Batter");
+		
+		// Create the storage directory if it does not exist
+		if (!mediaStorageDir.exists()){
+			if (! mediaStorageDir.mkdirs()){
+				Log.d("OneSec", "Failed to create batter directory");
+				return null;
+			}
+		}
+		
+        File file = new File(mediaStorageDir.getPath() + File.separator + id + ".txt");
+        
+        return file;
+    }
 
 	public void addSecond(Second second)
 	{
@@ -118,6 +147,7 @@ public class Batter {
         
         // Save Cake to directory
         String cakePath = cakeStorageDir.getPath() + File.separator + id + ".mp4";
+        Log.v("bakeCake", "cakepath is " + cakePath);
         File output = new File(cakePath);
         FileOutputStream fos = new FileOutputStream(output);
         out.writeContainer(fos.getChannel());
@@ -153,24 +183,28 @@ public class Batter {
 	}
 	
 	private List<Movie> getMovieList(Context context){
-			List<Movie> movies = new ArrayList<Movie>();
-			for( String id : idList ){
-				try {
-					Log.v("getMovieList", "id is " + id);
-					Log.v("getMovieList", Kitchen.getSecondByUid(context, id).getVideoUri().getPath());
-					movies.add(Kitchen.getSecondByUid(context, id).getMovie());
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		List<Movie> movies = new ArrayList<Movie>();
+		for( String id : idList ){
+			try {
+				Log.v("getMovieList", "id is " + id);
+				Log.v("getMovieList", Kitchen.getSecondByUid(context, id).getVideoUri().getPath());
+				movies.add(Kitchen.getSecondByUid(context, id).getMovie());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			System.out.println("movielist");
-			return movies;
 		}
+		System.out.println("movielist");
+		return movies;
+	}
 
-	public String getId(){
+	public String getId() {
 		return id;
+	}
+	
+	public List<String> getIdList() {
+		return idList;
 	}
 	
 	public Uri getUri() {

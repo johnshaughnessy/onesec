@@ -30,21 +30,25 @@ public class Cake {
 	private Uri thumbnailUri;
 	private Uri batterUri;
 	
-	public Cake() {
-		id = generateId();
-		date = new Date();
-		videoUri = makeVideoUri(date);
-		thumbnailUri = makeThumbnailUri(date);
-	}
+//	public Cake() {
+//		id = generateId();
+//		date = new Date();
+//		videoUri = makeVideoUri(date);
+//		thumbnailUri = makeThumbnailUri(date);
+//		batter = new Batter();
+//	}
 	
 	public Cake(Batter b, Uri vUri, Uri tUri) {
-		batter = b;
+		id = generateId();
+		date = new Date();
 		videoUri = vUri;
 		thumbnailUri = tUri;
+		batter = b;
+		batterUri = b.getUri();
 	}
 	
 	private String generateId() {
-		return "cake_" +(new Random()).nextInt();
+		return "CAKE_" +(new Random()).nextInt();
 	}
 
 	/** Create a file URI for saving an image or video */

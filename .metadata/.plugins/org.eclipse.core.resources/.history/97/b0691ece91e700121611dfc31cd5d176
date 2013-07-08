@@ -1,4 +1,11 @@
 package com.example.onesec_app;
+
+<<<<<<< HEAD
+=======
+import java.io.File;
+import java.io.FileNotFoundException;
+
+>>>>>>> 878925e3701e82547b78481056a4ac40b9664ce1
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
