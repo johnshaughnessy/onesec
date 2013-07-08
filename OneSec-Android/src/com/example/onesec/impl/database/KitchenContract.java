@@ -10,12 +10,12 @@ public final class KitchenContract {
 	public static final int SECOND_THUMBNAIL_PATH_COL_NUM = 4;
 	
 	// Define Cake column numbers
-	public static final int CAKE_ID_COL_NUM = 0;
-	public static final int CAKE_TITLE_COL_NUM = 1;
-	public static final int CAKE_DATE_COL_NUM = 2;
-	public static final int CAKE_VIDEO_PATH_COL_NUM = 3;
-	public static final int CAKE_THUMBNAIL_PATH_COL_NUM = 4;
-	public static final int CAKE_BATTER_PATH_COL_NUM = 5;
+	public static final int CAKE_ID_COL_NUM = 1;
+	public static final int CAKE_TITLE_COL_NUM = 2;
+	public static final int CAKE_DATE_COL_NUM = 3;
+	public static final int CAKE_VIDEO_PATH_COL_NUM = 4;
+	public static final int CAKE_THUMBNAIL_PATH_COL_NUM = 5;
+	public static final int CAKE_BATTER_PATH_COL_NUM = 6;
 
 	// Empty constructor to prevent misuse
 	public KitchenContract() {}

@@ -7,9 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.onesec.impl.cake.Cake;
+import com.example.onesec.impl.database.KitchenCakeDbHelper;
 import com.example.onesec.impl.database.KitchenContract.CakeEntry;
 import com.example.onesec.impl.database.KitchenContract.SecondEntry;
-import com.example.onesec.impl.database.KitchenDbHelper;
+import com.example.onesec.impl.database.KitchenSecondDbHelper;
 import com.example.onesec.impl.second.Second;
 import com.example.onesec.impl.util.Utilities;
 
@@ -21,7 +22,7 @@ public class Kitchen {
 		}
 		
 		// Prepare the Second DB for insert
-		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
+		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		ContentValues values = generateContentValuesForSecond(second);
 
@@ -42,7 +43,7 @@ public class Kitchen {
 		}
 		
 		// Prepare the Cake DB for insert
-		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
+		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		ContentValues values = generateContentValuesForCake(cake);
 
@@ -79,12 +80,13 @@ public class Kitchen {
 	}
 	
 	public static Second getSecondById(Context context, Long rowId){
-		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
+		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
 		// Define a projection that specifies which columns from the database
 		// you will actually use after this query.
 		String[] projection = {
+			SecondEntry._ID,
 		    SecondEntry.COLUMN_NAME_SECOND_ID,
 		    SecondEntry.COLUMN_NAME_DATE,
 		    SecondEntry.COLUMN_NAME_VIDEO_PATH,
@@ -112,7 +114,7 @@ public class Kitchen {
 	}
 	
 	public static Second getSecondByUid(Context context, String uid){
-		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
+		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
 		// Define a projection that specifies which columns from the database
@@ -150,7 +152,7 @@ public class Kitchen {
 	
 	
 	public static Cursor getSecondsCursor(Context context) {
-		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
+		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
 		// Define a projection that specifies which columns from the database
@@ -180,7 +182,7 @@ public class Kitchen {
 	}
 	
 	public static Cursor getCakesCursor(Context context) {
-		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
+		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
 		// Define a projection that specifies which columns from the database

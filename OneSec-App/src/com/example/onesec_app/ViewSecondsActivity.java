@@ -2,6 +2,7 @@ package com.example.onesec_app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -89,6 +90,8 @@ public class ViewSecondsActivity extends Activity {
 	
 	public void bakeCake(View v) {
 		Cake cake = batter.bake(this);
+		Intent intent = new Intent(this, ViewCakesActivity.class);
+    	startActivity(intent);
 	}
 
 	/**
