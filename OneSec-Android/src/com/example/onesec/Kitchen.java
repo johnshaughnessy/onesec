@@ -68,6 +68,7 @@ public class Kitchen {
 		return values;
 	}
 	
+
 	private static ContentValues generateContentValuesForCake(Cake cake){
 		ContentValues values = new ContentValues();
 		values.put(CakeEntry.COLUMN_NAME_CAKE_ID, cake.getId());
@@ -79,6 +80,8 @@ public class Kitchen {
 		return values;
 	}
 	
+
+	// Makes cursor to view one Second
 	public static Second getSecondById(Context context, Long rowId){
 		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -95,13 +98,12 @@ public class Kitchen {
 
 		// How you want the results sorted in the resulting Cursor
 		String sortOrder = null;
-//		    SecondEntry.COLUMN_NAME_UPDATED + " DESC";
 
 		Cursor c = db.query(
-		    SecondEntry.TABLE_NAME,  // The table to query
+		    SecondEntry.TABLE_NAME,  				  // The table to query
 		    projection,                               // The columns to return
-		    SecondEntry._ID+"=?",		  // The columns for the WHERE clause
-		    new String[]{ Long.toString(rowId) },                         		   // The values for the WHERE clause
+		    SecondEntry._ID+"=?",		  			  // The columns for the WHERE clause
+		    new String[]{ Long.toString(rowId) },     // The values for the WHERE clause
 		    null,                                     // don't group the rows
 		    null,                                     // don't filter by row groups
 		    sortOrder                                 // The sort order
@@ -113,6 +115,7 @@ public class Kitchen {
 		return null;
 	}
 	
+
 	public static Second getSecondByUid(Context context, String uid){
 		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -150,7 +153,7 @@ public class Kitchen {
 	}
 	
 	
-	
+	// Makes cursor to view all seconds	
 	public static Cursor getSecondsCursor(Context context) {
 		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
