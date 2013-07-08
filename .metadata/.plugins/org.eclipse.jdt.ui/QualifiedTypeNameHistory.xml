@@ -6,9 +6,11 @@
 <fullyQualifiedTypeName name="android.view.View"/>
 <fullyQualifiedTypeName name="com.example.onesec.R.id"/>
 <fullyQualifiedTypeName name="com.googlecode.mp4parser.authoring.Movie"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="com.example.onesec.impl.second.Cabinet"/>
 <fullyQualifiedTypeName name="com.example.onesec.Kitchen"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="org.apache.http.ParseException"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="android.app.Service"/>
 </qualifiedTypeNameHistroy>
