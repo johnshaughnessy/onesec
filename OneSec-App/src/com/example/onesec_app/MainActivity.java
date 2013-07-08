@@ -1,5 +1,10 @@
 package com.example.onesec_app;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,6 +12,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -34,7 +40,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        //setToken();
+        //makeRequest();
     }
     
 //    @Override
@@ -50,15 +56,29 @@ public class MainActivity extends Activity {
 //    	}
 //    }
     
-    private void setToken()
+    private void makeRequest()
     {
+    	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_MOVIES), "OneSec/Seconds");
+		
+        String vidPath = mediaStorageDir.getPath() + File.separator + "VID_20130703_143114.mp4";
+    	Log.v("uri", vidPath);
+    	
+    	File file = new File(vidPath);
+    	
     	RequestParams params = new RequestParams();
-    	params.put("email", "a@b.com");
-    	params.put("password", "password");
+    	params.put("token", "c3LRZKS8wAuD7q3Bjj9a");
+    	params.put("second[uid]", "superduperuid");
+    	try {
+			params.put("second[video]", file);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 //        String token = "";
 //        params.put("token", token);
     	
-    	OneSecRestClient.post("users", params, new AsyncHttpResponseHandler() {
+    	OneSecRestClient.post("mobile_seconds", params, new AsyncHttpResponseHandler() {
     		@Override
     		public void onStart() {
     			Log.v("js client", "onStart()");
@@ -68,13 +88,14 @@ public class MainActivity extends Activity {
     		public void onSuccess(String response) {
     			Log.v("js client", "onSuccess");
     			
-    			try {
-    				JSONObject jObject = new JSONObject(response);
-					token = jObject.getString("token");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-    			Log.v("js client", "token is " + token + "!!!!!!!");
+//    			try {
+//    				JSONObject jObject = new JSONObject(response);
+//					token = jObject.getString("token");
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//    			Log.v("js client", "token is " + token + "!!!!!!!");
+    			Log.v("response", response);
     		}
     		
     		@Override

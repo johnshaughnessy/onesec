@@ -4,10 +4,10 @@ import android.provider.BaseColumns;
 
 public final class KitchenContract {
 	// Define Second column numbers
-	public static final int SECOND_ID_COL_NUM = 0;
-	public static final int SECOND_DATE_COL_NUM = 1;
-	public static final int SECOND_VIDEO_PATH_COL_NUM = 2;
-	public static final int SECOND_THUMBNAIL_PATH_COL_NUM = 3;
+	public static final int SECOND_ID_COL_NUM = 1;
+	public static final int SECOND_DATE_COL_NUM = 2;
+	public static final int SECOND_VIDEO_PATH_COL_NUM = 3;
+	public static final int SECOND_THUMBNAIL_PATH_COL_NUM = 4;
 	
 	// Define Cake column numbers
 	public static final int CAKE_ID_COL_NUM = 0;

@@ -8,16 +8,24 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.cake.Batter;
+import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec.impl.second.Second;
 import com.example.onesec_app.adapters.SecondsCursorAdapter;
 
 public class ViewSecondsActivity extends Activity {
 
 //	private ListView secondsListView;
+	private Batter batter;
+	private boolean selectorOn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +35,23 @@ public class ViewSecondsActivity extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
+		batter = new Batter();
+		selectorOn = false;
+		Button selectButton = (Button)findViewById(R.id.select_seconds);
+		selectButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				selectorOn = !selectorOn;
+			}
+		});
 		showSeconds();
+		
 	}
 	
 	/*
 	 * Loads all Seconds
 	 */
 	private void showSeconds() {
-		Cursor c = Kitchen.getSecondsCursor(this);
-
+		final Cursor c = Kitchen.getSecondsCursor(this);
 		
 		String[] fromColumns = {KitchenContract.SecondEntry.COLUMN_NAME_DATE, KitchenContract.SecondEntry.COLUMN_NAME_THUMBNAIL_PATH};
 		int[] toViews = {R.id.secondDate, R.id.secondThumbnail};
@@ -44,15 +60,35 @@ public class ViewSecondsActivity extends Activity {
 		        R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
 		ListView listView = (ListView)findViewById(R.id.secondsListView);
 		listView.setAdapter(adapter);
+		//listView.setLongClickable(true);
+		
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+				if(selectorOn)
+				{
+					//SecondsCursorAdapter adapter = (SecondsCursorAdapter) adapterView.getAdapter();
+					c.moveToPosition(pos);
+					Second second = new Second(c);
+					batter.addSecond(second);
+				}
+			}
+		});
 	}
 	
-	private void selectSeconds() {
-		Batter batter = new Batter();
-		
-	}
+//	private void selectSeconds() {
+//		Batter batter = new Batter();
+//		
+//		selectButton.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View v) {
+//				selectorOn = !selectorOn;
+//			}
+//		});
+//		showSeconds();
+//		
+//	}
 	
-	private void bakeCake(Batter batter) {
-		
+	public void bakeCake(View v) {
+		Cake cake = batter.bake(this);
 	}
 
 	/**

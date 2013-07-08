@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenContract.CakeEntry;
@@ -107,6 +108,42 @@ public class Kitchen {
 		if (c.moveToFirst()) {
 			return new Second(c);
 		}
+		return null;
+	}
+	
+	public static Second getSecondByUid(Context context, String uid){
+		KitchenDbHelper mDbHelper = new KitchenDbHelper(context);
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+		// Define a projection that specifies which columns from the database
+		// you will actually use after this query.
+		String[] projection = {
+			SecondEntry._ID,
+		    SecondEntry.COLUMN_NAME_SECOND_ID,
+		    SecondEntry.COLUMN_NAME_DATE,
+		    SecondEntry.COLUMN_NAME_VIDEO_PATH,
+		    SecondEntry.COLUMN_NAME_THUMBNAIL_PATH
+		    };
+
+		// How you want the results sorted in the resulting Cursor
+		String sortOrder = null;
+//		    SecondEntry.COLUMN_NAME_UPDATED + " DESC";
+
+		Cursor c = db.query(
+		    SecondEntry.TABLE_NAME,  // The table to query
+		    projection,                               // The columns to return
+		    SecondEntry.COLUMN_NAME_SECOND_ID+"=?",		  // The columns for the WHERE clause
+		    new String[]{ uid },                         		   // The values for the WHERE clause
+		    null,                                     // don't group the rows
+		    null,                                     // don't filter by row groups
+		    sortOrder                                 // The sort order
+		    );
+		
+		if (c.moveToFirst()) {
+			Log.v("getsecbyuid", "new second(c)");
+			return new Second(c);
+		}
+		Log.v("getsecbyuid", "null");
 		return null;
 	}
 	

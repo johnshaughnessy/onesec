@@ -188,7 +188,10 @@ public class Second {
 	@SuppressWarnings("resource")
 	public Movie getMovie() throws FileNotFoundException, IOException {
 		// TODO Figure out why everything throws exceptions and requires suppression.
-		return MovieCreator.build(new FileInputStream(videoUri.getPath()).getChannel());
+		Movie movie = MovieCreator.build(videoUri.getPath());
+		return movie;
+		
+		//return MovieCreator.build(new FileInputStream(videoUri.getPath()).getChannel());
 	}
 	
 	public Bitmap getThumbnail(Context ctx)

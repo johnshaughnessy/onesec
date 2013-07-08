@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.coremedia.iso.boxes.Container;
+import com.example.onesec.Kitchen;
 import com.example.onesec.impl.second.Second;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
@@ -40,6 +42,7 @@ public class Batter {
 
 	public void addSecond(Second second)
 	{
+		Log.v("addSecond", "adding second " + second.getId());
 		idList.add(second.getId());
 	}
 	
@@ -58,21 +61,28 @@ public class Batter {
 		idList.set(end, idToMove);
 	}
 	
-	public Cake bake() throws IOException{
-		Uri cakeVidUri = bakeCake();
-		Uri cakeThumbUri = makeThumbnail(cakeVidUri);
-		return new Cake(this, cakeVidUri, cakeThumbUri);
+	public Cake bake(Context context) {
+		try {
+			Uri cakeVidUri = bakeCake(context);
+			Uri cakeThumbUri = makeThumbnail(cakeVidUri);
+			return new Cake(this, cakeVidUri, cakeThumbUri);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Log.v("bake", "can't bake cake!!");
+		return null;
 	}
 
 	/*
 	 * Bakes cake and returns its URI
 	 */
-	private Uri bakeCake() throws IOException {
+	private Uri bakeCake(Context context) throws IOException {
 		// Set up Tracks
 		List<Track> videoTracks = new LinkedList<Track>();
         List<Track> audioTracks = new LinkedList<Track>();
         
-        for (Movie m : getMovieList()) {
+        for (Movie m : getMovieList(context)) {
             for (Track t : m.getTracks()) {
                 if (t.getHandler().equals("soun")) {
                     audioTracks.add(t);
@@ -139,23 +149,23 @@ public class Batter {
 	}
 	
 	private Uri convertVidUri(Uri vidUri) {
-		
-		return null;
+		return Uri.fromFile(new File(vidUri.getPath().replace("CAKE", "IMG").replace("mp4", "png")));
 	}
 	
-	private List<Movie> getMovieList(){
+	private List<Movie> getMovieList(Context context){
 			List<Movie> movies = new ArrayList<Movie>();
-	//		for( String id : idList ){
-	//			try {
-	//				movies.add(Kitchen.getSecond(id).getMovie());
-	//			} catch (FileNotFoundException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			} catch (IOException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			}
-	//		}
+			for( String id : idList ){
+				try {
+					Log.v("getMovieList", "id is " + id);
+					Log.v("getMovieList", Kitchen.getSecondByUid(context, id).getVideoUri().getPath());
+					movies.add(Kitchen.getSecondByUid(context, id).getMovie());
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			System.out.println("movielist");
 			return movies;
 		}
 
