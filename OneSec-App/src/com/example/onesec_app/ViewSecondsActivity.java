@@ -1,12 +1,18 @@
 package com.example.onesec_app;
 
+import java.io.File;
+import java.util.Random;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,7 +65,9 @@ public class ViewSecondsActivity extends Activity {
 		c.moveToFirst();
 		SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
 		        R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
+		Log.v("second adapter string", adapter.toString());
 		ListView listView = (ListView)findViewById(R.id.secondsListView);
+		Log.v("seconds listview count", ""+listView.getCount());
 		listView.setAdapter(adapter);
 		//listView.setLongClickable(true);
 		
@@ -76,23 +84,17 @@ public class ViewSecondsActivity extends Activity {
 		});
 	}
 	
-//	private void selectSeconds() {
-//		Batter batter = new Batter();
-//		
-//		selectButton.setOnClickListener(new View.OnClickListener() {
-//			public void onClick(View v) {
-//				selectorOn = !selectorOn;
-//			}
-//		});
-//		showSeconds();
-//		
-//	}
-	
 	public void bakeCake(View v) {
 		Cake cake = batter.bake(this);
+		
+		// Save cake and its batter locally
+		Kitchen.saveCakeToLocalDb(this, cake);
+		Kitchen.writeBatterToFile(this, batter);
+		
 		Intent intent = new Intent(this, ViewCakesActivity.class);
     	startActivity(intent);
 	}
+
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.

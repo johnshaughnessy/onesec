@@ -26,6 +26,7 @@ public class NewSecondActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setTitle("New Second");
 		setContentView(R.layout.activity_new_second);
 		
 		dateView = (TextView)findViewById(R.id.date);

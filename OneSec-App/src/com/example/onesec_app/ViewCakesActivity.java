@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec_app.adapters.CakesCursorAdapter;
+import com.example.onesec_app.adapters.SecondsCursorAdapter;
 
 public class ViewCakesActivity extends Activity {
 
@@ -33,13 +35,14 @@ public class ViewCakesActivity extends Activity {
 		Cursor c = Kitchen.getCakesCursor(this);
 		
 		String[] fromColumns = {
-				KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
+				//KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
 				KitchenContract.CakeEntry.COLUMN_NAME_DATE,
 				KitchenContract.CakeEntry.COLUMN_NAME_THUMBNAIL_PATH };
 		int[] toViews = {
-				R.id.cakeTitle,
+				//R.id.cakeTitle,
 				R.id.cakeDate,
 				R.id.cakeThumbnail };
+		
 		c.moveToFirst();
 		CakesCursorAdapter adapter = new CakesCursorAdapter(this, 
 		        R.layout.listview_cakes_row, c, fromColumns, toViews, 0);

@@ -2,13 +2,7 @@ package com.example.onesec_app;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

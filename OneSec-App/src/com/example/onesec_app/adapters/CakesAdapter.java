@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class CakesAdapter extends ArrayAdapter<Cake> {
         holder.thumbnailView.setImageBitmap(cake.getThumbnail(context));
         holder.titleView.setText(cake.getTitle());
         holder.dateView.setText(Utilities.dateToString(cake.getDate()));
+        Log.v("getview", "date is " + holder.dateView.getText());
         
         return row;
     }
