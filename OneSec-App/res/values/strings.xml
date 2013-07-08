@@ -11,6 +11,8 @@
     <string name="title_activity_recipe">RecipeActivity</string>
     <string name="my_seconds">My Seconds</string>
     <string name="date">Date:</string>
+    <string name="text_select_seconds">Select</string>
+    <string name="text_bake_cake">Bake</string>
     
     <string name="text_takeSecond">Capture the moment</string>
     <string name="text_viewSeconds">View Seconds</string>

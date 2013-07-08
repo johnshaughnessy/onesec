@@ -1,23 +1,53 @@
 package com.example.onesec_app;
 
-import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.database.Cursor;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.widget.ListView;
+
+import com.example.onesec.Kitchen;
+import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec_app.adapters.CakesCursorAdapter;
 
 public class ViewCakesActivity extends Activity {
 
+	// TODO handle what happens before any cakes are made and db doesn't exist
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setTitle("My Cakes");
 		setContentView(R.layout.activity_view_cakes);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		showCakes();
+	}
+	
+	private void showCakes() {
+		Cursor c = Kitchen.getCakesCursor(this);
+		
+		String[] fromColumns = {
+				KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
+				KitchenContract.CakeEntry.COLUMN_NAME_DATE,
+				KitchenContract.CakeEntry.COLUMN_NAME_THUMBNAIL_PATH };
+		int[] toViews = {
+				R.id.cakeTitle,
+				R.id.cakeDate,
+				R.id.cakeThumbnail };
+		c.moveToFirst();
+		CakesCursorAdapter adapter = new CakesCursorAdapter(this, 
+		        R.layout.listview_cakes_row, c, fromColumns, toViews, 0);
+		ListView listView = (ListView)findViewById(R.id.cakesListView);
+		listView.setAdapter(adapter);
 	}
 
+	
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
 	 */

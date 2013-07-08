@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.onesec.impl.database.KitchenContract.SecondEntry;
 
-public class KitchenDbHelper extends SQLiteOpenHelper {
+public class KitchenSecondDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "FeedReader.db";
@@ -25,7 +25,7 @@ public class KitchenDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
         "DROP TABLE IF EXISTS " + SecondEntry.TABLE_NAME;
     
-    public KitchenDbHelper(Context context) {
+    public KitchenSecondDbHelper(Context context) {
     	super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
