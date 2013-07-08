@@ -1,0 +1,37 @@
+package com.example.onesec.impl.http;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.example.onesec_app.R;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+public class TokenManager {
+	public static void generateAndSaveToken(Context ctx, String email, String password){
+		OneSecRestClient client = new OneSecRestClient();
+		RequestParams params = OneSecRestClient.buildParams(new String[] {"email", "password"}, new String[] {email, password});
+		client.post("tokens.json", params, new AsyncHttpResponseHandler(){
+			
+		});
+	}
+	
+	public static String getToken(Context ctx){
+		SharedPreferences sharedPref = ctx.getSharedPreferences(ctx.getString(R.string.token_prefs), Context.MODE_PRIVATE);
+		return sharedPref.getString(ctx.getString(R.string.token), "could not find token");
+	}
+	
+	public static void rememberToken(Context ctx){
+		SharedPreferences sharedPref = ctx.getSharedPreferences(ctx.getString(R.string.token_prefs), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putString(ctx.getString(R.string.token), getToken(ctx));
+		editor.commit();
+	}
+	
+	public static void forgetToken(Context ctx){
+		SharedPreferences sharedPref = ctx.getSharedPreferences(ctx.getString(R.string.token_prefs), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putString(ctx.getString(R.string.token), "token has been forgotten");
+		editor.commit();
+	}
+}

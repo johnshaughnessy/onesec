@@ -1,92 +1,63 @@
 package com.example.onesec_app;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.example.onesec.Kitchen;
-import com.example.onesec.impl.http.OneSecRestClientUsage;
+import com.example.onesec.impl.http.OneSecRestClient;
+import com.example.onesec.impl.http.TokenManager;
 import com.example.onesec.impl.second.Second;
+import com.example.onesec.impl.util.Utilities;
+import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends Activity {
 	
 	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 	public static final int MEDIA_TYPE_VIDEO = 2;
+	private Long newRowId;
 	private Second second;
 	@SuppressWarnings("unused")
 	private Kitchen kitchen;
+	String token;
+	Context context = this;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.v("main", "onCreate");
         
-        kitchen = new Kitchen();
-
+        // Restore preferences
+        //SharedPreferences tokenPrefs = getSharedPreferences("token preferences", 0);
+        
+        if (TokenManager.getToken(this).equals(TokenManager.NOTOKEN)){
+        	Log.v("onCreate", "no token was found");
+        	TokenManager.generateAndSaveToken(this, "a@ex.com", "password");
+        } 
+        
+        Button forgetToken = (Button) findViewById(R.id.forget_token);
+        forgetToken.setOnClickListener(new OnClickListener(){
+        	public void onClick(View v){
+        		TokenManager.forgetToken(context);
+        	}
+        });
         
         //makeRequest();
-        
     }
     
-//    public static void makeRequest() {
-//        AsyncHttpClient client = new AsyncHttpClient();
-//        
-//        RequestParams params = new RequestParams();
-//        params.put("second[date]", "nested date");
-//        params.put("second[uid]", "nested uid");
-//
-//        client.post("http://54.218.123.27:3000/seconds", params, new AsyncHttpResponseHandler() {
-//        	@Override
-//            public void onStart() {
-//                Log.v("js client", "onStart()");
-//                super.onStart();
-//            }
-//        	@Override
-//            public void onSuccess(String response) {
-//        		Log.v("js client", "onSuccess");
-//                System.out.println(response);
-//            }
-//        	
-//            @Override
-//            public void onFailure(Throwable e, String response) {
-//                // Response failed :(
-//            	Log.v("js client", "onFailure() has the response: " + response);
-//            	e.printStackTrace();
-//            	super.onFailure(e, response);
-//            }
-//            
-//            @Override
-//            public void onFinish() {
-//                // Completed the request (either success or failure)
-//            	Log.v("js client", "onFinish()");
-//            	super.onFinish();
-//            }
-//
-//        });
-//        
-//        
-//    }
-    
-    
+
     @Override
     protected void onSaveInstanceState (Bundle outState){
-    	if (second != null){
-    		outState.putString("sec_id", second.getId());
-        	SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
-        	outState.putString("sec_date_str", formatter.format(second.getDate()));
-        	outState.putString("sec_vUri", second.getVideoUri().getPath());
-        	outState.putString("sec_tUri", second.getThumbnailUri().getPath());
+    	if (newRowId != null){
+    		outState.putLong("newRowId", newRowId);
     	}
     	
     	super.onSaveInstanceState(outState);
@@ -94,31 +65,13 @@ public class MainActivity extends Activity {
     
     @Override
     protected void onRestoreInstanceState (Bundle savedInstanceState){
-    	if (savedInstanceState.containsKey("sec_id") &&
-    			savedInstanceState.containsKey("sec_date_str") &&
-    			savedInstanceState.containsKey("sec_vUri") &&
-    			savedInstanceState.containsKey("sec_tUri")){
-    		
-    		Log.v("restore", "restoring the second");
-    		
-    		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
-        	Date date = new Date();
-        	try {
-        		date = formatter.parse(savedInstanceState.getString("sec_date_str"));
-        	} catch (java.text.ParseException e) {
-				
-				e.printStackTrace();
-			}
-        	second = new Second(savedInstanceState.getString("sec_id"),
-        						date,
-        						Uri.fromFile(new File(savedInstanceState.getString("sec_vUri"))),
-        						Uri.fromFile(new File(savedInstanceState.getString("sec_tUri"))));
-        	super.onRestoreInstanceState(savedInstanceState);
+    	if (savedInstanceState.containsKey("newRowId")){
+    		newRowId = savedInstanceState.getLong("newRowId");
+    		second = Kitchen.getSecondById(this, newRowId);
     	}
+    	super.onRestoreInstanceState(savedInstanceState);
     	
     }
-    
-    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,20 +81,38 @@ public class MainActivity extends Activity {
     }
     
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	// Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu_new_second:
+                takeSecond(findViewById(R.layout.activity_main));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
     		if(resultCode == RESULT_OK) {
-    			System.out.println("afterwards, second is null: " + (second == null));
-    			// Video successfully captured and saved to videoUri
-    			second.addToKitchen();
-    			OneSecRestClientUsage client = new OneSecRestClientUsage();
-    			client.saveSecondToServer(second);
+    			// Video successfully captured and saved to videoUri   			
     			
+    			// TODO put this in addToKitchen later
+    			// OneSecRestClientUsage client = new OneSecRestClientUsage();
+    			// client.saveSecondToServer(second);
+    			
+    			// Upload Second to Server
+    			RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "second[uid]", "second[date]"}, 
+    								   								new String[] {TokenManager.getToken(this), second.getId(), Utilities.dateToString(second.getDate())});
+    			params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.SECONDS_VIDEO_TYPE, second.getVideoUri());
+    			OneSecRestClient.post("mobile_seconds", params, OneSecRestClient.GENERIC_RESPONSE_HANDLER);
+    			
+    			 
     			// Send ID to NewSecondActivity and start activity
-    			Intent newSecondIntent = new Intent(this, NewSecondActivity.class);
-    			newSecondIntent.putExtra("sec_vUri", second.getVideoUri().getPath());
-    			newSecondIntent.putExtra("sec_uid", second.getId());
-    			startActivity(newSecondIntent);
+    			Intent intent = new Intent(this, NewSecondActivity.class);
+    			intent.putExtra("newRowId", Kitchen.saveSecondToLocalDb(this, second));
+    			startActivity(intent);
     		}
     		else if(resultCode == RESULT_CANCELED) {
     			// User cancelled video capture
@@ -153,27 +124,29 @@ public class MainActivity extends Activity {
     }
     
     public void takeSecond(View v) {
-    	// Create new [empty] Second and get its location
     	second = new Second();
-    	Uri videoUri = second.getVideoUri();
+    	newRowId = Kitchen.saveSecondToLocalDb(this, second);
     	
     	// Create Intent to capture video
-        Intent takeSecondIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         
-        // Create file to save the video and name it
-        takeSecondIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
-        takeSecondIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
-        takeSecondIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, second.getVideoUri());
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
         
-        System.out.println("beforehand, second is null:" + (second == null));
-    	// Start Intent to capture video
-    	startActivityForResult(takeSecondIntent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+    	startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
     }
     
     public void viewSeconds(View v) {
     	// Create Intent to go to ViewSecondsActivity
-    	Intent viewSecondsIntent = new Intent(this, ViewSecondsActivity.class);
-    	startActivity(viewSecondsIntent);
+    	Intent intent = new Intent(this, ViewSecondsActivity.class);
+    	startActivity(intent);
+    }
+    
+    public void viewCakes(View v) {
+    	// Create intent to go to ViewCakesActivity
+    	Intent intent = new Intent(this, ViewCakesActivity.class);
+    	startActivity(intent);
     }
 
 }

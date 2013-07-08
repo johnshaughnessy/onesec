@@ -1,0 +1,26 @@
+package com.example.onesec.impl.http;
+
+import android.R;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+public class TokenManager {
+	public static void generateAndSaveToken(Context ctx, String email, String password){
+		
+	}
+	
+	public static String getToken(Context ctx){
+		return null;
+	}
+	
+	public static void rememberToken(Context ctx){
+		SharedPreferences sharedPref = ctx.getSharedPreferences(R.string.token, ctx.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt(getString(R.string.saved_high_score), newHighScore);
+		editor.commit();
+	}
+	
+	public static void forgetToken(Context ctx){
+		
+	}
+}

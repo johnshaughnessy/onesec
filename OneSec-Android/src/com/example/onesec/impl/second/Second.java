@@ -1,7 +1,6 @@
 package com.example.onesec.impl.second;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,6 +10,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -18,7 +18,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.example.onesec.Kitchen;
+import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec.impl.util.Utilities;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 
@@ -32,6 +33,7 @@ public class Second {
 	private Uri thumbnailUri;
 	private Date date;
 	
+	// FUCKIN SEXY AS SHIT CONSTRUCTIFYIERS
 	public Second(){
 		id = generateId();
 		date = new Date();
@@ -39,6 +41,7 @@ public class Second {
 		thumbnailUri = makeThumbnailUri(date);
 	}
 	
+	// HOTT
 	public Second(String id, Date date, Uri vUri, Uri tUri){
 		this.id = id;
 		this.date = date;
@@ -46,35 +49,47 @@ public class Second {
 		thumbnailUri = tUri;
 	}
 	
+	// TODO ME #AHHHH.... SFO
+	public Second(Cursor c){
+		id = c.getString(KitchenContract.SECOND_ID_COL_NUM);
+		date = Utilities.stringToDate(c.getString(KitchenContract.SECOND_DATE_COL_NUM));
+		videoUri = Uri.fromFile(new File(c.getString(KitchenContract.SECOND_VIDEO_PATH_COL_NUM)));
+		thumbnailUri = Uri.fromFile(new File(c.getString(KitchenContract.SECOND_THUMBNAIL_PATH_COL_NUM)));
+
+	}
+	
 	private String generateId() {
 		return "sec_" +(new Random()).nextInt();
 	}
 
-	/** Create a file Uri for saving an image or video */
+	/** Create a file URI for saving an image or video */
     private static Uri makeVideoUri(Date date){
     	return Uri.fromFile(makeSecondFile(date, MEDIA_TYPE_VIDEO));
     }
     
-    /** Create a file Uri for saving an image or video */
+    /** Create a file URI for saving an image or video */
     private static Uri makeThumbnailUri(Date date){
           return Uri.fromFile(makeSecondFile(date, MEDIA_TYPE_THUMBNAIL));
     }
 
 	/** Create a File for saving an image or video */
     private static File makeSecondFile(Date date, int type){    	
-        // TODO: To be safe, we should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
+    	if(!isExternalStorageWritable()) {
+    		// TODO error - can't write to external storage
+    		Log.v("makeSecondFile", "external storage isn't writable");
+    		return null;
+    	}
     	
-    	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_MOVIES), "OneSec/Seconds");
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                Log.d("OneSec", "failed to create directory");
-                return null;
-            }
-        }
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_MOVIES), "OneSec/Seconds");
+		
+		// Create the storage directory if it does not exist
+		if (! mediaStorageDir.exists()){
+			if (! mediaStorageDir.mkdirs()){
+				Log.d("OneSec", "failed to create directory");
+				return null;
+			}
+		}
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date);
@@ -97,45 +112,25 @@ public class Second {
         return mediaFile;
     }
 	
-/*
-//	@SuppressWarnings("deprecation")
-//	// This is actually the worst.
-//	private Date getDateFromUri(){
-//		String dateString = videoUri.getLastPathSegment();
-//		if (!dateString.substring(4,5).equals("c")){
-//			int year = Integer.parseInt(dateString.substring(4, 8));
-//			int month = Integer.parseInt(dateString.substring(8, 10));
-//			int day = Integer.parseInt(dateString.substring(10, 12));
-//			int hour = Integer.parseInt(dateString.substring(13, 15));
-//			int minute = Integer.parseInt(dateString.substring(15, 17));
-//			int second = Integer.parseInt(dateString.substring(17, 19));
-//
-//			return new Date(year, month, day, hour, minute, second);
-//		}
-//		return new Date();
-//		
-//	}
-*/
-	
     
-    public boolean addToKitchen(){
-    	Log.v("second", "preparing to add to kitchen");
-    	if (videoUriIsValid() && createThumbnail()){
-    		Log.v("second", "adding to kitchen");
-    		Kitchen.allSeconds.add(this);
-    		return true;
-    	}
-    	Log.v("second", "failed to add to kitchen");
-    	return false;
+//    public long addToKitchen(Context context){
+//    	Log.v("second", "preparing to add to kitchen");
+//    	if (videoUriIsValid() && createThumbnail()){
+//    		Kitchen.saveSecondToLocalDb(this);
+//    	}
+//    	Log.v("second", "failed to add to kitchen");
+//    	return -1;
+//    }
+//    
+    public boolean isReadyForSave(){
+    	return (videoUriIsValid() && createThumbnail());
     }
-    
-    
     
 	private boolean createThumbnail() {
 		File thumbnailFile = new File(thumbnailUri.getPath());
 		
 		if(!thumbnailFile.exists()){
-			Bitmap thumbBmp = ThumbnailUtils.createVideoThumbnail(videoUri.getPath(), 3);
+			Bitmap thumbBmp = ThumbnailUtils.createVideoThumbnail(videoUri.getPath(), 1);
 			FileOutputStream out;
 			try{
 				out = new FileOutputStream(thumbnailFile);
@@ -147,10 +142,28 @@ public class Second {
 		}
 		return true;
 	}
+	
+	/* Checks if external storage is available for read and write */
+	public static boolean isExternalStorageWritable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
+
+	/* Checks if external storage is available to at least read */
+	public static boolean isExternalStorageReadable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state) ||
+	        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
 
 	private boolean videoUriIsValid() {
-		// TODO Auto gen
-		return true;
+		return (new File(videoUri.getPath())).exists();
 	}
 
 	// Getters and setters
@@ -174,7 +187,10 @@ public class Second {
 	@SuppressWarnings("resource")
 	public Movie getMovie() throws FileNotFoundException, IOException {
 		// TODO Figure out why everything throws exceptions and requires suppression.
-		return MovieCreator.build(new FileInputStream(videoUri.getPath()).getChannel());
+		Movie movie = MovieCreator.build(videoUri.getPath());
+		return movie;
+		
+		//return MovieCreator.build(new FileInputStream(videoUri.getPath()).getChannel());
 	}
 	
 	public Bitmap getThumbnail(Context ctx)
