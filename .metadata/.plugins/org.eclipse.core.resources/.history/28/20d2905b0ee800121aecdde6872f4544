@@ -33,7 +33,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+<<<<<<< HEAD
 
+=======
         // Restore preferences
         //SharedPreferences tokenPrefs = getSharedPreferences("token preferences", 0);
         
@@ -41,6 +43,7 @@ public class MainActivity extends Activity {
 //        	Log.v("onCreate", "no token was found");
 //        	TokenManager.generateAndSaveToken(this, "a@ex.com", "password");
 //        } 
+>>>>>>> 267041e26a01fbdc782341a2d79a9a47ac9c8ba2
         
         Button forgetToken = (Button) findViewById(R.id.forget_token);
         forgetToken.setOnClickListener(new OnClickListener(){
