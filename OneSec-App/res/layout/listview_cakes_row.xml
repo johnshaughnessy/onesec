@@ -10,8 +10,8 @@
         android:gravity="center_vertical"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
-     
+        android:layout_marginBottom="5dp" />  
+        
      <TextView android:id="@+id/cakeTitle"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

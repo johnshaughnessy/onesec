@@ -9,7 +9,7 @@ import com.example.onesec.impl.database.KitchenContract.CakeEntry;
 public class KitchenCakeDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "FeedReader.db";
+    public static final String DATABASE_NAME = "Cakes.db";
     
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
