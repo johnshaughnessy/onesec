@@ -1,11 +1,16 @@
 package com.example.onesec;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.onesec.impl.cake.Batter;
 import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenCakeDbHelper;
 import com.example.onesec.impl.database.KitchenContract.CakeEntry;
@@ -76,6 +81,7 @@ public class Kitchen {
 		values.put(CakeEntry.COLUMN_NAME_DATE, Utilities.dateToString(cake.getDate()));
 		values.put(CakeEntry.COLUMN_NAME_VIDEO_PATH, cake.getVideoUri().getPath());
 		values.put(CakeEntry.COLUMN_NAME_THUMBNAIL_PATH, cake.getThumbnailUri().getPath());
+		Log.v("batter path", ""+cake.getBatterUri().getPath());
 		values.put(CakeEntry.COLUMN_NAME_BATTER_PATH, cake.getBatterUri().getPath());
 		return values;
 	}
@@ -198,6 +204,8 @@ public class Kitchen {
 		    CakeEntry.COLUMN_NAME_VIDEO_PATH,
 		    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
 		    };
+		
+		Log.v("getcakescursor", "making cake cursor");
 
 		// How you want the results sorted in the resulting Cursor
 		String sortOrder = CakeEntry._ID + " DESC";
@@ -213,5 +221,17 @@ public class Kitchen {
 			    );
 		
 		return c;
+	}
+	
+	public static void writeBatterToFile(Context context, Batter batter) {
+		String fileName = batter.getId() + ".txt";
+		try {
+			FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+		    ObjectOutputStream oos = new ObjectOutputStream(fos);
+		    oos.writeObject(batter.getIdList());
+		    oos.close();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 	}
 }
