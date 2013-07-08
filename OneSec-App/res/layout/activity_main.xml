@@ -40,6 +40,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/viewCakes"
         android:layout_centerHorizontal="true"
-        android:text="forget" />
+        android:text="@string/forget" />
 
+    <Button 
+        android:id="@+id/signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forget_token"
+        android:layout_centerHorizontal="true"
+        android:text="@string/sign_in" />
 </RelativeLayout>

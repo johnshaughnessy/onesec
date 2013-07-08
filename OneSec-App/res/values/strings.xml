@@ -13,6 +13,8 @@
     <string name="date">Date:</string>
     <string name="text_select_seconds">Select</string>
     <string name="text_bake_cake">Bake</string>
+    <string name="forget">Forget</string>
+    <string name="sign_in">Sign in</string>
     
     <string name="text_takeSecond">Capture the moment</string>
     <string name="text_viewSeconds">View Seconds</string>

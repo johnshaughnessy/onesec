@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,15 +36,23 @@ public class MainActivity extends Activity {
         // Restore preferences
         //SharedPreferences tokenPrefs = getSharedPreferences("token preferences", 0);
         
-        if (TokenManager.getToken(this).equals(TokenManager.NOTOKEN)){
-        	Log.v("onCreate", "no token was found");
-        	TokenManager.generateAndSaveToken(this, "a@ex.com", "password");
-        } 
+//        if (TokenManager.getToken(this).equals(TokenManager.NOTOKEN)){
+//        	Log.v("onCreate", "no token was found");
+//        	TokenManager.generateAndSaveToken(this, "a@ex.com", "password");
+//        } 
         
         Button forgetToken = (Button) findViewById(R.id.forget_token);
         forgetToken.setOnClickListener(new OnClickListener(){
         	public void onClick(View v){
         		TokenManager.forgetToken(context);
+        	}
+        });
+        
+        Button signin = (Button)findViewById(R.id.signin);
+        signin.setOnClickListener(new OnClickListener(){
+        	public void onClick(View v){
+        		Intent intent = new Intent(context, LoginActivity.class);
+    			startActivity(intent);
         	}
         });
         
