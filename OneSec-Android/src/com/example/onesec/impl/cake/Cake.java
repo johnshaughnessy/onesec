@@ -10,12 +10,16 @@ import java.util.Locale;
 import java.util.Random;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec.impl.util.Utilities;
 
 public class Cake {
 	
@@ -45,6 +49,13 @@ public class Cake {
 		thumbnailUri = tUri;
 		batter = b;
 		batterUri = b.getUri();
+	}
+	
+	public Cake(Cursor c){
+		id = c.getString(KitchenContract.CAKE_ID_COL_NUM);
+		date = Utilities.stringToDate(c.getString(KitchenContract.CAKE_DATE_COL_NUM));
+		videoUri = Uri.fromFile(new File(c.getString(KitchenContract.CAKE_VIDEO_PATH_COL_NUM)));
+		thumbnailUri = Uri.fromFile(new File(c.getString(KitchenContract.CAKE_THUMBNAIL_PATH_COL_NUM)));
 	}
 	
 	private String generateId() {
