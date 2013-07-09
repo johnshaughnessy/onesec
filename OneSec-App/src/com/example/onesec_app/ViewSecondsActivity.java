@@ -98,7 +98,7 @@ public class ViewSecondsActivity extends Activity {
 		Cake cake = batter.bake(this);
 		
 		// Save cake and its batter locally
-		Kitchen.saveCakeToLocalDb(this, cake);
+		//Kitchen.saveCakeToLocalDb(this, cake);
 		Kitchen.writeBatterToFile(this, batter);
 		
 		// Upload Cake to Server
@@ -107,7 +107,8 @@ public class ViewSecondsActivity extends Activity {
 		params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.CAKES_VIDEO_TYPE, cake.getVideoUri());
 		OneSecRestClient.post("mobile_cakes", params, OneSecRestClient.GENERIC_RESPONSE_HANDLER);
 		
-		Intent intent = new Intent(this, ViewCakesActivity.class);
+		Intent intent = new Intent(this, NewCakeActivity.class);
+		intent.putExtra("newRowId", Kitchen.saveCakeToLocalDb(this, cake));
     	startActivity(intent);
 	}
 

@@ -21,10 +21,9 @@ import com.example.onesec.impl.util.Utilities;
 
 public class NewSecondActivity extends Activity {
 
-	private long rowId;
 	public TextView dateView;
 	public ImageView thumbnailView;
-	Context mContext;
+	private long rowId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,6 @@ public class NewSecondActivity extends Activity {
 		
 		dateView = (TextView)findViewById(R.id.date);
 		thumbnailView = (ImageView)findViewById(R.id.thumbnail);
-		mContext = this;
 		
 		rowId = getIntent().getLongExtra("newRowId", -2);	// get ID from intent
 		System.out.println("Id is " + rowId);

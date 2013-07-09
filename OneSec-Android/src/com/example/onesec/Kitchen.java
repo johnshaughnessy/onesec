@@ -65,6 +65,23 @@ public class Kitchen {
 		return newRowId;
 	}
 	
+	public static void updateCakeTitle(Context context, Cake cake, Long rowId) {
+		// Prepare the Cake DB for insert
+		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(CakeEntry.COLUMN_NAME_TITLE, cake.getTitle());
+		Log.v("updateCakeTitle", "title is " + cake.getTitle());
+
+		// Insert the new row
+		db.update(
+		         CakeEntry.TABLE_NAME,					// table name
+		         values,								// values to update to
+		         CakeEntry._ID+"=?",					// WHERE clause
+		         new String[]{ Long.toString(rowId) });	// WHERE arguments
+		db.close();
+	}
+	
 	private static ContentValues generateContentValuesForSecond(Second second){
 		
 		ContentValues values = new ContentValues();
@@ -159,6 +176,42 @@ public class Kitchen {
 			return new Second(c);
 		}
 		Log.v("getsecbyuid", "null");
+		return null;
+	}
+	
+	// Makes cursor to view one Cake
+	public static Cake getCakeById(Context context, Long rowId){
+		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+		// Define a projection that specifies which columns from the database
+		// you will actually use after this query.
+		String[] projection = {
+			CakeEntry._ID,
+		    CakeEntry.COLUMN_NAME_CAKE_ID,
+		    CakeEntry.COLUMN_NAME_TITLE,
+		    CakeEntry.COLUMN_NAME_DATE,
+		    CakeEntry.COLUMN_NAME_VIDEO_PATH,
+		    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
+		    };
+
+		// How you want the results sorted in the resulting Cursor
+		String sortOrder = null;
+
+		Cursor c = db.query(
+		    CakeEntry.TABLE_NAME,  				  // The table to query
+		    projection,                               // The columns to return
+		    CakeEntry._ID+"=?",		  			  // The columns for the WHERE clause
+		    new String[]{ Long.toString(rowId) },     // The values for the WHERE clause
+		    null,                                     // don't group the rows
+		    null,                                     // don't filter by row groups
+		    sortOrder                                 // The sort order
+		    );
+		
+		if (c.moveToFirst()) {
+			db.close();
+			return new Cake(c);
+		}
 		return null;
 	}
 	
