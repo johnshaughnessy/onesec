@@ -41,7 +41,7 @@ public class CakesAdapter extends ArrayAdapter<Cake> {
             holder = new CakesHolder();
             holder.thumbnailView = (ImageView)row.findViewById(R.id.cakeThumbnail);
             holder.titleView = (TextView)row.findViewById(R.id.cakeTitle);
-            holder.dateView = (TextView)row.findViewById(R.id.cakeDate);
+//            holder.dateView = (TextView)row.findViewById(R.id.cakeDate);
            
             row.setTag(holder);
         }
@@ -52,8 +52,7 @@ public class CakesAdapter extends ArrayAdapter<Cake> {
         Cake cake = cakeList.get(position);
         holder.thumbnailView.setImageBitmap(cake.getThumbnail(context));
         holder.titleView.setText(cake.getTitle());
-        holder.dateView.setText(Utilities.dateToString(cake.getDate()));
-        Log.v("getview", "date is " + holder.dateView.getText());
+//        holder.dateView.setText(Utilities.dateToString(cake.getDate()));
         
         return row;
     }
@@ -61,7 +60,7 @@ public class CakesAdapter extends ArrayAdapter<Cake> {
     static class CakesHolder {
         ImageView thumbnailView;
         TextView titleView;
-        TextView dateView;
+//        TextView dateView;
     }
 	
 }

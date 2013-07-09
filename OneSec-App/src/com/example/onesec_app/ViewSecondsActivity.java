@@ -1,15 +1,10 @@
 package com.example.onesec_app;
 
-import java.io.IOException;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -55,8 +50,8 @@ public class ViewSecondsActivity extends Activity {
 				selectorOn = !selectorOn;
 			}
 		});
-		showSeconds();
 		
+		showSeconds();
 	}
 	
 	/*
@@ -65,8 +60,12 @@ public class ViewSecondsActivity extends Activity {
 	private void showSeconds() {
 		final Cursor c = Kitchen.getSecondsCursor(this);
 		
-		String[] fromColumns = {KitchenContract.SecondEntry.COLUMN_NAME_DATE, KitchenContract.SecondEntry.COLUMN_NAME_THUMBNAIL_PATH};
-		int[] toViews = {R.id.secondDate, R.id.secondThumbnail};
+		String[] fromColumns = {
+				KitchenContract.SecondEntry.COLUMN_NAME_DATE,
+				KitchenContract.SecondEntry.COLUMN_NAME_THUMBNAIL_PATH };
+		int[] toViews = {
+				R.id.secondDate,
+				R.id.secondThumbnail };
 		c.moveToFirst();
 		SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
 		        R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
@@ -83,7 +82,6 @@ public class ViewSecondsActivity extends Activity {
 				if(selectorOn)
 				{
 					//SecondsCursorAdapter adapter = (SecondsCursorAdapter) adapterView.getAdapter();
-					
 					batter.addSecond(second);
 				}
 				else{
@@ -100,7 +98,7 @@ public class ViewSecondsActivity extends Activity {
 		Cake cake = batter.bake(this);
 		
 		// Save cake and its batter locally
-		Kitchen.saveCakeToLocalDb(this, cake);
+		//Kitchen.saveCakeToLocalDb(this, cake);
 		Kitchen.writeBatterToFile(this, batter);
 		
 		// Upload Cake to Server
@@ -109,7 +107,8 @@ public class ViewSecondsActivity extends Activity {
 		params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.CAKES_VIDEO_TYPE, cake.getVideoUri());
 		OneSecRestClient.post("mobile_cakes", params, OneSecRestClient.GENERIC_RESPONSE_HANDLER);
 		
-		Intent intent = new Intent(this, ViewCakesActivity.class);
+		Intent intent = new Intent(this, NewCakeActivity.class);
+		intent.putExtra("newRowId", Kitchen.saveCakeToLocalDb(this, cake));
     	startActivity(intent);
 	}
 

@@ -59,7 +59,7 @@ public class Second {
 	}
 	
 	private String generateId() {
-		return "sec_" +(new Random()).nextInt();
+		return "SEC_" +(new Random()).nextInt();
 	}
 
 	/** Create a file URI for saving an image or video */

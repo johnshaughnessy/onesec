@@ -1,5 +1,10 @@
 package com.example.onesec_app;
 
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -7,18 +12,17 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenContract;
-import com.example.onesec.impl.second.Second;
 import com.example.onesec_app.adapters.CakesCursorAdapter;
 
 public class ViewCakesActivity extends Activity {
@@ -40,12 +44,12 @@ public class ViewCakesActivity extends Activity {
 		c = Kitchen.getCakesCursor(this);
 		
 		String[] fromColumns = {
-				//KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
-				KitchenContract.CakeEntry.COLUMN_NAME_DATE,
+				KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
+				//KitchenContract.CakeEntry.COLUMN_NAME_DATE,
 				KitchenContract.CakeEntry.COLUMN_NAME_THUMBNAIL_PATH };
 		int[] toViews = {
-				//R.id.cakeTitle,
-				R.id.cakeDate,
+				R.id.cakeTitle,
+//				R.id.cakeDate,
 				R.id.cakeThumbnail };
 		
 		c.moveToFirst();
@@ -58,12 +62,11 @@ public class ViewCakesActivity extends Activity {
 			public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
 				c.moveToPosition(pos);
 				Cake cake = new Cake(c);
-				
+
 				Intent intent = new Intent();
 				intent.setAction(Intent.ACTION_VIEW);
 				intent.setDataAndType(cake.getVideoUri(), "video/mp4");
 				startActivity(intent);
-	
 			}
 		});
 		
