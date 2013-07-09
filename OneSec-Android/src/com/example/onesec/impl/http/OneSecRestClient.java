@@ -3,9 +3,6 @@ package com.example.onesec.impl.http;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.net.Uri;
 import android.util.Log;
 
@@ -16,7 +13,7 @@ import com.loopj.android.http.RequestParams;
 public class OneSecRestClient {
     private static final String BASE_URL = "http://54.218.123.27:3000/";
 	public static final String SECONDS_VIDEO_TYPE = "second";
-	public static final String CAKES_VIDEO_TYPE = "Cakes";
+	public static final String CAKES_VIDEO_TYPE = "cake";
 	
 	public static final AsyncHttpResponseHandler GENERIC_RESPONSE_HANDLER = new AsyncHttpResponseHandler(){
 		@Override

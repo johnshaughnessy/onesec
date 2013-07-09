@@ -11,6 +11,15 @@
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="org.apache.http.ParseException"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.app.Service"/>
+<fullyQualifiedTypeName name="android.R"/>
+<fullyQualifiedTypeName name="android.R.string"/>
+<fullyQualifiedTypeName name="com.example.onesec_app.R"/>
+<fullyQualifiedTypeName name="com.example.onesec.impl.http.TokenManager"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="com.example.onesec_app.R.id"/>
+<fullyQualifiedTypeName name="com.example.onesec_app.R.string"/>
+<fullyQualifiedTypeName name="com.example.onesec.impl.http.OneSecRestClient"/>
+<fullyQualifiedTypeName name="com.example.onesec.impl.util.Utilities"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
 </qualifiedTypeNameHistroy>

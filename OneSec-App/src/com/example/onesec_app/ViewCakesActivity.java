@@ -2,22 +2,27 @@ package com.example.onesec_app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.example.onesec.Kitchen;
+import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec.impl.second.Second;
 import com.example.onesec_app.adapters.CakesCursorAdapter;
-import com.example.onesec_app.adapters.SecondsCursorAdapter;
 
 public class ViewCakesActivity extends Activity {
-
+	private Cursor c; 
 	// TODO handle what happens before any cakes are made and db doesn't exist
 	
 	@Override
@@ -32,7 +37,7 @@ public class ViewCakesActivity extends Activity {
 	}
 	
 	private void showCakes() {
-		Cursor c = Kitchen.getCakesCursor(this);
+		c = Kitchen.getCakesCursor(this);
 		
 		String[] fromColumns = {
 				//KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
@@ -48,6 +53,20 @@ public class ViewCakesActivity extends Activity {
 		        R.layout.listview_cakes_row, c, fromColumns, toViews, 0);
 		ListView listView = (ListView)findViewById(R.id.cakesListView);
 		listView.setAdapter(adapter);
+		
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+				c.moveToPosition(pos);
+				Cake cake = new Cake(c);
+				
+				Intent intent = new Intent();
+				intent.setAction(Intent.ACTION_VIEW);
+				intent.setDataAndType(cake.getVideoUri(), "video/mp4");
+				startActivity(intent);
+	
+			}
+		});
+		
 	}
 
 	
