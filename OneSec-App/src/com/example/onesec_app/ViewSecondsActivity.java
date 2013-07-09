@@ -1,16 +1,17 @@
 package com.example.onesec_app;
 
-import java.io.File;
-import java.util.Random;
+import java.io.IOException;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -25,14 +26,18 @@ import com.example.onesec.Kitchen;
 import com.example.onesec.impl.cake.Batter;
 import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec.impl.http.OneSecRestClient;
+import com.example.onesec.impl.http.TokenManager;
 import com.example.onesec.impl.second.Second;
 import com.example.onesec_app.adapters.SecondsCursorAdapter;
+import com.loopj.android.http.RequestParams;
 
 public class ViewSecondsActivity extends Activity {
 
 //	private ListView secondsListView;
 	private Batter batter;
 	private boolean selectorOn;
+	private Context mContext;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +78,19 @@ public class ViewSecondsActivity extends Activity {
 		
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+				c.moveToPosition(pos);
+				Second second = new Second(c);
 				if(selectorOn)
 				{
 					//SecondsCursorAdapter adapter = (SecondsCursorAdapter) adapterView.getAdapter();
-					c.moveToPosition(pos);
-					Second second = new Second(c);
+					
 					batter.addSecond(second);
+				}
+				else{
+					Intent intent = new Intent();
+					intent.setAction(Intent.ACTION_VIEW);
+					intent.setDataAndType(second.getVideoUri(), "video/mp4");
+					startActivity(intent);
 				}
 			}
 		});
@@ -90,6 +102,12 @@ public class ViewSecondsActivity extends Activity {
 		// Save cake and its batter locally
 		Kitchen.saveCakeToLocalDb(this, cake);
 		Kitchen.writeBatterToFile(this, batter);
+		
+		// Upload Cake to Server
+		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake[uid]"}, 
+							   								new String[] {TokenManager.getToken(this), cake.getId()});
+		params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.CAKES_VIDEO_TYPE, cake.getVideoUri());
+		OneSecRestClient.post("mobile_cakes", params, OneSecRestClient.GENERIC_RESPONSE_HANDLER);
 		
 		Intent intent = new Intent(this, ViewCakesActivity.class);
     	startActivity(intent);
