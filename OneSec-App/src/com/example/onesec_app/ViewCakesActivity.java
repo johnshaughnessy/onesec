@@ -44,12 +44,12 @@ public class ViewCakesActivity extends Activity {
 		c = Kitchen.getCakesCursor(this);
 		
 		String[] fromColumns = {
-				//KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
-				KitchenContract.CakeEntry.COLUMN_NAME_DATE,
+				KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
+				//KitchenContract.CakeEntry.COLUMN_NAME_DATE,
 				KitchenContract.CakeEntry.COLUMN_NAME_THUMBNAIL_PATH };
 		int[] toViews = {
-				//R.id.cakeTitle,
-				R.id.cakeDate,
+				R.id.cakeTitle,
+//				R.id.cakeDate,
 				R.id.cakeThumbnail };
 		
 		c.moveToFirst();

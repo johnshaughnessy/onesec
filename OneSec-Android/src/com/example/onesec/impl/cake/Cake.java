@@ -36,8 +36,8 @@ public class Cake {
 	
 //	public Cake() {
 //		id = generateId();
-//		title = null;
 //		date = new Date();
+//		title = date.toString();
 //		videoUri = makeVideoUri(date);
 //		thumbnailUri = makeThumbnailUri(date);
 //		batter = new Batter();
@@ -45,19 +45,28 @@ public class Cake {
 	
 	public Cake(Batter b, Uri vUri, Uri tUri) {
 		id = generateId();
-		title = null;
 		date = new Date();
+		title = date.toString();		// title is date by default
 		videoUri = vUri;
 		thumbnailUri = tUri;
 		batter = b;
 		batterUri = b.getUri();
+		Log.v("cake 4 constructor", "id is " + id);
+		Log.v("cake 4 constructor", "date is " + date);
+		Log.v("cake 4 constructor", "videoUri is " + videoUri);
+		Log.v("cake 4 constructor", "thumbnailUri is " + thumbnailUri);
 	}
 	
 	public Cake(Cursor c){
 		id = c.getString(KitchenContract.CAKE_ID_COL_NUM);
+		title = c.getString(KitchenContract.CAKE_TITLE_COL_NUM);
 		date = Utilities.stringToDate(c.getString(KitchenContract.CAKE_DATE_COL_NUM));
 		videoUri = Uri.fromFile(new File(c.getString(KitchenContract.CAKE_VIDEO_PATH_COL_NUM)));
 		thumbnailUri = Uri.fromFile(new File(c.getString(KitchenContract.CAKE_THUMBNAIL_PATH_COL_NUM)));
+		Log.v("cake cursor constructor", "id is " + id);
+		Log.v("cake cursor constructor", "date is " + date);
+		Log.v("cake cursor constructor", "videoUri is " + videoUri);
+		Log.v("cake cursor constructor", "thumbnailUri is " + thumbnailUri);
 	}
 	
 	private String generateId() {

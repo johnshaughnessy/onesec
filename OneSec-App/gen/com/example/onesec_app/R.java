@@ -27,10 +27,9 @@ public final class R {
         public static final int ic_navigation_accept=0x7f020003;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f050019;
-        public static final int action_settings=0x7f05001a;
+        public static final int action_forgot_password=0x7f050018;
+        public static final int action_settings=0x7f050019;
         public static final int bake_cake=0x7f050012;
-        public static final int cakeDate=0x7f050016;
         public static final int cakeThumbnail=0x7f050014;
         public static final int cakeTitle=0x7f050015;
         public static final int cakesListView=0x7f050010;
@@ -44,8 +43,8 @@ public final class R {
         public static final int login_status_message=0x7f050002;
         public static final int menu_new_second=0x7f050000;
         public static final int password=0x7f050005;
-        public static final int secondDate=0x7f050018;
-        public static final int secondThumbnail=0x7f050017;
+        public static final int secondDate=0x7f050017;
+        public static final int secondThumbnail=0x7f050016;
         public static final int secondsListView=0x7f050013;
         public static final int select_seconds=0x7f050011;
         public static final int sign_in_button=0x7f050007;
