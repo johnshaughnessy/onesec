@@ -1,8 +1,8 @@
 package com.example.onesec;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -38,6 +38,7 @@ public class Kitchen {
 		         SecondEntry.COLUMN_NAME_NULLABLE,
 		         values);
 		// note: COLUMN_NAME_NULLABLE=null means a row won't be inserted when there are no data values
+		db.close();
 		
 		return newRowId;
 	}
@@ -59,8 +60,26 @@ public class Kitchen {
 		         CakeEntry.COLUMN_NAME_NULLABLE,
 		         values);
 		// note: COLUMN_NAME_NULLABLE=null means a row won't be inserted when there are no data values
+		db.close();
 		
 		return newRowId;
+	}
+	
+	public static void updateCakeTitle(Context context, Cake cake, Long rowId) {
+		// Prepare the Cake DB for insert
+		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(CakeEntry.COLUMN_NAME_TITLE, cake.getTitle());
+		Log.v("updateCakeTitle", "title is " + cake.getTitle());
+
+		// Insert the new row
+		db.update(
+		         CakeEntry.TABLE_NAME,					// table name
+		         values,								// values to update to
+		         CakeEntry._ID+"=?",					// WHERE clause
+		         new String[]{ Long.toString(rowId) });	// WHERE arguments
+		db.close();
 	}
 	
 	private static ContentValues generateContentValuesForSecond(Second second){
@@ -116,6 +135,7 @@ public class Kitchen {
 		    );
 		
 		if (c.moveToFirst()) {
+			db.close();
 			return new Second(c);
 		}
 		return null;
@@ -151,10 +171,47 @@ public class Kitchen {
 		    );
 		
 		if (c.moveToFirst()) {
+			db.close();
 			Log.v("getsecbyuid", "new second(c)");
 			return new Second(c);
 		}
 		Log.v("getsecbyuid", "null");
+		return null;
+	}
+	
+	// Makes cursor to view one Cake
+	public static Cake getCakeById(Context context, Long rowId){
+		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+		// Define a projection that specifies which columns from the database
+		// you will actually use after this query.
+		String[] projection = {
+			CakeEntry._ID,
+		    CakeEntry.COLUMN_NAME_CAKE_ID,
+		    CakeEntry.COLUMN_NAME_TITLE,
+		    CakeEntry.COLUMN_NAME_DATE,
+		    CakeEntry.COLUMN_NAME_VIDEO_PATH,
+		    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
+		    };
+
+		// How you want the results sorted in the resulting Cursor
+		String sortOrder = null;
+
+		Cursor c = db.query(
+		    CakeEntry.TABLE_NAME,  				  // The table to query
+		    projection,                               // The columns to return
+		    CakeEntry._ID+"=?",		  			  // The columns for the WHERE clause
+		    new String[]{ Long.toString(rowId) },     // The values for the WHERE clause
+		    null,                                     // don't group the rows
+		    null,                                     // don't filter by row groups
+		    sortOrder                                 // The sort order
+		    );
+		
+		if (c.moveToFirst()) {
+			db.close();
+			return new Cake(c);
+		}
 		return null;
 	}
 	
@@ -224,12 +281,17 @@ public class Kitchen {
 	}
 	
 	public static void writeBatterToFile(Context context, Batter batter) {
-		String fileName = batter.getId() + ".txt";
+		File batterFile = new File(batter.getUri().getPath());
+		List<String> idList = batter.getIdList();
+		
 		try {
-			FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-		    ObjectOutputStream oos = new ObjectOutputStream(fos);
-		    oos.writeObject(batter.getIdList());
-		    oos.close();
+			int listLength = idList.size();
+			FileOutputStream out = new FileOutputStream(batterFile);
+		    for (int i = 0; i < listLength; i++) {
+		    	Log.v("writeBatterToFile", "writing " + idList.get(i));
+		        out.write(idList.get(i).getBytes());
+		    }
+		    out.close();
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}

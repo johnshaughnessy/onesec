@@ -1,17 +1,12 @@
 package com.example.onesec.impl.cake;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 import android.content.Context;
@@ -34,6 +29,7 @@ public class Batter {
 	private List<String> idList;		// IDs of Seconds in batter
 	private static String id;			// ID of batter
 	private Uri uri;					// URI of batter
+	Context mContext;
 	
 	public Batter()
 	{
@@ -64,7 +60,9 @@ public class Batter {
 			}
 		}
 		
-        File file = new File(mediaStorageDir.getPath() + File.separator + id + ".txt");
+		String filePath = mediaStorageDir.getPath() + File.separator + id + ".txt";
+		Log.v("makeBatterFile", "filepath is " + filePath);
+        File file = new File(filePath);
         
         return file;
     }
@@ -102,9 +100,10 @@ public class Batter {
 		Log.v("bake", "can't bake cake!!");
 		return null;
 	}
+	
 
 	/*
-	 * Bakes cake and returns its URI
+	 * Bakes and saves cake and returns its URI
 	 */
 	private Uri bakeCake(Context context) throws IOException {
 		// Set up Tracks
@@ -146,7 +145,7 @@ public class Batter {
         }
         
         // Save Cake to directory
-        String cakePath = cakeStorageDir.getPath() + File.separator + id + ".mp4";
+        String cakePath = cakeStorageDir.getPath() + File.separator + id.replace("BAT", "CAKE") + ".mp4";
         Log.v("bakeCake", "cakepath is " + cakePath);
         File output = new File(cakePath);
         FileOutputStream fos = new FileOutputStream(output);
@@ -157,7 +156,7 @@ public class Batter {
 	}
 	
 	/*
-	 * Make thumbnail and return its URI
+	 * Makes and saves thumbnail and returns its URI
 	 */
 	private Uri makeThumbnail(Uri cakeVidUri) {
 		Uri thumbnailUri = convertVidUri(cakeVidUri);
@@ -165,7 +164,7 @@ public class Batter {
 		File thumbnailFile = new File(thumbnailUri.getPath());
 		
 		if(!thumbnailFile.exists()){
-			Bitmap thumbBmp = ThumbnailUtils.createVideoThumbnail(cakeVidUri.getPath(), 3);
+			Bitmap thumbBmp = ThumbnailUtils.createVideoThumbnail(cakeVidUri.getPath(), 1);
 			FileOutputStream out;
 			try{
 				out = new FileOutputStream(thumbnailFile);

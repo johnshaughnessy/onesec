@@ -15,6 +15,7 @@
     <string name="text_bake_cake">Bake</string>
     <string name="forget">Forget</string>
     <string name="sign_in">Sign in</string>
+    <string name="hint_cake_title">Cake title</string>
     
     <string name="text_takeSecond">Capture the moment</string>
     <string name="text_viewSeconds">View Seconds</string>

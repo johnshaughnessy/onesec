@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,9 +21,9 @@ import com.example.onesec.impl.util.Utilities;
 
 public class NewSecondActivity extends Activity {
 
-	private long rowId;
 	public TextView dateView;
-	public ImageView thumbnailView; 
+	public ImageView thumbnailView;
+	private long rowId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,6 @@ public class NewSecondActivity extends Activity {
 		previewSecond();
 	}
 	
-	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -47,13 +47,17 @@ public class NewSecondActivity extends Activity {
         return true;
     }
 	
-	
-	
 	public void previewSecond() {
 		Second second = Kitchen.getSecondById(this, rowId);
 		
 		dateView.setText(getDateString(second.getDate()));
 		thumbnailView.setImageBitmap(second.getThumbnail(this));
+		
+		thumbnailView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				playSecond();
+			}
+		});
 	}
 	
 	private String getDateString(Date date) {
@@ -80,19 +84,11 @@ public class NewSecondActivity extends Activity {
     	startActivity(viewSecondsIntent);
     }
 
-	
-//	public void playSecond(View view) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
-//		String url = "https://onesecvids.s3.amazonaws.com/uploads/second/video/18/VID_20130705_151401.mp4?AWSAccessKeyId=AKIAIR367AZSNWO4RXXQ&Signature=JWx2g2Y5rW9Cqw74r6zDvJwLfok%3D&Expires=1373066101"; // your URL here
-//		MediaPlayer mediaPlayer = new MediaPlayer();
-//		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//		mediaPlayer.setDataSource(url);
-//		
-//		OnPreparedListener opl = new OnPreparedListener() {
-//			public void onPrepared(MediaPlayer mp) {
-//				mp.start();
-//			}
-//		};
-//		mediaPlayer.setOnPreparedListener(opl);
-//		mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-//	}
+	private void playSecond() {
+		Second second = Kitchen.getSecondById(this, rowId);
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setDataAndType(second.getVideoUri(), "video/mp4");
+		startActivity(intent);
+	}
 }
