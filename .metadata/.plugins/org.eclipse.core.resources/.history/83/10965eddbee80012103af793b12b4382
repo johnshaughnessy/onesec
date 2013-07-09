@@ -77,9 +77,10 @@ public class NewCakeActivity extends Activity {
 	
 	private void setCakeTitle() {		
 		String title = titleEdit.getText().toString();
+		Log.v("setCakeTitle", "1 cake title is " + title);
 		Cake cake = Kitchen.getCakeById(this, rowId);
 		cake.setTitle(title);
-		Kitchen.updateCakeTitle(this, cake, rowId);
+		Log.v("setCakeTitle", "2 cake title is " + cake.getTitle());
 	}
 
 	/**
@@ -117,6 +118,14 @@ public class NewCakeActivity extends Activity {
 	}
 	
 	public void viewCakes() {
+		// It's saving title to the cake object then when it calls getCakeById it's making a new cake object
+		// and pulling its name from the database, which overrides the object
+		
+		// Save new info about cake
+		Cake cake = Kitchen.getCakeById(this, rowId);
+		Log.v("viewCakes", "cake title is " + cake.getTitle());
+		Kitchen.updateCakeTitle(this, cake, rowId);
+		
     	// Create Intent to go to ViewCakesActivity
     	Intent viewSecondsIntent = new Intent(this, ViewCakesActivity.class);
     	startActivity(viewSecondsIntent);
