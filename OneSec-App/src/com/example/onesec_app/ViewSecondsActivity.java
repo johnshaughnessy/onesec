@@ -1,15 +1,10 @@
 package com.example.onesec_app;
 
-import java.io.IOException;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -55,8 +50,8 @@ public class ViewSecondsActivity extends Activity {
 				selectorOn = !selectorOn;
 			}
 		});
-		showSeconds();
 		
+		showSeconds();
 	}
 	
 	/*
@@ -83,7 +78,6 @@ public class ViewSecondsActivity extends Activity {
 				if(selectorOn)
 				{
 					//SecondsCursorAdapter adapter = (SecondsCursorAdapter) adapterView.getAdapter();
-					
 					batter.addSecond(second);
 				}
 				else{

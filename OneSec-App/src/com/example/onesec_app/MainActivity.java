@@ -2,13 +2,16 @@ package com.example.onesec_app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.http.OneSecRestClient;
@@ -33,19 +36,28 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-
-        // Restore preferences
-        //SharedPreferences tokenPrefs = getSharedPreferences("token preferences", 0);
+        TextView loginStatus = (TextView)findViewById(R.id.login_status);
         
+        // Restore preferences
+        SharedPreferences tokenPrefs = getSharedPreferences("token preferences", 0);
+//        
 //        if (TokenManager.getToken(this).equals(TokenManager.NOTOKEN)){
 //        	Log.v("onCreate", "no token was found");
 //        	TokenManager.generateAndSaveToken(this, "a@ex.com", "password");
 //        } 
         
+//        if(TokenManager.getToken(this).equals(TokenManager.NOTOKEN)) {
+//        	loginStatus.setText("You are not logged in.");
+//        }
+//        else {
+//        	loginStatus.setText("You are logged in :)");
+//        }
+        
         Button forgetToken = (Button) findViewById(R.id.forget_token);
         forgetToken.setOnClickListener(new OnClickListener(){
         	public void onClick(View v){
         		TokenManager.forgetToken(context);
+        		Log.v("forgetToken", "forgetting token");
         	}
         });
         

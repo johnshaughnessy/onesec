@@ -1,8 +1,8 @@
 package com.example.onesec;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -38,6 +38,7 @@ public class Kitchen {
 		         SecondEntry.COLUMN_NAME_NULLABLE,
 		         values);
 		// note: COLUMN_NAME_NULLABLE=null means a row won't be inserted when there are no data values
+		db.close();
 		
 		return newRowId;
 	}
@@ -59,6 +60,7 @@ public class Kitchen {
 		         CakeEntry.COLUMN_NAME_NULLABLE,
 		         values);
 		// note: COLUMN_NAME_NULLABLE=null means a row won't be inserted when there are no data values
+		db.close();
 		
 		return newRowId;
 	}
@@ -116,6 +118,7 @@ public class Kitchen {
 		    );
 		
 		if (c.moveToFirst()) {
+			db.close();
 			return new Second(c);
 		}
 		return null;
@@ -151,6 +154,7 @@ public class Kitchen {
 		    );
 		
 		if (c.moveToFirst()) {
+			db.close();
 			Log.v("getsecbyuid", "new second(c)");
 			return new Second(c);
 		}
@@ -224,12 +228,17 @@ public class Kitchen {
 	}
 	
 	public static void writeBatterToFile(Context context, Batter batter) {
-		String fileName = batter.getId() + ".txt";
+		File batterFile = new File(batter.getUri().getPath());
+		List<String> idList = batter.getIdList();
+		
 		try {
-			FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-		    ObjectOutputStream oos = new ObjectOutputStream(fos);
-		    oos.writeObject(batter.getIdList());
-		    oos.close();
+			int listLength = idList.size();
+			FileOutputStream out = new FileOutputStream(batterFile);
+		    for (int i = 0; i < listLength; i++) {
+		    	Log.v("writeBatterToFile", "writing " + idList.get(i));
+		        out.write(idList.get(i).getBytes());
+		    }
+		    out.close();
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
