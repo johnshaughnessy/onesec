@@ -3,7 +3,6 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.example.onesec.R.drawable"/>
 <fullyQualifiedTypeName name="android.net.Uri"/>
-<fullyQualifiedTypeName name="android.view.View"/>
 <fullyQualifiedTypeName name="com.example.onesec.R.id"/>
 <fullyQualifiedTypeName name="com.googlecode.mp4parser.authoring.Movie"/>
 <fullyQualifiedTypeName name="com.example.onesec.impl.second.Cabinet"/>
@@ -21,5 +20,7 @@
 <fullyQualifiedTypeName name="com.example.onesec_app.R.string"/>
 <fullyQualifiedTypeName name="com.example.onesec.impl.http.OneSecRestClient"/>
 <fullyQualifiedTypeName name="com.example.onesec.impl.util.Utilities"/>
+<fullyQualifiedTypeName name="android.view.View"/>
 <fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="com.example.onesec.impl.cake.Cake"/>
 </qualifiedTypeNameHistroy>
