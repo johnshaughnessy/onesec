@@ -16,6 +16,9 @@ public final class KitchenContract {
 	public static final int CAKE_VIDEO_PATH_COL_NUM = 4;
 	public static final int CAKE_THUMBNAIL_PATH_COL_NUM = 5;
 	public static final int CAKE_BATTER_PATH_COL_NUM = 6;
+	
+	// Define Sprinkle column numbers
+	public static final int SPRINKLE_TAG_COL_NUM = 1;
 
 	// Empty constructor to prevent misuse
 	public KitchenContract() {}
@@ -39,6 +42,14 @@ public final class KitchenContract {
 		public static final String COLUMN_NAME_VIDEO_PATH = "videoPath";
 		public static final String COLUMN_NAME_THUMBNAIL_PATH = "thumbnailPath";
 		public static final String COLUMN_NAME_BATTER_PATH = "batterPath";
+		public static final String COLUMN_NAME_NULLABLE = "null";
+	}
+	
+	// Define Sprinkle table contents
+	public static abstract class SprinkleEntry implements BaseColumns {
+		public static final String TABLE_NAME = "sprinkle";
+		public static final String COLUMN_NAME_VIDEO_ID = "video";
+		public static final String COLUMN_NAME_TAG = "tag";
 		public static final String COLUMN_NAME_NULLABLE = "null";
 	}
 	

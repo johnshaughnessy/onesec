@@ -67,7 +67,7 @@ public class ViewSecondsActivity extends Activity {
 		        R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
 		Log.v("second adapter string", adapter.toString());
 		ListView listView = (ListView)findViewById(R.id.secondsListView);
-		Log.v("seconds listview count", ""+listView.getCount());
+//		Log.v("seconds listview count", ""+listView.getCount());
 		listView.setAdapter(adapter);
 		//listView.setLongClickable(true);
 		

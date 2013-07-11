@@ -138,20 +138,25 @@ public class NewCakeActivity extends Activity {
 		Cake cake = Kitchen.getCakeById(this, rowId);
 		
 		// Upload Cake to Server
-				RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake[uid]"}, 
-									   								new String[] {TokenManager.getToken(this), cake.getId()});
-				params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.CAKES_VIDEO_TYPE, cake.getVideoUri());
-				OneSecRestClient.post("mobile_cakes", params, OneSecRestClient.getResponseHandler("uploadCake"));
+		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake[uid]"}, 
+							   								new String[] {TokenManager.getToken(this), cake.getId()});
+		params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.CAKES_VIDEO_TYPE, cake.getVideoUri());
+		OneSecRestClient.post("mobile_cakes", params, OneSecRestClient.getResponseHandler("uploadCake"));
 	}
 	
 	public void addTag(View view){
 		Cake cake = Kitchen.getCakeById(this, rowId);
 		String sprinkleTag = newCakeSprinkle.getText().toString();
-		// Upload Second to Server
+		
+		// Save Sprinkle to local database
+		Kitchen.saveSprinkleToLocalDb(this, sprinkleTag);
+
+		// Upload Sprinkle to Server
 		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake_uid", "sprinkle_tag"}, 
 							   								new String[] {TokenManager.getToken(this), cake.getId(), sprinkleTag});
 		OneSecRestClient.post("mobile_cake_sprinkles", params, OneSecRestClient.getResponseHandler("addTag"));
 		//newCakeSprinkle.setText("");
+		
 	}
 
 }

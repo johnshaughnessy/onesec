@@ -15,7 +15,9 @@ import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenCakeDbHelper;
 import com.example.onesec.impl.database.KitchenContract.CakeEntry;
 import com.example.onesec.impl.database.KitchenContract.SecondEntry;
+import com.example.onesec.impl.database.KitchenContract.SprinkleEntry;
 import com.example.onesec.impl.database.KitchenSecondDbHelper;
+import com.example.onesec.impl.database.KitchenSprinkleDbHelper;
 import com.example.onesec.impl.second.Second;
 import com.example.onesec.impl.util.Utilities;
 
@@ -60,6 +62,24 @@ public class Kitchen {
 		         CakeEntry.COLUMN_NAME_NULLABLE,
 		         values);
 		// note: COLUMN_NAME_NULLABLE=null means a row won't be inserted when there are no data values
+		db.close();
+		
+		return newRowId;
+	}
+	
+	public static Long saveSprinkleToLocalDb(Context context, String sprinkle) {
+		// Prepare the Sprinkle DB for insert
+		KitchenSprinkleDbHelper dbHelper = new KitchenSprinkleDbHelper(context);
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(SprinkleEntry.COLUMN_NAME_TAG, sprinkle);
+		
+		// Insert the new row
+		long newRowId;
+		newRowId = db.insert(
+				SprinkleEntry.TABLE_NAME,
+				SprinkleEntry.COLUMN_NAME_NULLABLE,
+				values);
 		db.close();
 		
 		return newRowId;
