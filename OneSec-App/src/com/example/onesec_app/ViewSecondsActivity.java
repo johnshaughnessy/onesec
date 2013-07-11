@@ -1,7 +1,10 @@
 package com.example.onesec_app;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
@@ -15,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.cake.Batter;
@@ -49,12 +53,47 @@ public class ViewSecondsActivity extends Activity {
 		});
 		
 		showSeconds();
+		
+		Log.v("onCreate", "about to handle intent");
+		handleIntent(getIntent());
 	}
 	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		Log.v("onNewIntent", "handling intent");
+		handleIntent(intent);
+	}
+	
+	@Override
+	public boolean onSearchRequested() {
+//	    pauseSomeStuff();
+		Log.v("onSearchRequested", "here!");
+	    return super.onSearchRequested();
+	}
+	
+	private void handleIntent(Intent intent) {
+		Log.v("handleIntent", "intent action is " + intent.getAction());
+		if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			String sprinkle = intent.getStringExtra(SearchManager.QUERY);
+			Log.v("handleIntent", "searching for sprinkle " + sprinkle);
+			// Get Seconds with queried sprinkle
+		}
+	}
+	
+	@SuppressLint("NewApi")
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.view_seconds, menu);
+        
+        // Associate searchable configuration with the SearchView
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        	Log.v("onCreateOptionsMenu", "searchable");
+        	SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        	SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        	searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
+        
         return true;
     }
 	

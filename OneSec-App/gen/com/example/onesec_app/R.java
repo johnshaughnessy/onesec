@@ -17,12 +17,12 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f040000;
-        public static final int activity_vertical_margin=0x7f040001;
+        public static final int activity_horizontal_margin=0x7f050000;
+        public static final int activity_vertical_margin=0x7f050001;
         /**   ListView screen margins 
          */
-        public static final int listview_horizontal_margin=0x7f040002;
-        public static final int listview_vertical_margin=0x7f040003;
+        public static final int listview_horizontal_margin=0x7f050002;
+        public static final int listview_vertical_margin=0x7f050003;
     }
     public static final class drawable {
         public static final int button_background=0x7f020000;
@@ -31,44 +31,46 @@ public final class R {
         public static final int ic_device_access_camera_light=0x7f020003;
         public static final int ic_launcher=0x7f020004;
         public static final int ic_navigation_accept=0x7f020005;
+        public static final int ic_search=0x7f020006;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f050021;
-        public static final int action_settings=0x7f050022;
-        public static final int action_signout=0x7f050023;
-        public static final int addTag=0x7f050013;
-        public static final int bake_cake=0x7f050018;
-        public static final int cakeDate=0x7f05001c;
-        public static final int cakeTags=0x7f05001d;
-        public static final int cakeThumbnail=0x7f05001a;
-        public static final int cakeTitle=0x7f05001b;
-        public static final int cakesListView=0x7f050016;
-        public static final int date=0x7f05000f;
-        public static final int done=0x7f050010;
-        public static final int email=0x7f050004;
-        public static final int login=0x7f050006;
-        public static final int login_form=0x7f050003;
-        public static final int login_status=0x7f050001;
-        public static final int login_status_message=0x7f050002;
-        public static final int menu_new_second=0x7f050000;
-        public static final int newCakeSprinkle=0x7f050011;
-        public static final int newSecSprinkle=0x7f050014;
-        public static final int password=0x7f050005;
-        public static final int secondDate=0x7f05001f;
-        public static final int secondTags=0x7f050020;
-        public static final int secondThumbnail=0x7f05001e;
-        public static final int secondsListView=0x7f050019;
-        public static final int select_seconds=0x7f050017;
-        public static final int sign_in_button=0x7f050007;
-        public static final int signin=0x7f05000b;
-        public static final int syncSeconds=0x7f05000c;
-        public static final int takeSecond=0x7f050008;
-        public static final int thumbnail=0x7f05000d;
-        public static final int title=0x7f05000e;
-        public static final int uploadCake=0x7f050012;
-        public static final int uploadSecond=0x7f050015;
-        public static final int viewCakes=0x7f05000a;
-        public static final int viewSeconds=0x7f050009;
+        public static final int action_forgot_password=0x7f060021;
+        public static final int action_settings=0x7f060022;
+        public static final int action_signout=0x7f060023;
+        public static final int addTag=0x7f060013;
+        public static final int bake_cake=0x7f060018;
+        public static final int cakeDate=0x7f06001c;
+        public static final int cakeTags=0x7f06001d;
+        public static final int cakeThumbnail=0x7f06001a;
+        public static final int cakeTitle=0x7f06001b;
+        public static final int cakesListView=0x7f060016;
+        public static final int date=0x7f06000f;
+        public static final int done=0x7f060010;
+        public static final int email=0x7f060004;
+        public static final int login=0x7f060006;
+        public static final int login_form=0x7f060003;
+        public static final int login_status=0x7f060001;
+        public static final int login_status_message=0x7f060002;
+        public static final int menu_new_second=0x7f060000;
+        public static final int newCakeSprinkle=0x7f060011;
+        public static final int newSecSprinkle=0x7f060014;
+        public static final int password=0x7f060005;
+        public static final int search=0x7f060024;
+        public static final int secondDate=0x7f06001f;
+        public static final int secondTags=0x7f060020;
+        public static final int secondThumbnail=0x7f06001e;
+        public static final int secondsListView=0x7f060019;
+        public static final int select_seconds=0x7f060017;
+        public static final int sign_in_button=0x7f060007;
+        public static final int signin=0x7f06000b;
+        public static final int syncSeconds=0x7f06000c;
+        public static final int takeSecond=0x7f060008;
+        public static final int thumbnail=0x7f06000d;
+        public static final int title=0x7f06000e;
+        public static final int uploadCake=0x7f060012;
+        public static final int uploadSecond=0x7f060015;
+        public static final int viewCakes=0x7f06000a;
+        public static final int viewSeconds=0x7f060009;
     }
     public static final class layout {
         public static final int activity_login=0x7f030000;
@@ -82,54 +84,56 @@ public final class R {
         public static final int listview_seconds_row=0x7f030008;
     }
     public static final class menu {
-        public static final int login=0x7f080000;
-        public static final int main=0x7f080001;
-        public static final int new_cake=0x7f080002;
-        public static final int new_second=0x7f080003;
-        public static final int recipe=0x7f080004;
-        public static final int view_cakes=0x7f080005;
-        public static final int view_seconds=0x7f080006;
+        public static final int login=0x7f090000;
+        public static final int main=0x7f090001;
+        public static final int new_cake=0x7f090002;
+        public static final int new_second=0x7f090003;
+        public static final int recipe=0x7f090004;
+        public static final int view_cakes=0x7f090005;
+        public static final int view_seconds=0x7f090006;
     }
     public static final class string {
-        public static final int action_forgot_password=0x7f06001f;
-        public static final int action_settings=0x7f060001;
-        public static final int action_sign_in_register=0x7f06001d;
-        public static final int action_sign_in_short=0x7f06001e;
-        public static final int action_signout=0x7f060002;
-        public static final int addTag=0x7f060017;
-        public static final int app_name=0x7f060000;
-        public static final int date=0x7f06000a;
-        public static final int done=0x7f060015;
-        public static final int error_field_required=0x7f060024;
-        public static final int error_incorrect_password=0x7f060023;
-        public static final int error_invalid_email=0x7f060021;
-        public static final int error_invalid_password=0x7f060022;
-        public static final int forget=0x7f06000d;
-        public static final int hello_world=0x7f060003;
-        public static final int hint_cake_title=0x7f06000f;
-        public static final int login_progress_signing_in=0x7f060020;
-        public static final int menu_new=0x7f060013;
-        public static final int my_seconds=0x7f060009;
-        public static final int play_second=0x7f060016;
+        public static final int action_forgot_password=0x7f070021;
+        public static final int action_settings=0x7f070001;
+        public static final int action_sign_in_register=0x7f07001f;
+        public static final int action_sign_in_short=0x7f070020;
+        public static final int action_signout=0x7f070002;
+        public static final int addTag=0x7f070019;
+        public static final int app_name=0x7f070000;
+        public static final int date=0x7f07000c;
+        public static final int done=0x7f070017;
+        public static final int error_field_required=0x7f070026;
+        public static final int error_incorrect_password=0x7f070025;
+        public static final int error_invalid_email=0x7f070023;
+        public static final int error_invalid_password=0x7f070024;
+        public static final int forget=0x7f07000f;
+        public static final int hello_world=0x7f070005;
+        public static final int hint_cake_title=0x7f070011;
+        public static final int login_progress_signing_in=0x7f070022;
+        public static final int menu_new=0x7f070015;
+        public static final int my_seconds=0x7f07000b;
+        public static final int play_second=0x7f070018;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f06001b;
-        public static final int prompt_password=0x7f06001c;
-        public static final int sign_in=0x7f06000e;
-        public static final int syncSeconds=0x7f060019;
-        public static final int text_bake_cake=0x7f06000c;
-        public static final int text_select_seconds=0x7f06000b;
-        public static final int text_takeSecond=0x7f060010;
-        public static final int text_test=0x7f060014;
-        public static final int text_viewCakes=0x7f060012;
-        public static final int text_viewSeconds=0x7f060011;
-        public static final int title_activity_login=0x7f06001a;
-        public static final int title_activity_new_cake=0x7f060005;
-        public static final int title_activity_new_second=0x7f060004;
-        public static final int title_activity_recipe=0x7f060008;
-        public static final int title_activity_view_cakes=0x7f060007;
-        public static final int title_activity_view_seconds=0x7f060006;
-        public static final int upload=0x7f060018;
+        public static final int prompt_email=0x7f07001d;
+        public static final int prompt_password=0x7f07001e;
+        public static final int search_hint=0x7f070004;
+        public static final int search_title=0x7f070003;
+        public static final int sign_in=0x7f070010;
+        public static final int syncSeconds=0x7f07001b;
+        public static final int text_bake_cake=0x7f07000e;
+        public static final int text_select_seconds=0x7f07000d;
+        public static final int text_takeSecond=0x7f070012;
+        public static final int text_test=0x7f070016;
+        public static final int text_viewCakes=0x7f070014;
+        public static final int text_viewSeconds=0x7f070013;
+        public static final int title_activity_login=0x7f07001c;
+        public static final int title_activity_new_cake=0x7f070007;
+        public static final int title_activity_new_second=0x7f070006;
+        public static final int title_activity_recipe=0x7f07000a;
+        public static final int title_activity_view_cakes=0x7f070009;
+        public static final int title_activity_view_seconds=0x7f070008;
+        public static final int upload=0x7f07001a;
     }
     public static final class style {
         /** 
@@ -153,11 +157,14 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
-        public static final int LoginFormContainer=0x7f070002;
+        public static final int AppTheme=0x7f080001;
+        public static final int LoginFormContainer=0x7f080002;
+    }
+    public static final class xml {
+        public static final int searchable=0x7f040000;
     }
 }

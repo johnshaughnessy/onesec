@@ -50,18 +50,28 @@
         <activity
             android:name="com.example.onesec_app.ViewSecondsActivity"
             android:label="@string/title_activity_view_seconds"
+            android:launchMode="singleTop"
             android:parentActivityName="com.example.onesec_app.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.onesec_app.MainActivity" />
+                android:value="com.example.onesec_app.MainActivity"
+                android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.example.onesec_app.ViewCakesActivity"
             android:label="@string/title_activity_view_cakes"
+            android:launchMode="singleTop"
             android:parentActivityName="com.example.onesec_app.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.onesec_app.MainActivity" />
+                android:value="com.example.onesec_app.MainActivity"
+                android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.example.onesec_app.RecipeActivity"
