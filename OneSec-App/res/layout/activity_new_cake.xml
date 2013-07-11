@@ -46,9 +46,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/title"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/date"
+        android:maxLines="1"
+        android:inputType="text"
         android:ems="10" >
-
         <requestFocus />
     </EditText>
 
@@ -59,7 +60,7 @@
         android:layout_alignBottom="@+id/done"
         android:layout_alignLeft="@+id/newCakeSprinkle"
         android:onClick="uploadCake"
-        android:text="upload" />
+        android:text="@string/upload" />
 
     <Button
         android:id="@+id/addTag"
@@ -69,6 +70,6 @@
         android:layout_alignBottom="@+id/uploadCake"
         android:layout_centerHorizontal="true"
         android:onClick="addTag"
-        android:text="addTag" />
+        android:text="@string/addTag" />
 
 </RelativeLayout>

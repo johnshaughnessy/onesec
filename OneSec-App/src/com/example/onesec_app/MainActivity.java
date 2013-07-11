@@ -16,7 +16,6 @@ public class MainActivity extends Activity {
 	
 	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 	public static final int MEDIA_TYPE_VIDEO = 2;
-//	private Long newRowId;
 	private Second second;
 	@SuppressWarnings("unused")
 	private Kitchen kitchen;

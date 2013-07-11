@@ -27,7 +27,6 @@ public class NewSecondActivity extends Activity {
 
 	public TextView dateView;
 	public ImageView thumbnailView;
-//	private long rowId;
 	public EditText newSecSprinkle;
 	private String uid;
 	
@@ -40,9 +39,7 @@ public class NewSecondActivity extends Activity {
 		dateView = (TextView)findViewById(R.id.date);
 		thumbnailView = (ImageView)findViewById(R.id.thumbnail);
 		
-//		rowId = getIntent().getLongExtra("newRowId", -2);	// get ID from intent
 		uid = getIntent().getStringExtra("second_uid");
-//		Log.v("NewSecondActivity", "Id is " + rowId);
 		Log.v("NewSecondActivity", "Uid is " + uid);		
 		
 		newSecSprinkle = (EditText) findViewById(R.id.newSecSprinkle);
@@ -116,6 +113,9 @@ public class NewSecondActivity extends Activity {
 		Second second = Kitchen.getSecondByUid(this, uid);
 		String sprinkleTag = newSecSprinkle.getText().toString();
 		
+		// Save Sprinkle to local database
+		Kitchen.saveSprinkleToLocalDb(this, second.getId(), sprinkleTag);
+				
 		// Upload Sprinkle to Server
 		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "second_uid", "sprinkle_tag"}, 
 							   								new String[] {TokenManager.getToken(this), second.getId(), sprinkleTag});

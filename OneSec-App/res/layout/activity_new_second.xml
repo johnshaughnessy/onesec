@@ -36,9 +36,8 @@
         android:id="@+id/newSecSprinkle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/uploadSecond"
-        android:layout_marginBottom="28dp"
-        android:layout_toLeftOf="@+id/done"
+		android:layout_below="@id/date"
+        android:layout_centerHorizontal="true"
         android:ems="10" />
 
     <Button
@@ -48,7 +47,7 @@
         android:layout_alignBottom="@+id/done"
         android:layout_alignLeft="@+id/date"
         android:onClick="addTag"
-        android:text="addTag" />
+        android:text="@string/addTag" />
 
     <Button
         android:id="@+id/uploadSecond"
@@ -58,7 +57,7 @@
         android:layout_alignBottom="@+id/addTag"
         android:layout_toLeftOf="@+id/addTag"
         android:onClick="uploadSecond"
-        android:text="uploadSecond" />
+        android:text="@string/upload" />
 
 </RelativeLayout>
 
