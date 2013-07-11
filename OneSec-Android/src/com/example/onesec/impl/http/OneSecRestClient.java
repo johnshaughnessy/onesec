@@ -53,7 +53,7 @@ public class OneSecRestClient {
     }
 
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-    	client.setTimeout(30000);
+    	client.setTimeout(60000);
       	client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 

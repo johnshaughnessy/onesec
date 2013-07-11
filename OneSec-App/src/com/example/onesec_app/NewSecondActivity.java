@@ -9,6 +9,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -26,8 +27,9 @@ public class NewSecondActivity extends Activity {
 
 	public TextView dateView;
 	public ImageView thumbnailView;
-	private long rowId;
+//	private long rowId;
 	public EditText newSecSprinkle;
+	private String uid;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,10 @@ public class NewSecondActivity extends Activity {
 		dateView = (TextView)findViewById(R.id.date);
 		thumbnailView = (ImageView)findViewById(R.id.thumbnail);
 		
-		rowId = getIntent().getLongExtra("newRowId", -2);	// get ID from intent
-		System.out.println("Id is " + rowId);
+//		rowId = getIntent().getLongExtra("newRowId", -2);	// get ID from intent
+		uid = getIntent().getStringExtra("second_uid");
+//		Log.v("NewSecondActivity", "Id is " + rowId);
+		Log.v("NewSecondActivity", "Uid is " + uid);		
 		
 		newSecSprinkle = (EditText) findViewById(R.id.newSecSprinkle);
 		
@@ -54,7 +58,7 @@ public class NewSecondActivity extends Activity {
     }
 	
 	public void previewSecond() {
-		Second second = Kitchen.getSecondById(this, rowId);
+		Second second = Kitchen.getSecondByUid(this, uid);
 		
 		dateView.setText(getDateString(second.getDate()));
 		thumbnailView.setImageBitmap(second.getThumbnail(this));
@@ -91,7 +95,7 @@ public class NewSecondActivity extends Activity {
     }
 
 	private void playSecond() {
-		Second second = Kitchen.getSecondById(this, rowId);
+		Second second = Kitchen.getSecondByUid(this, uid);
 		Intent intent = new Intent();
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setDataAndType(second.getVideoUri(), "video/mp4");
@@ -99,7 +103,7 @@ public class NewSecondActivity extends Activity {
 	}
 	
 	public void uploadSecond(View view){
-		Second second = Kitchen.getSecondById(this, rowId);
+		Second second = Kitchen.getSecondByUid(this, uid);
 		
 		// Upload Second to Server
 		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "second[uid]", "second[date]"}, 
@@ -109,7 +113,7 @@ public class NewSecondActivity extends Activity {
 	}
 	
 	public void addTag(View view){
-		Second second = Kitchen.getSecondById(this, rowId);
+		Second second = Kitchen.getSecondByUid(this, uid);
 		String sprinkleTag = newSecSprinkle.getText().toString();
 		
 		// Upload Sprinkle to Server

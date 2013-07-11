@@ -5,11 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.http.SyncManager;
@@ -20,42 +16,27 @@ public class MainActivity extends Activity {
 	
 	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 	public static final int MEDIA_TYPE_VIDEO = 2;
-	private Long newRowId;
+//	private Long newRowId;
 	private Second second;
 	@SuppressWarnings("unused")
 	private Kitchen kitchen;
 	String token;
 	Context context = this;
+	private String uid;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        Button forgetToken = (Button) findViewById(R.id.forget_token);
-        forgetToken.setOnClickListener(new OnClickListener(){
-        	public void onClick(View v){
-        		TokenManager.forgetToken(context);
-        		Log.v("forgetToken", "forgetting token");
-        	}
-        });
-        
-        Button signin = (Button)findViewById(R.id.signin);
-        signin.setOnClickListener(new OnClickListener(){
-        	public void onClick(View v){
-        		Intent intent = new Intent(context, LoginActivity.class);
-    			startActivity(intent);
-        	}
-        });
-        
-        //makeRequest();
+
     }
     
 
     @Override
     protected void onSaveInstanceState (Bundle outState){
-    	if (newRowId != null){
-    		outState.putLong("newRowId", newRowId);
+    	if (uid != null){
+//    		outState.putLong("newRowId", newRowId);
+    		outState.putString("second_uid", second.getId());
     	}
     	
     	super.onSaveInstanceState(outState);
@@ -64,47 +45,23 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestoreInstanceState (Bundle savedInstanceState){
     	if (savedInstanceState.containsKey("newRowId")){
-    		newRowId = savedInstanceState.getLong("newRowId");
-    		second = Kitchen.getSecondById(this, newRowId);
+//    		newRowId = savedInstanceState.getLong("newRowId");
+    		uid = savedInstanceState.getString("second_uid");
+    		second = Kitchen.getSecondByUid(this, uid);
     	}
     	super.onRestoreInstanceState(savedInstanceState);
     	
     }
     
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	// Handle item selection
-        switch (item.getItemId()) {
-            case R.id.menu_new_second:
-                takeSecond(findViewById(R.layout.activity_main));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
-    		if(resultCode == RESULT_OK) {
-    			// Video successfully captured and saved to videoUri   			
-    			
-    			// TODO put this in addToKitchen later
-    			// OneSecRestClientUsage client = new OneSecRestClientUsage();
-    			// client.saveSecondToServer(second);
-    		
-    			
-    			 
+    		if(resultCode == RESULT_OK) {   			 
     			// Send ID to NewSecondActivity and start activity
+    			Kitchen.saveSecondToLocalDb(this, second);
     			Intent intent = new Intent(this, NewSecondActivity.class);
-    			intent.putExtra("newRowId", Kitchen.saveSecondToLocalDb(this, second));
+//    			intent.putExtra("newRowId", Kitchen.saveSecondToLocalDb(this, second));
+    			intent.putExtra("second_uid", second.getId());
     			startActivity(intent);
     		}
     		else if(resultCode == RESULT_CANCELED) {
@@ -118,7 +75,8 @@ public class MainActivity extends Activity {
     
     public void takeSecond(View v) {
     	second = new Second();
-    	newRowId = Kitchen.saveSecondToLocalDb(this, second);
+    	Kitchen.saveSecondToLocalDb(this, second);
+    	uid = second.getId();
     	
     	// Create Intent to capture video
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -143,8 +101,18 @@ public class MainActivity extends Activity {
     }
     
     public void syncSeconds(View v){
-    	SyncManager manager = new SyncManager(this);
+    	@SuppressWarnings("unused")
+		SyncManager manager = new SyncManager(this);
     	SyncManager.syncAllSeconds(); 
     }
-
+    
+    public void forgetToken(View v){
+    	TokenManager.forgetToken(context);
+		Log.v("forgetToken", "forgetting token");
+    }
+    
+    public void signIn(View v){
+    	Intent intent = new Intent(context, LoginActivity.class);
+		startActivity(intent);
+    }
 }

@@ -29,7 +29,8 @@ public class NewCakeActivity extends Activity {
 	public EditText titleEdit;
 	public TextView dateView;
 	public Button done;
-	private long rowId;
+//	private long rowId;
+	private String uid;
 	public EditText newCakeSprinkle;
 	
 	@Override
@@ -46,14 +47,17 @@ public class NewCakeActivity extends Activity {
 		done = (Button)findViewById(R.id.done);
 		newCakeSprinkle = (EditText) findViewById(R.id.newCakeSprinkle);
 		
-		rowId = getIntent().getLongExtra("newRowId", -2);	// get ID from intent
-		System.out.println("Id is " + rowId);
+//		rowId = getIntent().getLongExtra("newRowId", -2);	// get ID from intent
+//		System.out.println("Id is " + rowId);
+		
+		uid = getIntent().getStringExtra("cake_uid");
+		System.out.println("Uid is " + uid);
 		
 		previewCake();
 	}
 	
 	public void previewCake() {
-		Cake cake = Kitchen.getCakeById(this, rowId);
+		Cake cake = Kitchen.getCakeByUid(this, uid);
 		
 		thumbnailView.setImageBitmap(cake.getThumbnail(this));
 		dateView.setText(Utilities.dateToNiceString(cake.getDate()));
@@ -81,9 +85,9 @@ public class NewCakeActivity extends Activity {
 	
 	private void setCakeTitle() {		
 		String title = titleEdit.getText().toString();
-		Cake cake = Kitchen.getCakeById(this, rowId);
+		Cake cake = Kitchen.getCakeByUid(this, uid);
 		cake.setTitle(title);
-		Kitchen.updateCakeTitle(this, cake, rowId);
+		Kitchen.updateCakeTitle(this, cake, uid);
 	}
 
 	/**
@@ -127,7 +131,7 @@ public class NewCakeActivity extends Activity {
     }
 	
 	private void playCake() {
-		Cake cake = Kitchen.getCakeById(this, rowId);
+		Cake cake = Kitchen.getCakeByUid(this, uid);
 		Intent intent = new Intent();
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setDataAndType(cake.getVideoUri(), "video/mp4");
@@ -135,7 +139,7 @@ public class NewCakeActivity extends Activity {
 	}
 	
 	public void uploadCake(View view){
-		Cake cake = Kitchen.getCakeById(this, rowId);
+		Cake cake = Kitchen.getCakeByUid(this, uid);
 		
 		// Upload Cake to Server
 		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake[uid]"}, 
@@ -145,7 +149,7 @@ public class NewCakeActivity extends Activity {
 	}
 	
 	public void addTag(View view){
-		Cake cake = Kitchen.getCakeById(this, rowId);
+		Cake cake = Kitchen.getCakeByUid(this, uid);
 		String sprinkleTag = newCakeSprinkle.getText().toString();
 		
 		// Save Sprinkle to local database
