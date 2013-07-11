@@ -1,0 +1,47 @@
+package com.example.onesec.impl.http;
+
+import java.util.ArrayList;
+
+import android.util.Log;
+
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+public class Sync {
+	
+	private static ArrayList<String> urls = new ArrayList<String>();
+	
+	public Sync(ArrayList<String> urls){
+		this.urls = urls;
+	}
+	
+	public static AsyncHttpResponseHandler SyncResponseHandler = new AsyncHttpResponseHandler(){
+			@Override
+			public void onStart() {
+				Log.v(tag + " response handler", "onStart()");
+				super.onStart();
+			}
+			@Override
+			public void onSuccess(String response) {
+				Log.v(tag + " response handler", "onSuccess() has the response: \n" + response);
+			}
+			
+			@Override
+			public void onFailure(Throwable e, String response) {
+				Log.v(tag + " response handler", "onFailure() has the response: \n" + response + "\n\n");
+				e.printStackTrace();
+				super.onFailure(e, response);
+			}
+			
+			@Override
+			public void onFinish() {
+				callMe();
+				// Completed the request (either success or failure)
+				Log.v(tag + " response handler", "onFinish()");
+				super.onFinish();
+			}
+		};
+		
+	public static void callMe(){
+		urls.remove(urls.size()-1);
+	}
+}
