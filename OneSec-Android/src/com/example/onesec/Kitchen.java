@@ -96,13 +96,13 @@ public class Kitchen {
 		String sortOrder = null;
 
 		Cursor c = db.query(
-		    SecondEntry.TABLE_NAME,  // The table to query
-		    projection,                               // The columns to return
-		    SecondEntry.COLUMN_NAME_SECOND_ID+"=?",		  // The columns for the WHERE clause
-		    new String[]{ uid },                         		   // The values for the WHERE clause
-		    null,                                     // don't group the rows
-		    null,                                     // don't filter by row groups
-		    sortOrder                                 // The sort order
+		    SecondEntry.TABLE_NAME,  					// The table to query
+		    projection,                               	// The columns to return
+		    SecondEntry.COLUMN_NAME_SECOND_ID+"=?",		// The columns for the WHERE clause
+		    new String[]{ uid },                      	// The values for the WHERE clause
+		    null,                                     	// don't group the rows
+		    null,                                     	// don't filter by row groups
+		    sortOrder                                 	// The sort order
 		    );
 		
 		if (c.moveToFirst()) {
@@ -124,7 +124,7 @@ public class Kitchen {
 		    CakeEntry.TABLE_NAME,  					  // The table to query
 		    projection,                               // The columns to return
 		    CakeEntry.COLUMN_NAME_CAKE_ID+"=?",		  // The columns for the WHERE clause
-		    new String[]{ uid },                         		   // The values for the WHERE clause
+		    new String[]{ uid },                      // The values for the WHERE clause
 		    null,                                     // don't group the rows
 		    null,                                     // don't filter by row groups
 		    sortOrder                                 // The sort order
@@ -247,8 +247,8 @@ public class Kitchen {
 		db.update(
 		         CakeEntry.TABLE_NAME,					// table name
 		         values,								// values to update to
-		         CakeEntry.COLUMN_NAME_CAKE_ID+"=?",					// WHERE clause
-		         new String[]{ cake.getId() });	// WHERE arguments
+		         CakeEntry.COLUMN_NAME_CAKE_ID+"=?",	// WHERE clause
+		         new String[]{ cake.getId() });			// WHERE arguments
 		db.close();
 	}
 }

@@ -5,6 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -47,6 +51,31 @@ public class NewCakeActivity extends Activity {
 		System.out.println("Uid is " + uid);
 		
 		previewCake();
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.new_cake, menu);
+        return true;
+    }
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.action_settings:
+			// show settings
+			break;
+		case R.id.action_signout:
+			signout();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
 	
 	public void previewCake() {
@@ -129,7 +158,11 @@ public class NewCakeActivity extends Activity {
 							   								new String[] {TokenManager.getToken(this), cake.getId(), sprinkleTag});
 		OneSecRestClient.post("mobile_cake_sprinkles", params, OneSecRestClient.getResponseHandler("addTag"));
 		//newCakeSprinkle.setText("");
-		
 	}
+	
+    private void signout() {
+    	TokenManager.forgetToken(this);
+    	Log.v("signout", "forgetting token");
+    }
 
 }
