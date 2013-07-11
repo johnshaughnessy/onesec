@@ -29,7 +29,6 @@ public class NewCakeActivity extends Activity {
 	public EditText titleEdit;
 	public TextView dateView;
 	public Button done;
-//	private long rowId;
 	private String uid;
 	public EditText newCakeSprinkle;
 	
@@ -46,9 +45,6 @@ public class NewCakeActivity extends Activity {
 		dateView = (TextView)findViewById(R.id.date);
 		done = (Button)findViewById(R.id.done);
 		newCakeSprinkle = (EditText) findViewById(R.id.newCakeSprinkle);
-		
-//		rowId = getIntent().getLongExtra("newRowId", -2);	// get ID from intent
-//		System.out.println("Id is " + rowId);
 		
 		uid = getIntent().getStringExtra("cake_uid");
 		System.out.println("Uid is " + uid);
@@ -153,8 +149,8 @@ public class NewCakeActivity extends Activity {
 		String sprinkleTag = newCakeSprinkle.getText().toString();
 		
 		// Save Sprinkle to local database
-		Kitchen.saveSprinkleToLocalDb(this, sprinkleTag);
-
+		Kitchen.saveSprinkleToLocalDb(this, cake.getId(), sprinkleTag);
+		
 		// Upload Sprinkle to Server
 		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake_uid", "sprinkle_tag"}, 
 							   								new String[] {TokenManager.getToken(this), cake.getId(), sprinkleTag});

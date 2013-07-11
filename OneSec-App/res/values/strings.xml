@@ -28,6 +28,7 @@
     
     <string name="addTag">Add tag</string>
     <string name="upload">Upload</string>
+    <string name="syncSeconds">Sync Seconds</string>
 
 
 </resources>

@@ -18,7 +18,8 @@ public final class KitchenContract {
 	public static final int CAKE_BATTER_PATH_COL_NUM = 6;
 	
 	// Define Sprinkle column numbers
-	public static final int SPRINKLE_TAG_COL_NUM = 1;
+	public static final int SPRINKLE_VIDEO_ID_COL_NUM = 1;
+	public static final int SPRINKLE_TAG_COL_NUM = 2;
 
 	// Empty constructor to prevent misuse
 	public KitchenContract() {}
@@ -48,7 +49,7 @@ public final class KitchenContract {
 	// Define Sprinkle table contents
 	public static abstract class SprinkleEntry implements BaseColumns {
 		public static final String TABLE_NAME = "sprinkle";
-		public static final String COLUMN_NAME_VIDEO_ID = "video";
+		public static final String COLUMN_NAME_VIDEO_ID = "id";
 		public static final String COLUMN_NAME_TAG = "tag";
 		public static final String COLUMN_NAME_NULLABLE = "null";
 	}

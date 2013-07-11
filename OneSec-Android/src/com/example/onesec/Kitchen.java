@@ -16,6 +16,7 @@ import com.example.onesec.impl.database.KitchenCakeDbHelper;
 import com.example.onesec.impl.database.KitchenContract.CakeEntry;
 import com.example.onesec.impl.database.KitchenContract.SecondEntry;
 import com.example.onesec.impl.database.KitchenContract.SprinkleEntry;
+import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec.impl.database.KitchenSecondDbHelper;
 import com.example.onesec.impl.database.KitchenSprinkleDbHelper;
 import com.example.onesec.impl.second.Second;
@@ -67,12 +68,13 @@ public class Kitchen {
 		return newRowId;
 	}
 	
-	public static Long saveSprinkleToLocalDb(Context context, String sprinkle) {
+	public static Long saveSprinkleToLocalDb(Context context, String videoId, String tag) {
 		// Prepare the Sprinkle DB for insert
 		KitchenSprinkleDbHelper dbHelper = new KitchenSprinkleDbHelper(context);
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(SprinkleEntry.COLUMN_NAME_TAG, sprinkle);
+		values.put(SprinkleEntry.COLUMN_NAME_VIDEO_ID, videoId);
+		values.put(SprinkleEntry.COLUMN_NAME_TAG, tag);
 		
 		// Insert the new row
 		long newRowId;
@@ -178,7 +180,6 @@ public class Kitchen {
 
 		// How you want the results sorted in the resulting Cursor
 		String sortOrder = null;
-//		    SecondEntry.COLUMN_NAME_UPDATED + " DESC";
 
 		Cursor c = db.query(
 		    SecondEntry.TABLE_NAME,  // The table to query
@@ -199,6 +200,42 @@ public class Kitchen {
 		return null;
 	}
 	
+	// Makes cursor to view one Cake
+	public static Cake getCakeById(Context context, Long rowId){
+		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+	
+		// Define a projection that specifies which columns from the database
+		// you will actually use after this query.
+		String[] projection = {
+			CakeEntry._ID,
+		    CakeEntry.COLUMN_NAME_CAKE_ID,
+		    CakeEntry.COLUMN_NAME_TITLE,
+		    CakeEntry.COLUMN_NAME_DATE,
+		    CakeEntry.COLUMN_NAME_VIDEO_PATH,
+		    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
+		    };
+	
+		// How you want the results sorted in the resulting Cursor
+		String sortOrder = null;
+	
+		Cursor c = db.query(
+		    CakeEntry.TABLE_NAME,  				  // The table to query
+		    projection,                               // The columns to return
+		    CakeEntry._ID+"=?",		  			  // The columns for the WHERE clause
+		    new String[]{ Long.toString(rowId) },     // The values for the WHERE clause
+		    null,                                     // don't group the rows
+		    null,                                     // don't filter by row groups
+		    sortOrder                                 // The sort order
+		    );
+		
+		if (c.moveToFirst()) {
+			db.close();
+			return new Cake(c);
+		}
+		return null;
+	}
+
 	public static Cake getCakeByUid(Context context, String uid){
 		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -216,7 +253,6 @@ public class Kitchen {
 
 		// How you want the results sorted in the resulting Cursor
 		String sortOrder = null;
-//		    SecondEntry.COLUMN_NAME_UPDATED + " DESC";
 
 		Cursor c = db.query(
 		    CakeEntry.TABLE_NAME,  // The table to query
@@ -237,38 +273,34 @@ public class Kitchen {
 		return null;
 	}
 	
-	// Makes cursor to view one Cake
-	public static Cake getCakeById(Context context, Long rowId){
-		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
-		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+	public static String getSprinkleByUid(Context context, String uid){
+		KitchenSprinkleDbHelper dbHelper = new KitchenSprinkleDbHelper(context);
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
 
 		// Define a projection that specifies which columns from the database
 		// you will actually use after this query.
 		String[] projection = {
-			CakeEntry._ID,
-		    CakeEntry.COLUMN_NAME_CAKE_ID,
-		    CakeEntry.COLUMN_NAME_TITLE,
-		    CakeEntry.COLUMN_NAME_DATE,
-		    CakeEntry.COLUMN_NAME_VIDEO_PATH,
-		    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
-		    };
+				SprinkleEntry._ID,
+				SprinkleEntry.COLUMN_NAME_VIDEO_ID,
+				SprinkleEntry.COLUMN_NAME_TAG
+			    };
 
 		// How you want the results sorted in the resulting Cursor
 		String sortOrder = null;
 
 		Cursor c = db.query(
-		    CakeEntry.TABLE_NAME,  				  // The table to query
-		    projection,                               // The columns to return
-		    CakeEntry._ID+"=?",		  			  // The columns for the WHERE clause
-		    new String[]{ Long.toString(rowId) },     // The values for the WHERE clause
-		    null,                                     // don't group the rows
-		    null,                                     // don't filter by row groups
-		    sortOrder                                 // The sort order
+		    SprinkleEntry.TABLE_NAME,  					// The table to query
+		    projection,                               	// The columns to return
+		    SprinkleEntry.COLUMN_NAME_VIDEO_ID+"=?",	// The columns for the WHERE clause
+		    new String[]{ uid },                        // The values for the WHERE clause
+		    null,                                     	// don't group the rows
+		    null,                                     	// don't filter by row groups
+		    sortOrder                                 	// The sort order
 		    );
 		
-		if (c.moveToFirst()) {
+		if(c.moveToFirst()) {
 			db.close();
-			return new Cake(c);
+			return c.getString(KitchenContract.SPRINKLE_TAG_COL_NUM);
 		}
 		return null;
 	}
