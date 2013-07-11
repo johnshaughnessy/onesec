@@ -25,6 +25,10 @@
     <string name="text_test">Test</string>
     <string name="done">So beautiful omg</string>
     <string name="play_second">Play</string>
+    
+    <string name="addTag">Add tag</string>
+    <string name="upload">Upload</string>
+    <string name="syncSeconds">Sync Seconds</string>
 
 
 </resources>

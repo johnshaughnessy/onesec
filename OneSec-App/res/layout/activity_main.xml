@@ -67,6 +67,6 @@
         android:layout_alignLeft="@+id/signin"
         android:layout_below="@+id/signin"
         android:onClick="syncSeconds"
-        android:text="syncSeconds" />
+        android:text="@string/syncSeconds" />
 
 </RelativeLayout>

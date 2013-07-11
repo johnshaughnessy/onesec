@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".NewCakeActivity" >
+
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_centerHorizontal="true" />
+    
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thumbnail"
+        android:maxLines="1"
+        android:inputType="text"
+        android:hint="@string/hint_cake_title"
+        android:layout_centerHorizontal="true" />
+    
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:maxLines="1000"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/newCakeSprinkle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/title"
+        android:layout_below="@+id/title"
+        android:maxLines="1"
+        android:inputType="text"
+        android:ems="10" >
+        <requestFocus />
+    </EditText>
+    
+    <Button
+        android:id="@+id/done"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_navigation_accept" />
+
+    <Button
+        android:id="@+id/uploadCake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/done"
+        android:layout_alignLeft="@+id/newCakeSprinkle"
+        android:onClick="uploadCake"
+        android:text="@string/upload" />
+
+    <Button
+        android:id="@+id/addTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/uploadCake"
+        android:layout_alignBottom="@+id/uploadCake"
+        android:layout_centerHorizontal="true"
+        android:onClick="addTag"
+        android:text="@string/addTag" />
+
+</RelativeLayout>

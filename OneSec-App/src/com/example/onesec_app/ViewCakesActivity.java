@@ -39,7 +39,7 @@ public class ViewCakesActivity extends Activity {
 		
 		String[] fromColumns = {
 				KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
-				//KitchenContract.CakeEntry.COLUMN_NAME_DATE,
+//				KitchenContract.CakeEntry.COLUMN_NAME_DATE,
 				KitchenContract.CakeEntry.COLUMN_NAME_THUMBNAIL_PATH };
 		int[] toViews = {
 				R.id.cakeTitle,
