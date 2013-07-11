@@ -9,8 +9,10 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,6 +55,24 @@ public class NewSecondActivity extends Activity {
         getMenuInflater().inflate(R.menu.new_second, menu);
         return true;
     }
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.action_settings:
+			// show settings
+			break;
+		case R.id.action_signout:
+			signout();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
+	}
 	
 	public void previewSecond() {
 		Second second = Kitchen.getSecondByUid(this, uid);
@@ -122,4 +142,9 @@ public class NewSecondActivity extends Activity {
 		OneSecRestClient.post("mobile_sec_sprinkles", params, OneSecRestClient.getResponseHandler("uploadSecond"));
 		newSecSprinkle.setText("");
 	}
+	
+    private void signout() {
+    	TokenManager.forgetToken(this);
+    	Log.v("signout", "forgetting token");
+    }
 }
