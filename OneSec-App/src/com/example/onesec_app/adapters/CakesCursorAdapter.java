@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.example.onesec.Kitchen;
 import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec.impl.util.Utilities;
@@ -57,8 +56,8 @@ public class CakesCursorAdapter extends SimpleCursorAdapter {
         String niceDate = Utilities.getNiceDate(dateStr) + ", " + Utilities.getNiceTimeWithSecs(dateStr);
         holder.dateView.setText(niceDate);
         
-        String uid = cursor.getString(KitchenContract.CAKE_ID_COL_NUM);
-        Cake cake = Kitchen.getCakeByUid(context, uid);
+        Cake cake = new Cake(cursor);
+        String uid = cake.getId();
         String tags = cake.getTagsString(context, uid);
         holder.tagsView.setText(tags);
     }

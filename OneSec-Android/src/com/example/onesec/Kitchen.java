@@ -21,7 +21,6 @@ import com.example.onesec.impl.database.KitchenContract.SprinkleEntry;
 import com.example.onesec.impl.database.KitchenSecondDbHelper;
 import com.example.onesec.impl.database.KitchenSprinkleDbHelper;
 import com.example.onesec.impl.second.Second;
-import com.example.onesec.impl.util.Utilities;
 
 
 public class Kitchen {
@@ -33,7 +32,7 @@ public class Kitchen {
 		// Prepare the Second DB for insert
 		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		ContentValues values = generateContentValuesForSecond(second);
+		ContentValues values = second.generateContentValues();
 
 		// Insert the new row, returning the primary key value of the new row
 		long newRowId;
@@ -55,7 +54,7 @@ public class Kitchen {
 		// Prepare the Cake DB for insert
 		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		ContentValues values = generateContentValuesForCake(cake);
+		ContentValues values = cake.generateContentValues();
 
 		// Insert the new row, returning the primary key value of the new row
 		long newRowId;
@@ -88,96 +87,10 @@ public class Kitchen {
 		return newRowId;
 	}
 	
-	public static void updateCakeTitle(Context context, Cake cake, String uid) {
-		// Prepare the Cake DB for insert
-		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
-		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		ContentValues values = new ContentValues();
-		values.put(CakeEntry.COLUMN_NAME_TITLE, cake.getTitle());
-		Log.v("updateCakeTitle", "title is " + cake.getTitle());
-
-		// Insert the new row
-		db.update(
-		         CakeEntry.TABLE_NAME,					// table name
-		         values,								// values to update to
-		         CakeEntry.COLUMN_NAME_CAKE_ID+"=?",					// WHERE clause
-		         new String[]{ uid });	// WHERE arguments
-		db.close();
-	}
-	
-	private static ContentValues generateContentValuesForSecond(Second second){
-		
-		ContentValues values = new ContentValues();
-		values.put(SecondEntry.COLUMN_NAME_SECOND_ID, second.getId());
-		values.put(SecondEntry.COLUMN_NAME_DATE, Utilities.dateToString(second.getDate()));
-		values.put(SecondEntry.COLUMN_NAME_VIDEO_PATH, second.getVideoUri().getPath());
-		values.put(SecondEntry.COLUMN_NAME_THUMBNAIL_PATH, second.getThumbnailUri().getPath());
-		return values;
-	}
-	
-
-	private static ContentValues generateContentValuesForCake(Cake cake){
-		ContentValues values = new ContentValues();
-		values.put(CakeEntry.COLUMN_NAME_CAKE_ID, cake.getId());
-		values.put(CakeEntry.COLUMN_NAME_TITLE, cake.getTitle());
-		values.put(CakeEntry.COLUMN_NAME_DATE, Utilities.dateToString(cake.getDate()));
-		values.put(CakeEntry.COLUMN_NAME_VIDEO_PATH, cake.getVideoUri().getPath());
-		values.put(CakeEntry.COLUMN_NAME_THUMBNAIL_PATH, cake.getThumbnailUri().getPath());
-		Log.v("batter path", ""+cake.getBatterUri().getPath());
-		values.put(CakeEntry.COLUMN_NAME_BATTER_PATH, cake.getBatterUri().getPath());
-		return values;
-	}
-	
-
-	// Makes cursor to view one Second
-	public static Second getSecondById(Context context, Long rowId){
-		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
-		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-		// Define a projection that specifies which columns from the database
-		// you will actually use after this query.
-		String[] projection = {
-			SecondEntry._ID,
-		    SecondEntry.COLUMN_NAME_SECOND_ID,
-		    SecondEntry.COLUMN_NAME_DATE,
-		    SecondEntry.COLUMN_NAME_VIDEO_PATH,
-		    SecondEntry.COLUMN_NAME_THUMBNAIL_PATH
-		    };
-
-		// How you want the results sorted in the resulting Cursor
-		String sortOrder = null;
-
-		Cursor c = db.query(
-		    SecondEntry.TABLE_NAME,  				  // The table to query
-		    projection,                               // The columns to return
-		    SecondEntry._ID+"=?",		  			  // The columns for the WHERE clause
-		    new String[]{ Long.toString(rowId) },     // The values for the WHERE clause
-		    null,                                     // don't group the rows
-		    null,                                     // don't filter by row groups
-		    sortOrder                                 // The sort order
-		    );
-		
-		if (c.moveToFirst()) {
-			db.close();
-			return new Second(c);
-		}
-		return null;
-	}
-	
-
 	public static Second getSecondByUid(Context context, String uid){
 		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-		// Define a projection that specifies which columns from the database
-		// you will actually use after this query.
-		String[] projection = {
-			SecondEntry._ID,
-		    SecondEntry.COLUMN_NAME_SECOND_ID,
-		    SecondEntry.COLUMN_NAME_DATE,
-		    SecondEntry.COLUMN_NAME_VIDEO_PATH,
-		    SecondEntry.COLUMN_NAME_THUMBNAIL_PATH
-		    };
+		String[] projection = KitchenContract.FULL_SECOND_PROJECTION;
 
 		// How you want the results sorted in the resulting Cursor
 		String sortOrder = null;
@@ -200,63 +113,15 @@ public class Kitchen {
 		Log.v("getsecbyuid", "null");
 		return null;
 	}
-	
-	// Makes cursor to view one Cake
-	public static Cake getCakeById(Context context, Long rowId){
-		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
-		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-	
-		// Define a projection that specifies which columns from the database
-		// you will actually use after this query.
-		String[] projection = {
-			CakeEntry._ID,
-		    CakeEntry.COLUMN_NAME_CAKE_ID,
-		    CakeEntry.COLUMN_NAME_TITLE,
-		    CakeEntry.COLUMN_NAME_DATE,
-		    CakeEntry.COLUMN_NAME_VIDEO_PATH,
-		    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
-		    };
-	
-		// How you want the results sorted in the resulting Cursor
-		String sortOrder = null;
-	
-		Cursor c = db.query(
-		    CakeEntry.TABLE_NAME,  				  // The table to query
-		    projection,                               // The columns to return
-		    CakeEntry._ID+"=?",		  			  // The columns for the WHERE clause
-		    new String[]{ Long.toString(rowId) },     // The values for the WHERE clause
-		    null,                                     // don't group the rows
-		    null,                                     // don't filter by row groups
-		    sortOrder                                 // The sort order
-		    );
-		
-		if (c.moveToFirst()) {
-			db.close();
-			return new Cake(c);
-		}
-		return null;
-	}
 
 	public static Cake getCakeByUid(Context context, String uid){
 		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-		// Define a projection that specifies which columns from the database
-		// you will actually use after this query.
-		String[] projection = {
-				CakeEntry._ID,
-			    CakeEntry.COLUMN_NAME_CAKE_ID,
-			    CakeEntry.COLUMN_NAME_TITLE,
-			    CakeEntry.COLUMN_NAME_DATE,
-			    CakeEntry.COLUMN_NAME_VIDEO_PATH,
-			    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
-			    };
-
-		// How you want the results sorted in the resulting Cursor
+		String[] projection = KitchenContract.FULL_CAKE_PROJECTION;
 		String sortOrder = null;
 
 		Cursor c = db.query(
-		    CakeEntry.TABLE_NAME,  // The table to query
+		    CakeEntry.TABLE_NAME,  					  // The table to query
 		    projection,                               // The columns to return
 		    CakeEntry.COLUMN_NAME_CAKE_ID+"=?",		  // The columns for the WHERE clause
 		    new String[]{ uid },                         		   // The values for the WHERE clause
@@ -267,7 +132,6 @@ public class Kitchen {
 		
 		if (c.moveToFirst()) {
 			db.close();
-			Log.v("getsecbyuid", "new second(c)");
 			return new Cake(c);
 		}
 		Log.v("getsecbyuid", "null");
@@ -277,18 +141,9 @@ public class Kitchen {
 	public static List<String> getSprinklesByUid(Context context, String uid){
 		KitchenSprinkleDbHelper dbHelper = new KitchenSprinkleDbHelper(context);
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-		// Define a projection that specifies which columns from the database
-		// you will actually use after this query.
-		String[] projection = {
-				SprinkleEntry._ID,
-				SprinkleEntry.COLUMN_NAME_VIDEO_ID,
-				SprinkleEntry.COLUMN_NAME_TAG
-			    };
-
-		// How you want the results sorted in the resulting Cursor
+		String[] projection = KitchenContract.FULL_SPRINKLE_PROJECTION;
 		String sortOrder = null;
-
+	
 		Cursor c = db.query(
 		    SprinkleEntry.TABLE_NAME,  					// The table to query
 		    projection,                               	// The columns to return
@@ -311,8 +166,7 @@ public class Kitchen {
 		
 		return sprinklesList;
 	}
-	
-	
+
 	// Makes cursor to view all seconds	
 	public static Cursor getSecondsCursor(Context context) {
 		KitchenSecondDbHelper mDbHelper = new KitchenSecondDbHelper(context);
@@ -320,13 +174,7 @@ public class Kitchen {
 
 		// Define a projection that specifies which columns from the database
 		// you will actually use after this query.
-		String[] projection = {
-			SecondEntry._ID,
-		    SecondEntry.COLUMN_NAME_SECOND_ID,
-		    SecondEntry.COLUMN_NAME_DATE,
-		    SecondEntry.COLUMN_NAME_VIDEO_PATH,
-		    SecondEntry.COLUMN_NAME_THUMBNAIL_PATH
-		    };
+		String[] projection = KitchenContract.FULL_SECOND_PROJECTION;
 
 		// How you want the results sorted in the resulting Cursor
 		String sortOrder = SecondEntry._ID + " DESC";
@@ -350,14 +198,7 @@ public class Kitchen {
 
 		// Define a projection that specifies which columns from the database
 		// you will actually use after this query.
-		String[] projection = {
-			CakeEntry._ID,
-		    CakeEntry.COLUMN_NAME_CAKE_ID,
-		    CakeEntry.COLUMN_NAME_TITLE,
-		    CakeEntry.COLUMN_NAME_DATE,
-		    CakeEntry.COLUMN_NAME_VIDEO_PATH,
-		    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
-		    };
+		String[] projection = KitchenContract.FULL_CAKE_PROJECTION;
 		
 		Log.v("getcakescursor", "making cake cursor");
 
@@ -392,5 +233,22 @@ public class Kitchen {
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
+	}
+
+	public static void updateCakeTitle(Context context, Cake cake) {
+		// Prepare the Cake DB for insert
+		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(CakeEntry.COLUMN_NAME_TITLE, cake.getTitle());
+		Log.v("updateCakeTitle", "title is " + cake.getTitle());
+	
+		// Insert the new row
+		db.update(
+		         CakeEntry.TABLE_NAME,					// table name
+		         values,								// values to update to
+		         CakeEntry.COLUMN_NAME_CAKE_ID+"=?",					// WHERE clause
+		         new String[]{ cake.getId() });	// WHERE arguments
+		db.close();
 	}
 }

@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:radius="10dp"
         android:background="@drawable/button_background"
-        android:onClick="takeSecond" />
+        android:onClick="takeSecond"  />
     
     <Button
         android:id="@+id/viewSeconds"

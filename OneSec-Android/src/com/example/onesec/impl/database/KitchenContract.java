@@ -34,6 +34,14 @@ public final class KitchenContract {
 		public static final String COLUMN_NAME_NULLABLE = "null";
 	}
 	
+	public static final String[] FULL_SECOND_PROJECTION = new String[] {
+		SecondEntry._ID,
+	    SecondEntry.COLUMN_NAME_SECOND_ID,
+	    SecondEntry.COLUMN_NAME_DATE,
+	    SecondEntry.COLUMN_NAME_VIDEO_PATH,
+	    SecondEntry.COLUMN_NAME_THUMBNAIL_PATH
+	    };
+	
 	// Define Cake table contents
 	public static abstract class CakeEntry implements BaseColumns {
 		public static final String TABLE_NAME = "cake";
@@ -46,6 +54,15 @@ public final class KitchenContract {
 		public static final String COLUMN_NAME_NULLABLE = "null";
 	}
 	
+	public static final String[] FULL_CAKE_PROJECTION = new String [] {
+		CakeEntry._ID,
+	    CakeEntry.COLUMN_NAME_CAKE_ID,
+	    CakeEntry.COLUMN_NAME_TITLE,
+	    CakeEntry.COLUMN_NAME_DATE,
+	    CakeEntry.COLUMN_NAME_VIDEO_PATH,
+	    CakeEntry.COLUMN_NAME_THUMBNAIL_PATH
+	    };
+	
 	// Define Sprinkle table contents
 	public static abstract class SprinkleEntry implements BaseColumns {
 		public static final String TABLE_NAME = "sprinkle";
@@ -53,5 +70,11 @@ public final class KitchenContract {
 		public static final String COLUMN_NAME_TAG = "tag";
 		public static final String COLUMN_NAME_NULLABLE = "null";
 	}
+	
+	public static final String[] FULL_SPRINKLE_PROJECTION = new String[] {
+		SprinkleEntry._ID,
+		SprinkleEntry.COLUMN_NAME_VIDEO_ID,
+		SprinkleEntry.COLUMN_NAME_TAG
+	    };
 	
 }

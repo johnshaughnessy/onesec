@@ -1,0 +1,237 @@
+package com.example.onesec.impl.cake;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+
+import com.example.onesec.Kitchen;
+import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec.impl.database.KitchenContract.CakeEntry;
+import com.example.onesec.impl.util.Utilities;
+
+public class Cake {
+	
+//	private static final int MEDIA_TYPE_VIDEO = 0;
+//	private static final int MEDIA_TYPE_THUMBNAIL = 1;
+	
+	private String id;
+	public String title;
+	private Date date;
+	private Batter batter;
+	private Uri videoUri;
+	private Uri thumbnailUri;
+	private Uri batterUri;
+	
+//	public Cake() {
+//		id = generateId();
+//		date = new Date();
+//		title = date.toString();
+//		videoUri = makeVideoUri(date);
+//		thumbnailUri = makeThumbnailUri(date);
+//		batter = new Batter();
+//	}
+	
+//	public Cake(Batter b, Uri vUri, Uri tUri) {
+//		id = generateId();
+//		date = new Date();
+//		title = date.toString();
+//		videoUri = vUri;
+//		thumbnailUri = tUri;
+//		batter = b;
+//		batterUri = b.getUri();
+//		Log.v("cake 4 constructor", "id is " + id);
+//		Log.v("cake 4 constructor", "date is " + date);
+//		Log.v("cake 4 constructor", "videoUri is " + videoUri);
+//		Log.v("cake 4 constructor", "thumbnailUri is " + thumbnailUri);
+//	}
+	
+	public Cake(Cursor c){
+		id = c.getString(KitchenContract.CAKE_ID_COL_NUM);
+		title = c.getString(KitchenContract.CAKE_TITLE_COL_NUM);
+		date = Utilities.stringToDate(c.getString(KitchenContract.CAKE_DATE_COL_NUM));
+		videoUri = Uri.fromFile(new File(c.getString(KitchenContract.CAKE_VIDEO_PATH_COL_NUM)));
+		thumbnailUri = Uri.fromFile(new File(c.getString(KitchenContract.CAKE_THUMBNAIL_PATH_COL_NUM)));
+	}
+	
+	private String generateId() {
+		return "CAKE_" +(new Random()).nextInt();
+	}
+
+//	/** Create a file URI for saving an image or video */
+//    private static Uri makeVideoUri(Date date){
+//    	return Uri.fromFile(makeCakeFile(date, MEDIA_TYPE_VIDEO));
+//    }
+//    
+//    /** Create a file URI for saving an image or video */
+//    private static Uri makeThumbnailUri(Date date){
+//          return Uri.fromFile(makeCakeFile(date, MEDIA_TYPE_THUMBNAIL));
+//    }
+
+//	/** Create a File for saving an image or video */
+//    private static File makeCakeFile(Date date, int type){    	
+//    	if(!isExternalStorageWritable()) {
+//    		// TODO error - can't write to external storage
+//    		Log.v("makeCakeFile", "external storage isn't writable");
+//    		return null;
+//    	}
+//    	
+//		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//				Environment.DIRECTORY_MOVIES), "OneSec/Cakes");
+//		
+//		// Create the storage directory if it does not exist
+//		if (! mediaStorageDir.exists()){
+//			if (!mediaStorageDir.mkdirs()){
+//				Log.d("OneSec", "failed to create OneSec/Cakes directory");
+//				return null;
+//			}
+//		}
+//
+//        // Create a media file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date);
+//        Log.v("makeCakeFile", "timestamp is " + timeStamp);
+//        Log.v("makeCakeFile", "type is " + type);
+//        
+//        File mediaFile;
+//       
+//        if (type == MEDIA_TYPE_VIDEO){
+//        	mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+//        	"VID_"+ timeStamp + ".mp4");
+//        } else if (type == MEDIA_TYPE_THUMBNAIL){
+//        	mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+//            "PIC_"+ timeStamp + ".png");
+//        } else {
+//        	Log.d("OneSec", "failed to create cake mediaFile");
+//        	return null;
+//        }
+//        
+//        return mediaFile;
+//    }
+
+	private boolean createThumbnail() {
+		File thumbnailFile = new File(thumbnailUri.getPath());
+		
+		if(!thumbnailFile.exists()){
+			Bitmap thumbBmp = ThumbnailUtils.createVideoThumbnail(videoUri.getPath(), 1);
+			FileOutputStream out;
+			try{
+				out = new FileOutputStream(thumbnailFile);
+				thumbBmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/* Checks if external storage is available for read and write */
+	public static boolean isExternalStorageWritable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
+
+	/* Checks if external storage is available to at least read */
+	public static boolean isExternalStorageReadable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state) ||
+	        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	public String getTagsString(Context context, String cakeUid) {
+		List<String> sprinklesList = Kitchen.getSprinklesByUid(context, cakeUid);
+		String sprinklesStr = "";
+		if(sprinklesList.size() > 0) {
+			sprinklesStr = sprinklesList.get(0);
+			sprinklesList.remove(0);
+			for(String s : sprinklesList) {
+				sprinklesStr += ", " + s;
+			}			
+		}
+		return sprinklesStr;
+	}
+
+	private boolean videoUriIsValid() {
+		return (new File(videoUri.getPath())).exists();
+	}
+	
+	public boolean isReadyForSave(){
+    	return (videoUriIsValid() && createThumbnail());
+    }
+
+	public Batter getBatter() {
+		return batter;
+	}
+	public void setBatter(Batter batter) {
+		this.batter = batter;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public Uri getVideoUri() {
+		return videoUri;
+	}
+
+	public Uri getThumbnailUri() {
+		return thumbnailUri;
+	}
+	
+	public Bitmap getThumbnail(Context context)
+	{
+		try {
+			return MediaStore.Images.Media.getBitmap(context.getContentResolver(), thumbnailUri);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Uri getBatterUri() {
+		return batterUri;
+	}
+
+	public ContentValues generateContentValues() {
+		ContentValues values = new ContentValues();
+		values.put(CakeEntry.COLUMN_NAME_CAKE_ID, getId());
+		values.put(CakeEntry.COLUMN_NAME_TITLE, getTitle());
+		values.put(CakeEntry.COLUMN_NAME_DATE, Utilities.dateToString(getDate()));
+		values.put(CakeEntry.COLUMN_NAME_VIDEO_PATH, getVideoUri().getPath());
+		values.put(CakeEntry.COLUMN_NAME_THUMBNAIL_PATH, getThumbnailUri().getPath());
+		values.put(CakeEntry.COLUMN_NAME_BATTER_PATH, getBatterUri().getPath());
+		return values;
+	}
+}

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -21,6 +22,7 @@ import android.util.Log;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.database.KitchenContract;
+import com.example.onesec.impl.database.KitchenContract.SecondEntry;
 import com.example.onesec.impl.util.Utilities;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
@@ -204,6 +206,15 @@ public class Second {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public ContentValues generateContentValues() {
+		ContentValues values = new ContentValues();
+		values.put(SecondEntry.COLUMN_NAME_SECOND_ID, getId());
+		values.put(SecondEntry.COLUMN_NAME_DATE, Utilities.dateToString(getDate()));
+		values.put(SecondEntry.COLUMN_NAME_VIDEO_PATH, getVideoUri().getPath());
+		values.put(SecondEntry.COLUMN_NAME_THUMBNAIL_PATH, getThumbnailUri().getPath());
+		return values;
 	}
 
 }

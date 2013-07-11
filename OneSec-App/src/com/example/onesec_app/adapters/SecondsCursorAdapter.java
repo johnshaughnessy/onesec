@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.example.onesec.Kitchen;
 import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec.impl.second.Second;
 import com.example.onesec.impl.util.Utilities;
@@ -81,8 +80,8 @@ public class SecondsCursorAdapter extends SimpleCursorAdapter {
         String niceDate = Utilities.getNiceTime(dateStr) + " on " + Utilities.getNiceDate(dateStr);
         holder.dateView.setText(niceDate);
         
-        String uid = cursor.getString(KitchenContract.SECOND_ID_COL_NUM);
-        Second second = Kitchen.getSecondByUid(context, uid);
+        Second second = new Second(cursor);
+        String uid = second.getId();
         String tags = second.getTagsString(context, uid);
         holder.tagsView.setText(tags);
     }

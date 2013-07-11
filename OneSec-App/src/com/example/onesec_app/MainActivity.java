@@ -41,8 +41,7 @@ public class MainActivity extends Activity {
     
     @Override
     protected void onRestoreInstanceState (Bundle savedInstanceState){
-    	if (savedInstanceState.containsKey("newRowId")){
-//    		newRowId = savedInstanceState.getLong("newRowId");
+    	if (savedInstanceState.containsKey("second_uid")){
     		uid = savedInstanceState.getString("second_uid");
     		second = Kitchen.getSecondByUid(this, uid);
     	}
@@ -57,7 +56,6 @@ public class MainActivity extends Activity {
     			// Send ID to NewSecondActivity and start activity
     			Kitchen.saveSecondToLocalDb(this, second);
     			Intent intent = new Intent(this, NewSecondActivity.class);
-//    			intent.putExtra("newRowId", Kitchen.saveSecondToLocalDb(this, second));
     			intent.putExtra("second_uid", second.getId());
     			startActivity(intent);
     		}
