@@ -1,21 +1,57 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" 
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="10dp">
-    
-     <ImageView android:id="@+id/cakeThumbnail"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <!-- Thumbnail on left -->
+    <ImageView
+        android:id="@+id/cakeThumbnail"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp" />
-     
-     <TextView android:id="@+id/cakeTitle"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip" />
+    
+    <!-- Cake title -->
+    <TextView
+        android:id="@+id/cakeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/cakeThumbnail"
+        android:layout_toRightOf="@id/cakeThumbnail"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+        android:textStyle="bold"/>
+    
+    <!-- Cake date -->
+    <TextView
+        android:id="@+id/cakeDate"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
-        
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cakeTitle"
+        android:textColor="#343434"
+        android:textSize="10dip"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@id/cakeThumbnail" />
+    
+    <!-- Cake tags -->
+    <TextView
+        android:id="@+id/cakeTags"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cakeDate"
+        android:textColor="#343434"
+        android:textSize="12dip"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@id/cakeThumbnail" />
+    
+    <!-- Rightend Arrow -->
+    <ImageView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

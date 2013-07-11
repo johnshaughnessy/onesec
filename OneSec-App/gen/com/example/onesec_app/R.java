@@ -19,18 +19,26 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f040000;
         public static final int activity_vertical_margin=0x7f040001;
+        /**   ListView screen margins 
+         */
+        public static final int listview_horizontal_margin=0x7f040002;
+        public static final int listview_vertical_margin=0x7f040003;
     }
     public static final class drawable {
-        public static final int ic_device_access_camera_dark=0x7f020000;
-        public static final int ic_device_access_camera_light=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int ic_navigation_accept=0x7f020003;
+        public static final int button_background=0x7f020000;
+        public static final int ic_arrow=0x7f020001;
+        public static final int ic_device_access_camera_dark=0x7f020002;
+        public static final int ic_device_access_camera_light=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int ic_navigation_accept=0x7f020005;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f05001f;
-        public static final int action_settings=0x7f050020;
+        public static final int action_forgot_password=0x7f050022;
+        public static final int action_settings=0x7f050023;
         public static final int addTag=0x7f050014;
         public static final int bake_cake=0x7f050019;
+        public static final int cakeDate=0x7f05001d;
+        public static final int cakeTags=0x7f05001e;
         public static final int cakeThumbnail=0x7f05001b;
         public static final int cakeTitle=0x7f05001c;
         public static final int cakesListView=0x7f050017;
@@ -46,8 +54,9 @@ public final class R {
         public static final int newCakeSprinkle=0x7f050012;
         public static final int newSecSprinkle=0x7f050015;
         public static final int password=0x7f050005;
-        public static final int secondDate=0x7f05001e;
-        public static final int secondThumbnail=0x7f05001d;
+        public static final int secondDate=0x7f050020;
+        public static final int secondTags=0x7f050021;
+        public static final int secondThumbnail=0x7f05001f;
         public static final int secondsListView=0x7f05001a;
         public static final int select_seconds=0x7f050018;
         public static final int sign_in_button=0x7f050007;

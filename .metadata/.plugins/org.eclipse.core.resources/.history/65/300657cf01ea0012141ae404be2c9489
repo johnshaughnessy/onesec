@@ -1,0 +1,117 @@
+package com.example.onesec_app;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+
+import com.example.onesec.Kitchen;
+import com.example.onesec.impl.http.SyncManager;
+import com.example.onesec.impl.http.TokenManager;
+import com.example.onesec.impl.second.Second;
+
+public class MainActivity extends Activity {
+	
+	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
+	public static final int MEDIA_TYPE_VIDEO = 2;
+	private Second second;
+	@SuppressWarnings("unused")
+	private Kitchen kitchen;
+	String token;
+	Context context = this;
+	private String uid;
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+    }
+    
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState){
+    	if (uid != null){
+//    		outState.putLong("newRowId", newRowId);
+    		outState.putString("second_uid", second.getId());
+    	}
+    	
+    	super.onSaveInstanceState(outState);
+    }
+    
+    @Override
+    protected void onRestoreInstanceState (Bundle savedInstanceState){
+    	if (savedInstanceState.containsKey("newRowId")){
+//    		newRowId = savedInstanceState.getLong("newRowId");
+    		uid = savedInstanceState.getString("second_uid");
+    		second = Kitchen.getSecondByUid(this, uid);
+    	}
+    	super.onRestoreInstanceState(savedInstanceState);
+    	
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+    		if(resultCode == RESULT_OK) {   			 
+    			// Send ID to NewSecondActivity and start activity
+    			Kitchen.saveSecondToLocalDb(this, second);
+    			Intent intent = new Intent(this, NewSecondActivity.class);
+//    			intent.putExtra("newRowId", Kitchen.saveSecondToLocalDb(this, second));
+    			intent.putExtra("second_uid", second.getId());
+    			startActivity(intent);
+    		}
+    		else if(resultCode == RESULT_CANCELED) {
+    			// User cancelled video capture
+    		}
+    		else {
+    			// Video capture failed 
+    		}
+    	} 
+    }
+    
+    public void takeSecond(View v) {
+    	second = new Second();
+    	Kitchen.saveSecondToLocalDb(this, second);
+    	uid = second.getId();
+    	
+    	// Create Intent to capture video
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, second.getVideoUri());
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
+        
+    	startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+    }
+    
+    public void viewSeconds(View v) {
+    	// Create Intent to go to ViewSecondsActivity
+    	Intent intent = new Intent(this, ViewSecondsActivity.class);
+    	startActivity(intent);
+    }
+    
+    public void viewCakes(View v) {
+    	// Create intent to go to ViewCakesActivity
+    	Intent intent = new Intent(this, ViewCakesActivity.class);
+    	startActivity(intent);
+    }
+    
+    public void syncSeconds(View v){
+    	@SuppressWarnings("unused")
+		SyncManager manager = new SyncManager(this);
+    	SyncManager.syncAllSeconds(); 
+    }
+    
+    public void forgetToken(View v){
+    	TokenManager.forgetToken(context);
+		Log.v("forgetToken", "forgetting token");
+    }
+    
+    public void signIn(View v){
+    	Intent intent = new Intent(context, LoginActivity.class);
+		startActivity(intent);
+    }
+}
