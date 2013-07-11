@@ -32,5 +32,33 @@
         android:background="@drawable/ic_navigation_accept"
         android:onClick="viewSeconds" />
 
+    <EditText
+        android:id="@+id/newSecSprinkle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/uploadSecond"
+        android:layout_marginBottom="28dp"
+        android:layout_toLeftOf="@+id/done"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/addTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/done"
+        android:layout_alignLeft="@+id/date"
+        android:onClick="addTag"
+        android:text="addTag" />
+
+    <Button
+        android:id="@+id/uploadSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/addTag"
+        android:layout_alignBottom="@+id/addTag"
+        android:layout_toLeftOf="@+id/addTag"
+        android:onClick="uploadSecond"
+        android:text="uploadSecond" />
+
 </RelativeLayout>
 

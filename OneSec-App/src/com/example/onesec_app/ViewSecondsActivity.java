@@ -2,7 +2,6 @@ package com.example.onesec_app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
@@ -21,18 +20,15 @@ import com.example.onesec.Kitchen;
 import com.example.onesec.impl.cake.Batter;
 import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenContract;
-import com.example.onesec.impl.http.OneSecRestClient;
-import com.example.onesec.impl.http.TokenManager;
 import com.example.onesec.impl.second.Second;
 import com.example.onesec_app.adapters.SecondsCursorAdapter;
-import com.loopj.android.http.RequestParams;
 
 public class ViewSecondsActivity extends Activity {
 
 //	private ListView secondsListView;
 	private Batter batter;
 	private boolean selectorOn;
-	private Context mContext;
+//	private Context mContext;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +97,7 @@ public class ViewSecondsActivity extends Activity {
 		//Kitchen.saveCakeToLocalDb(this, cake);
 		Kitchen.writeBatterToFile(this, batter);
 		
-		// Upload Cake to Server
-		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake[uid]"}, 
-							   								new String[] {TokenManager.getToken(this), cake.getId()});
-		params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.CAKES_VIDEO_TYPE, cake.getVideoUri());
-		OneSecRestClient.post("mobile_cakes", params, OneSecRestClient.GENERIC_RESPONSE_HANDLER);
+		
 		
 		Intent intent = new Intent(this, NewCakeActivity.class);
 		intent.putExtra("newRowId", Kitchen.saveCakeToLocalDb(this, cake));

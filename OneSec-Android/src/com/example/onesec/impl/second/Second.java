@@ -33,15 +33,13 @@ public class Second {
 	private Uri thumbnailUri;
 	private Date date;
 	
-	// FUCKIN SEXY AS SHIT CONSTRUCTIFYIERS
 	public Second(){
 		id = generateId();
 		date = new Date();
 		videoUri = makeVideoUri(date);
 		thumbnailUri = makeThumbnailUri(date);
 	}
-	
-	// HOTT
+
 	public Second(String id, Date date, Uri vUri, Uri tUri){
 		this.id = id;
 		this.date = date;
@@ -49,7 +47,6 @@ public class Second {
 		thumbnailUri = tUri;
 	}
 	
-	// TODO ME #AHHHH.... SFO
 	public Second(Cursor c){
 		id = c.getString(KitchenContract.SECOND_ID_COL_NUM);
 		date = Utilities.stringToDate(c.getString(KitchenContract.SECOND_DATE_COL_NUM));
@@ -112,16 +109,6 @@ public class Second {
         return mediaFile;
     }
 	
-    
-//    public long addToKitchen(Context context){
-//    	Log.v("second", "preparing to add to kitchen");
-//    	if (videoUriIsValid() && createThumbnail()){
-//    		Kitchen.saveSecondToLocalDb(this);
-//    	}
-//    	Log.v("second", "failed to add to kitchen");
-//    	return -1;
-//    }
-//    
     public boolean isReadyForSave(){
     	return (videoUriIsValid() && createThumbnail());
     }
@@ -184,7 +171,6 @@ public class Second {
 		return date;
 	}
 	
-	@SuppressWarnings("resource")
 	public Movie getMovie() throws FileNotFoundException, IOException {
 		// TODO Figure out why everything throws exceptions and requires suppression.
 		Movie movie = MovieCreator.build(videoUri.getPath());

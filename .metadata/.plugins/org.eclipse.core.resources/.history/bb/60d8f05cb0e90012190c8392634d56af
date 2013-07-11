@@ -1,0 +1,34 @@
+package com.example.onesec.impl.http;
+
+import android.util.Log;
+
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+public class Sync {
+	public static AsyncHttpResponseHandler SyncResponseHandler = new AsyncHttpResponseHandler(){
+			@Override
+			public void onStart() {
+				Log.v(tag + " response handler", "onStart()");
+				super.onStart();
+			}
+			@Override
+			public void onSuccess(String response) {
+				Log.v(tag + " response handler", "onSuccess() has the response: \n" + response);
+			}
+			
+			@Override
+			public void onFailure(Throwable e, String response) {
+				Log.v(tag + " response handler", "onFailure() has the response: \n" + response + "\n\n");
+				e.printStackTrace();
+				super.onFailure(e, response);
+			}
+			
+			@Override
+			public void onFinish() {
+				// Completed the request (either success or failure)
+				Log.v(tag + " response handler", "onFinish()");
+				super.onFinish();
+			}
+		};
+		
+}

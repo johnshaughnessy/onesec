@@ -1,8 +1,10 @@
 package com.example.onesec_app;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -11,14 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.onesec.Kitchen;
-import com.example.onesec.impl.http.OneSecRestClient;
+import com.example.onesec.impl.http.SyncManager;
 import com.example.onesec.impl.http.TokenManager;
 import com.example.onesec.impl.second.Second;
-import com.example.onesec.impl.util.Utilities;
-import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends Activity {
 	
@@ -35,23 +34,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        TextView loginStatus = (TextView)findViewById(R.id.login_status);
-        
-        // Restore preferences
-        SharedPreferences tokenPrefs = getSharedPreferences("token preferences", 0);
-//        
-//        if (TokenManager.getToken(this).equals(TokenManager.NOTOKEN)){
-//        	Log.v("onCreate", "no token was found");
-//        	TokenManager.generateAndSaveToken(this, "a@ex.com", "password");
-//        } 
-        
-//        if(TokenManager.getToken(this).equals(TokenManager.NOTOKEN)) {
-//        	loginStatus.setText("You are not logged in.");
-//        }
-//        else {
-//        	loginStatus.setText("You are logged in :)");
-//        }
         
         Button forgetToken = (Button) findViewById(R.id.forget_token);
         forgetToken.setOnClickListener(new OnClickListener(){
@@ -120,12 +102,7 @@ public class MainActivity extends Activity {
     			// TODO put this in addToKitchen later
     			// OneSecRestClientUsage client = new OneSecRestClientUsage();
     			// client.saveSecondToServer(second);
-    			
-    			// Upload Second to Server
-    			RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "second[uid]", "second[date]"}, 
-    								   								new String[] {TokenManager.getToken(this), second.getId(), Utilities.dateToString(second.getDate())});
-    			params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.SECONDS_VIDEO_TYPE, second.getVideoUri());
-    			OneSecRestClient.post("mobile_seconds", params, OneSecRestClient.GENERIC_RESPONSE_HANDLER);
+    		
     			
     			 
     			// Send ID to NewSecondActivity and start activity
@@ -137,9 +114,9 @@ public class MainActivity extends Activity {
     			// User cancelled video capture
     		}
     		else {
-    			// Video capture failed
+    			// Video capture failed 
     		}
-    	}
+    	} 
     }
     
     public void takeSecond(View v) {
@@ -166,6 +143,11 @@ public class MainActivity extends Activity {
     	// Create intent to go to ViewCakesActivity
     	Intent intent = new Intent(this, ViewCakesActivity.class);
     	startActivity(intent);
+    }
+    
+    public void syncSeconds(View v){
+    	SyncManager manager = new SyncManager(this);
+    	SyncManager.syncAllSeconds(); 
     }
 
 }

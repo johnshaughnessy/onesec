@@ -11,36 +11,40 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class OneSecRestClient {
+	
     private static final String BASE_URL = "http://54.218.123.27:3000/";
 	public static final String SECONDS_VIDEO_TYPE = "second";
 	public static final String CAKES_VIDEO_TYPE = "cake";
 	
-	public static final AsyncHttpResponseHandler GENERIC_RESPONSE_HANDLER = new AsyncHttpResponseHandler(){
-		@Override
-		public void onStart() {
-			Log.v("generic response handler", "onStart()");
-			super.onStart();
-		}
-		@Override
-		public void onSuccess(String response) {
-			Log.v("generic response handler", "onSuccess() has the response: " + response);
-		}
+	public static AsyncHttpResponseHandler getResponseHandler(String... responseHandler){
+		final String tag = (responseHandler.length > 0) ? responseHandler[0] : "generic";
+		return new AsyncHttpResponseHandler(){
+			@Override
+			public void onStart() {
+				Log.v(tag + " response handler", "onStart()");
+				super.onStart();
+			}
+			@Override
+			public void onSuccess(String response) {
+				Log.v(tag + " response handler", "onSuccess() has the response: \n" + response);
+			}
+			
+			@Override
+			public void onFailure(Throwable e, String response) {
+				Log.v(tag + " response handler", "onFailure() has the response: \n" + response + "\n\n");
+				e.printStackTrace();
+				super.onFailure(e, response);
+			}
+			
+			@Override
+			public void onFinish() {
+				// Completed the request (either success or failure)
+				Log.v(tag + " response handler", "onFinish()");
+				super.onFinish();
+			}
+		};
 		
-		@Override
-		public void onFailure(Throwable e, String response) {
-			// Response failed :(
-			Log.v("generic response handler", "onFailure() has the response: " + response);
-			e.printStackTrace();
-			super.onFailure(e, response);
-		}
-		
-		@Override
-		public void onFinish() {
-			// Completed the request (either success or failure)
-			Log.v("generic response handler", "onFinish()");
-			super.onFinish();
-		}
-	};
+	}
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -52,6 +56,7 @@ public class OneSecRestClient {
     	client.setTimeout(30000);
       	client.post(getAbsoluteUrl(url), params, responseHandler);
     }
+
 
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;

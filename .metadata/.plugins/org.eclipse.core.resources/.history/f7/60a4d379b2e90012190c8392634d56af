@@ -1,0 +1,66 @@
+package com.example.onesec.impl.http;
+
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.example.onesec.impl.second.Second;
+import com.example.onesec.impl.util.Utilities;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+public class SyncManager {
+	
+	private static ArrayList<Second> secondsToSync = new ArrayList<Second>();
+	private Context ctx;
+	
+	public SyncManager(ArrayList<Second> seconds, Context ctx){
+		secondsToSync = seconds;
+		ctx = ctx;
+	}
+	
+	private static AsyncHttpResponseHandler SyncResponseHandler = new AsyncHttpResponseHandler(){
+			String tag = "Sync";
+			@Override
+			public void onStart() {
+				Log.v(tag + " response handler", "onStart()");
+				super.onStart();
+			}
+			@Override
+			public void onSuccess(String response) {
+				Log.v(tag + " response handler", "onSuccess() has the response: \n" + response);
+			}
+			
+			@Override
+			public void onFailure(Throwable e, String response) {
+				Log.v(tag + " response handler", "onFailure() has the response: \n" + response + "\n\n");
+				e.printStackTrace();
+				super.onFailure(e, response);
+			}
+			
+			@Override
+			public void onFinish() {
+
+				// Completed the request (either success or failure)
+				Log.v(tag + " response handler", "onFinish()");
+				super.onFinish();
+				syncNextSecond();
+			}
+		};
+		
+	public static void syncNextSecond(){
+		if (secondsToSync.isEmpty()){
+			Log.v("Sync", "is complete");
+			return;
+		}
+		
+		Second nextSecond = secondsToSync.get(0);
+		secondsToSync.remove(0);
+		
+		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "second[uid]", "second[date]"}, 
+					new String[] {TokenManager.getToken(ctx), nextSecond.getId(), Utilities.dateToString(nextSecond.getDate())});
+		params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.SECONDS_VIDEO_TYPE, second.getVideoUri());
+		OneSecRestClient.post("mobile_seconds", params, SyncResponseHandler);
+	}
+}

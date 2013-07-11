@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,10 @@ import android.widget.TextView;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.cake.Cake;
+import com.example.onesec.impl.http.OneSecRestClient;
+import com.example.onesec.impl.http.TokenManager;
 import com.example.onesec.impl.util.Utilities;
+import com.loopj.android.http.RequestParams;
 
 public class NewCakeActivity extends Activity {
 
@@ -28,6 +30,7 @@ public class NewCakeActivity extends Activity {
 	public TextView dateView;
 	public Button done;
 	private long rowId;
+	public EditText newCakeSprinkle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class NewCakeActivity extends Activity {
 		titleEdit = (EditText)findViewById(R.id.title);
 		dateView = (TextView)findViewById(R.id.date);
 		done = (Button)findViewById(R.id.done);
+		newCakeSprinkle = (EditText) findViewById(R.id.newCakeSprinkle);
 		
 		rowId = getIntent().getLongExtra("newRowId", -2);	// get ID from intent
 		System.out.println("Id is " + rowId);
@@ -128,6 +132,26 @@ public class NewCakeActivity extends Activity {
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setDataAndType(cake.getVideoUri(), "video/mp4");
 		startActivity(intent);
+	}
+	
+	public void uploadCake(View view){
+		Cake cake = Kitchen.getCakeById(this, rowId);
+		
+		// Upload Cake to Server
+				RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake[uid]"}, 
+									   								new String[] {TokenManager.getToken(this), cake.getId()});
+				params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.CAKES_VIDEO_TYPE, cake.getVideoUri());
+				OneSecRestClient.post("mobile_cakes", params, OneSecRestClient.getResponseHandler("uploadCake"));
+	}
+	
+	public void addTag(View view){
+		Cake cake = Kitchen.getCakeById(this, rowId);
+		String sprinkleTag = newCakeSprinkle.getText().toString();
+		// Upload Second to Server
+		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake_uid", "sprinkle_tag"}, 
+							   								new String[] {TokenManager.getToken(this), cake.getId(), sprinkleTag});
+		OneSecRestClient.post("mobile_cake_sprinkles", params, OneSecRestClient.getResponseHandler("addTag"));
+		//newCakeSprinkle.setText("");
 	}
 
 }

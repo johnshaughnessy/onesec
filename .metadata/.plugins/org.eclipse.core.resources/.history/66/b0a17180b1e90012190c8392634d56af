@@ -1,0 +1,54 @@
+package com.example.onesec.impl.http;
+
+import java.util.ArrayList;
+
+import android.util.Log;
+
+import com.example.onesec.impl.util.Utilities;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+public class Sync {
+	
+	private static ArrayList<String> urls = new ArrayList<String>();
+	
+	public Sync(ArrayList<String> urls){
+		this.urls = urls;
+	}
+	
+	private static AsyncHttpResponseHandler SyncResponseHandler = new AsyncHttpResponseHandler(){
+			@Override
+			public void onStart() {
+				Log.v(tag + " response handler", "onStart()");
+				super.onStart();
+			}
+			@Override
+			public void onSuccess(String response) {
+				Log.v(tag + " response handler", "onSuccess() has the response: \n" + response);
+			}
+			
+			@Override
+			public void onFailure(Throwable e, String response) {
+				Log.v(tag + " response handler", "onFailure() has the response: \n" + response + "\n\n");
+				e.printStackTrace();
+				super.onFailure(e, response);
+			}
+			
+			@Override
+			public void onFinish() {
+				callMe();
+				// Completed the request (either success or failure)
+				Log.v(tag + " response handler", "onFinish()");
+				super.onFinish();
+			}
+		};
+		
+	public static void callMe(){
+		String nextUrl = urls.remove(urls.size()-1);
+		
+		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "second[uid]", "second[date]"}, 
+					new String[] {TokenManager.getToken(this), second.getId(), Utilities.dateToString(second.getDate())});
+		params = OneSecRestClient.addVideoToParams(params, OneSecRestClient.SECONDS_VIDEO_TYPE, second.getVideoUri());
+		OneSecRestClient.post("mobile_seconds", params, SyncResponseHandler);
+	}
+}
