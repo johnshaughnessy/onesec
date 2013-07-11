@@ -5,12 +5,15 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.example.onesec.Kitchen;
+import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec.impl.second.Second;
+import com.example.onesec.impl.util.Utilities;
+import com.example.onesec_app.R;
 
 public class SecondsCursorAdapter extends SimpleCursorAdapter {
 	Context context; 
@@ -51,14 +54,41 @@ public class SecondsCursorAdapter extends SimpleCursorAdapter {
 //		return v;
 //    }
     
-    @Override
-    public void setViewText(TextView textView, String string)
-    {
-    	textView.setText(string);
-    }
+//    @Override
+//    public void setViewText(TextView textView, String dateStr)
+//    {
+//    	textView.setText(Utilities.getNiceTimeWithSecs(dateStr) + " on " + Utilities.getNiceDate(dateStr));
+//    }
+//    
+//    public void setViewImage(ImageView imageView, String thumbnailUri)
+//    {
+//    	imageView.setImageURI(Uri.parse(thumbnailUri));
+//    }
     
-    public void setViewImage(ImageView imageView, String thumbnailUri)
-    {
-    	imageView.setImageURI(Uri.parse(thumbnailUri));
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+        super.bindView(view, context, cursor);
+
+        ViewHolder holder = (ViewHolder) view.getTag();
+        if (holder == null) {
+            holder = new ViewHolder();
+            holder.dateView = (TextView) view.findViewById(R.id.secondDate);
+            holder.tagsView = (TextView) view.findViewById(R.id.secondTags);
+            view.setTag(holder);
+        }
+
+        String dateStr = cursor.getString(KitchenContract.SECOND_DATE_COL_NUM);
+        String niceDate = Utilities.getNiceTime(dateStr) + " on " + Utilities.getNiceDate(dateStr);
+        holder.dateView.setText(niceDate);
+        
+        String uid = cursor.getString(KitchenContract.SECOND_ID_COL_NUM);
+        Second second = Kitchen.getSecondByUid(context, uid);
+        String tags = second.getTagsString(context, uid);
+        holder.tagsView.setText(tags);
+    }
+
+    static class ViewHolder {
+        TextView dateView;
+        TextView tagsView;
     }
 }

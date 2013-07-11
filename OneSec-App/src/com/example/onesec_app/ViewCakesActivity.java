@@ -39,11 +39,11 @@ public class ViewCakesActivity extends Activity {
 		
 		String[] fromColumns = {
 				KitchenContract.CakeEntry.COLUMN_NAME_TITLE,
-//				KitchenContract.CakeEntry.COLUMN_NAME_DATE,
+				KitchenContract.CakeEntry.COLUMN_NAME_DATE,
 				KitchenContract.CakeEntry.COLUMN_NAME_THUMBNAIL_PATH };
 		int[] toViews = {
 				R.id.cakeTitle,
-//				R.id.cakeDate,
+				R.id.cakeDate,
 				R.id.cakeThumbnail };
 		
 		c.moveToFirst();
@@ -52,6 +52,7 @@ public class ViewCakesActivity extends Activity {
 		ListView listView = (ListView)findViewById(R.id.cakesListView);
 		listView.setAdapter(adapter);
 		
+		// Play video on click
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
 				c.moveToPosition(pos);

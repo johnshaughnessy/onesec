@@ -30,11 +30,9 @@ public class MainActivity extends Activity {
 
     }
     
-
     @Override
     protected void onSaveInstanceState (Bundle outState){
     	if (uid != null){
-//    		outState.putLong("newRowId", newRowId);
     		outState.putString("second_uid", second.getId());
     	}
     	
