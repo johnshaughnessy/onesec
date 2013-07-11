@@ -1,0 +1,46 @@
+package com.example.onesec.impl.util;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class Utilities {
+	
+	// Turns Date object to date string
+	public static String dateToString(Date dateObj){
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
+		String dateString = df.format(dateObj);
+		return dateString;
+	}
+	
+	// Turns Date object to nice date string
+	public static String dateToNiceString(Date dateObj){
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm MM/dd/yyyy", Locale.US);
+		String dateString = df.format(dateObj);
+		return dateString;
+	}
+	
+	// Turns date string to Date object
+	public static Date stringToDate(String dateStr){
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
+		Date date = new Date();
+    	try {
+    		date = formatter.parse(dateStr);
+    	} catch (java.text.ParseException e) {
+			
+			e.printStackTrace();
+		}
+    	return date;
+	}
+	
+	// Get date in July 11, 2013 format from yyyyMMdd_HHmmss date string
+	public static String getNiceDate(String fullDate) {
+		
+	}
+	
+	// Get time in 12:15am format from yyyyMMdd_HHMMss date string
+	public static String getNiceTime(String fullDate) {
+		
+	}
+	
+}

@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/takeSecond"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_device_access_camera_dark"
+        android:onClick="takeSecond" />
+    
+    <Button
+        android:id="@+id/viewSeconds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/takeSecond"
+        android:layout_centerHorizontal="true"
+        android:onClick="viewSeconds"
+        android:text="@string/text_viewSeconds" />
+    
+    <Button
+        android:id="@+id/viewCakes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viewSeconds"
+        android:layout_centerHorizontal="true"
+        android:onClick="viewCakes"
+        android:text="@string/text_viewCakes" />
+    
+    <Button 
+        android:id="@+id/forget_token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viewCakes"
+        android:layout_centerHorizontal="true"
+        android:onClick="forgetToken"
+        android:text="@string/forget" />
+
+    <Button 
+        android:id="@+id/signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forget_token"
+        android:layout_centerHorizontal="true"
+        android:onClick="signIn"
+        android:text="@string/sign_in" />
+
+    <TextView
+        android:id="@+id/login_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="23dp" />
+
+    <Button
+        android:id="@+id/syncSeconds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/signin"
+        android:layout_below="@+id/signin"
+        android:onClick="syncSeconds"
+        android:text="@string/syncSeconds" />
+
+</RelativeLayout>

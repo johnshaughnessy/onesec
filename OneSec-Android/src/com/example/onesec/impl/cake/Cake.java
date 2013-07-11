@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -18,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.example.onesec.Kitchen;
 import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec.impl.util.Utilities;
 
@@ -153,6 +155,19 @@ public class Cake {
 	        return true;
 	    }
 	    return false;
+	}
+	
+	public String getTagsString(Context context, String cakeUid) {
+		List<String> sprinklesList = Kitchen.getSprinklesByUid(context, cakeUid);
+		String sprinklesStr = "";
+		if(sprinklesList.size() > 0) {
+			sprinklesStr = sprinklesList.get(0);
+			sprinklesList.remove(0);
+			for(String s : sprinklesList) {
+				sprinklesStr += ", " + s;
+			}			
+		}
+		return sprinklesStr;
 	}
 
 	private boolean videoUriIsValid() {

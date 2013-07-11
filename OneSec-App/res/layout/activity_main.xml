@@ -13,7 +13,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_device_access_camera_dark"
+        android:radius="10dp"
+        android:background="@drawable/button_background"
         android:onClick="takeSecond" />
     
     <Button

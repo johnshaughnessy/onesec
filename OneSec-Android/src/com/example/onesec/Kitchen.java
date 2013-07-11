@@ -2,6 +2,7 @@ package com.example.onesec;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -13,10 +14,10 @@ import android.util.Log;
 import com.example.onesec.impl.cake.Batter;
 import com.example.onesec.impl.cake.Cake;
 import com.example.onesec.impl.database.KitchenCakeDbHelper;
+import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec.impl.database.KitchenContract.CakeEntry;
 import com.example.onesec.impl.database.KitchenContract.SecondEntry;
 import com.example.onesec.impl.database.KitchenContract.SprinkleEntry;
-import com.example.onesec.impl.database.KitchenContract;
 import com.example.onesec.impl.database.KitchenSecondDbHelper;
 import com.example.onesec.impl.database.KitchenSprinkleDbHelper;
 import com.example.onesec.impl.second.Second;
@@ -273,7 +274,7 @@ public class Kitchen {
 		return null;
 	}
 	
-	public static String getSprinkleByUid(Context context, String uid){
+	public static List<String> getSprinklesByUid(Context context, String uid){
 		KitchenSprinkleDbHelper dbHelper = new KitchenSprinkleDbHelper(context);
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -298,11 +299,17 @@ public class Kitchen {
 		    sortOrder                                 	// The sort order
 		    );
 		
-		if(c.moveToFirst()) {
-			db.close();
-			return c.getString(KitchenContract.SPRINKLE_TAG_COL_NUM);
+		List<String> sprinklesList = new ArrayList<String>();
+		if (c.moveToFirst()){
+			do{		// do/while? ew
+				String spr = c.getString(KitchenContract.SPRINKLE_TAG_COL_NUM);
+				sprinklesList.add(spr);
+				Log.v("getSprinklesByUid", "adding " + spr);
+			} while(c.moveToNext());
 		}
-		return null;
+		c.close();
+		
+		return sprinklesList;
 	}
 	
 	
