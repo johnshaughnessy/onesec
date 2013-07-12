@@ -163,6 +163,7 @@ public class Kitchen {
 			} while(c.moveToNext());
 		}
 		c.close();
+		db.close();
 		
 		return sprinklesList;
 	}
@@ -188,10 +189,44 @@ public class Kitchen {
 			    null,					 	// don't filter by row groups
 			    sortOrder				 	// The sort order
 			    );
-		
+
 		return c;
 	}
 	
+	// Returns list of the IDs of all videos (seconds and cakes) with given sprinkle
+	public static ArrayList<String> getUidsBySprinkle(Context context, String sprinkle) {
+		KitchenSprinkleDbHelper mDbHelper = new KitchenSprinkleDbHelper(context);
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+		String[] projection = KitchenContract.FULL_SPRINKLE_PROJECTION;
+		String sortOrder = SprinkleEntry._ID + " DESC";
+		
+		Cursor c = db.query(
+			    SprinkleEntry.TABLE_NAME,  					// The table to query
+			    projection,				 					// The columns to return
+			    SprinkleEntry.COLUMN_NAME_TAG+"=?",			// The columns for the WHERE clause
+			    new String[]{ sprinkle },                   // The values for the WHERE clause
+			    null,					 					// don't group the rows
+			    null,					 					// don't filter by row groups
+			    sortOrder				 					// The sort order
+			    );
+
+		ArrayList<String> uidList = new ArrayList<String>();
+		if (c.moveToFirst()){
+			do{
+				String uid = c.getString(KitchenContract.SPRINKLE_VIDEO_ID_COL_NUM);
+				if(uid.charAt(0) == 'S')
+					Log.v("getUidsBySprinkle", "adding " + uid);
+					uidList.add(uid);		// add uid to list if it's a second
+			} while(c.moveToNext());
+			db.close();
+			c.close();
+		}
+		
+		return uidList;
+	}
+	
+	
+	// Makes cursor to view all cakes
 	public static Cursor getCakesCursor(Context context) {
 		KitchenCakeDbHelper mDbHelper = new KitchenCakeDbHelper(context);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
