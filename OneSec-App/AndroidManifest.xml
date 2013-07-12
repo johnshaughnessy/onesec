@@ -63,7 +63,6 @@
         <activity
             android:name="com.example.onesec_app.ViewCakesActivity"
             android:label="@string/title_activity_view_cakes"
-            android:launchMode="singleTop"
             android:parentActivityName="com.example.onesec_app.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

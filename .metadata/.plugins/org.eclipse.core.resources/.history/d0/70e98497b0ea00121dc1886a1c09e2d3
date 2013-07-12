@@ -1,0 +1,69 @@
+package com.example.onesec_app.adapters;
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.onesec.Kitchen;
+import com.example.onesec.impl.cake.Cake;
+import com.example.onesec.impl.util.Utilities;
+import com.example.onesec_app.R;
+
+public class CakesArrayAdapter extends ArrayAdapter<String>{
+
+    Context context; 
+    int layoutResourceId;    
+    String data[] = null;		// when used in searching in ViewSecondsActivity, this data is an array of second uids
+    
+    public CakesArrayAdapter(Context context, int layoutResourceId, String[] data) {
+        super(context, layoutResourceId, data);
+        this.layoutResourceId = layoutResourceId;
+        this.context = context;
+        this.data = data;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View row = convertView;
+        ViewHolder holder = null;
+        
+        if(row == null) {
+            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+            row = inflater.inflate(layoutResourceId, parent, false);
+            
+            holder = new ViewHolder();
+            holder.thumbnailView = (ImageView)row.findViewById(R.id.cakeThumbnail);
+            holder.titleView = (TextView)row.findViewById(R.id.cakeTitle);
+            holder.dateView = (TextView)row.findViewById(R.id.cakeDate);
+            holder.tagsView = (TextView)row.findViewById(R.id.cakeTags);
+            row.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder)row.getTag();
+        }
+        
+        String uid = data[position];
+        Cake cake = Kitchen.getCakeByUid(context, uid);
+        holder.thumbnailView.setImageBitmap(cake.getThumbnail(context));
+        holder.titleView = cake.getTitle();
+        String dateStr = Utilities.dateToString(cake.getDate());
+        String date = Utilities.getNiceTime(dateStr) + " on " + Utilities.getNiceDate(dateStr);
+        holder.dateView.setText(date);
+        holder.tagsView.setText(cake.getTagsString(context, uid));
+        
+        return row;
+    }
+    
+    static class ViewHolder
+    {
+    	ImageView thumbnailView;
+    	TextView titleView;
+        TextView dateView;
+        TextView tagsView;
+    }
+}

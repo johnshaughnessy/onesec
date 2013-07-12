@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.onesec.impl.second.Second;
-import com.example.onesec.impl.util.Utilities;
 import com.example.onesec_app.R;
 
 public class SecondsAdapter extends ArrayAdapter<Second> {
@@ -50,10 +49,10 @@ public class SecondsAdapter extends ArrayAdapter<Second> {
         }
         
         Second second = secondsList.get(position);
-        holder.thumbnailView.setImageBitmap(second.getThumbnail(context));
-        holder.dateView.setText(Utilities.dateToString(second.getDate()));
+//        holder.thumbnailView.setImageBitmap(second.getThumbnail(context));
+//        holder.dateView.setText(Utilities.dateToString(second.getDate()));
         Log.v("getView", "second id is " + second.getId());
-        holder.tagsView.setText(second.getTagsString(context, second.getId()));
+//        holder.tagsView.setText(second.getTagsString(context, second.getId()));
         Log.v("getView", "setting tag to " + second.getTagsString(context, second.getId()));
         
         return row;
