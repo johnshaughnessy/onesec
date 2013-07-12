@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnCloseListener;
@@ -31,6 +32,7 @@ import com.example.onesec.impl.http.TokenManager;
 import com.example.onesec.impl.second.Second;
 import com.example.onesec_app.adapters.SecondsArrayAdapter;
 import com.example.onesec_app.adapters.SecondsCursorAdapter;
+import com.example.onesec_app.adapters.SecondsImageAdapter;
 
 public class ViewSecondsActivity extends Activity {
 
@@ -38,6 +40,9 @@ public class ViewSecondsActivity extends Activity {
 	private Batter batter;
 	private boolean selectorOn;
 	private Context mContext;
+	private int LIST = 0;
+	private int GRID = 1;
+	private int viewType;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class ViewSecondsActivity extends Activity {
 		batter = new Batter();
 		selectorOn = false;
 		mContext = this;
+		viewType = GRID;
 		Button selectButton = (Button)findViewById(R.id.select_seconds);
 		selectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -86,9 +92,12 @@ public class ViewSecondsActivity extends Activity {
 	                }
 	                return false;
 	            }
-	
 	            @Override
 	            public boolean onQueryTextChange(String newText) {
+	            	if(newText.length() == 0) {
+	            		Log.v("onQueryTextChange", "showing all seconds");
+	            		showSeconds();
+	            	}
 	            	return false;
 	            }
 	        });
@@ -136,29 +145,42 @@ public class ViewSecondsActivity extends Activity {
 				R.id.secondDate,
 				R.id.secondThumbnail };
 		c.moveToFirst();
-		SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
-		        R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
-		ListView listView = (ListView)findViewById(R.id.secondsListView);
-		listView.setAdapter(adapter);
-		//listView.setLongClickable(true);
 		
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-				c.moveToPosition(pos);
-				Second second = new Second(c);
-				if(selectorOn)
-				{
-					//SecondsCursorAdapter adapter = (SecondsCursorAdapter) adapterView.getAdapter();
-					batter.addSecond(second);
+		if(viewType == LIST) {		// Show ListView
+			SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
+					R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
+			ListView listView = (ListView)findViewById(R.id.secondsListView);
+			listView.setAdapter(adapter);
+			//listView.setLongClickable(true);
+			
+			listView.setOnItemClickListener(new OnItemClickListener() {
+				public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+					c.moveToPosition(pos);
+					Second second = new Second(c);
+					if(selectorOn)
+					{
+						//SecondsCursorAdapter adapter = (SecondsCursorAdapter) adapterView.getAdapter();
+						batter.addSecond(second);
+					}
+					else{
+						Intent intent = new Intent();
+						intent.setAction(Intent.ACTION_VIEW);
+						intent.setDataAndType(second.getVideoUri(), "video/mp4");
+						startActivity(intent);
+					}
 				}
-				else{
-					Intent intent = new Intent();
-					intent.setAction(Intent.ACTION_VIEW);
-					intent.setDataAndType(second.getVideoUri(), "video/mp4");
-					startActivity(intent);
-				}
-			}
-		});
+			});
+		}
+		else {		// Show GridView
+			SecondsImageAdapter adapter = new SecondsImageAdapter(this, c);
+			GridView gridview = (GridView) findViewById(R.id.secondGridView);
+		    gridview.setAdapter(adapter);
+		    
+//			SecondsCursorAdapter adapter = new SecondsCursorAdapter(this,
+//					R.layout.gridview_seconds_tile, c, fromColumns, toViews, 0);
+//			GridView gridView = (GridView)findViewById(R.id.secondGridView);
+//			gridView.setAdapter(adapter);
+		}
 	}
 	
 	private void showSeconds(String sprinkle) {
