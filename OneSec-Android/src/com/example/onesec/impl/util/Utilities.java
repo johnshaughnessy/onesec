@@ -28,8 +28,8 @@ public class Utilities {
     	try {
     		date = formatter.parse(dateStr);
     	} catch (java.text.ParseException e) {
-			
 			e.printStackTrace();
+			return new Date();		// TODO hackathon. this is bad
 		}
     	return date;
 	}

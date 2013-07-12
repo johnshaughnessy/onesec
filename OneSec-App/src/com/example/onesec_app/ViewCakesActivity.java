@@ -72,9 +72,12 @@ public class ViewCakesActivity extends Activity {
 	                }
 	                return false;
 	            }
-	
 	            @Override
 	            public boolean onQueryTextChange(String newText) {
+	            	if(newText.length() == 0) {
+	            		Log.v("onQueryTextChange", "showing all cakes");
+	            		showCakes();
+	            	}
 	            	return false;
 	            }
 	        });

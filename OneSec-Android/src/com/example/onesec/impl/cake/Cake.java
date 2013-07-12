@@ -65,6 +65,11 @@ public class Cake {
 		date = Utilities.stringToDate(c.getString(KitchenContract.CAKE_DATE_COL_NUM));
 		videoUri = Uri.fromFile(new File(c.getString(KitchenContract.CAKE_VIDEO_PATH_COL_NUM)));
 		thumbnailUri = Uri.fromFile(new File(c.getString(KitchenContract.CAKE_THUMBNAIL_PATH_COL_NUM)));
+		Log.v("*id", ""+id);
+		Log.v("*title", ""+title);
+		Log.v("*date", ""+date);
+		Log.v("*videoUri", ""+videoUri);
+		Log.v("*thumbnailUri", ""+thumbnailUri);
 	}
 	
 	private String generateId() {
