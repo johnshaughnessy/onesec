@@ -28,21 +28,22 @@ public final class R {
         public static final int button_background=0x7f020000;
         public static final int ic_arrow=0x7f020001;
         public static final int ic_device_access_camera_dark=0x7f020002;
-        public static final int ic_device_access_camera_light=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int ic_navigation_accept=0x7f020005;
-        public static final int ic_search=0x7f020006;
+        public static final int ic_device_access_camera_green=0x7f020003;
+        public static final int ic_device_access_camera_light=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int ic_navigation_accept=0x7f020006;
+        public static final int ic_search=0x7f020007;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f060021;
-        public static final int action_settings=0x7f060022;
-        public static final int action_signout=0x7f060023;
+        public static final int action_forgot_password=0x7f060022;
+        public static final int action_settings=0x7f060023;
+        public static final int action_signout=0x7f060024;
         public static final int addTag=0x7f060013;
         public static final int bake_cake=0x7f060018;
-        public static final int cakeDate=0x7f06001c;
-        public static final int cakeTags=0x7f06001d;
-        public static final int cakeThumbnail=0x7f06001a;
-        public static final int cakeTitle=0x7f06001b;
+        public static final int cakeDate=0x7f06001e;
+        public static final int cakeTags=0x7f06001f;
+        public static final int cakeThumbnail=0x7f06001c;
+        public static final int cakeTitle=0x7f06001d;
         public static final int cakesListView=0x7f060016;
         public static final int date=0x7f06000f;
         public static final int done=0x7f060010;
@@ -55,10 +56,11 @@ public final class R {
         public static final int newCakeSprinkle=0x7f060011;
         public static final int newSecSprinkle=0x7f060014;
         public static final int password=0x7f060005;
-        public static final int search=0x7f060024;
-        public static final int secondDate=0x7f06001f;
-        public static final int secondTags=0x7f060020;
-        public static final int secondThumbnail=0x7f06001e;
+        public static final int search=0x7f060025;
+        public static final int secondDate=0x7f060020;
+        public static final int secondGridView=0x7f06001a;
+        public static final int secondTags=0x7f060021;
+        public static final int secondThumbnail=0x7f06001b;
         public static final int secondsListView=0x7f060019;
         public static final int select_seconds=0x7f060017;
         public static final int sign_in_button=0x7f060007;
@@ -80,8 +82,9 @@ public final class R {
         public static final int activity_recipe=0x7f030004;
         public static final int activity_view_cakes=0x7f030005;
         public static final int activity_view_seconds=0x7f030006;
-        public static final int listview_cakes_row=0x7f030007;
-        public static final int listview_seconds_row=0x7f030008;
+        public static final int gridview_seconds_tile=0x7f030007;
+        public static final int listview_cakes_row=0x7f030008;
+        public static final int listview_seconds_row=0x7f030009;
     }
     public static final class menu {
         public static final int login=0x7f090000;
