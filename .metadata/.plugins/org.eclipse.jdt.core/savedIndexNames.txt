@@ -1,9 +1,7 @@
-INDEX VERSION 1.126+/Users/vronan/OneSecDev/onesec/.metadata/.plugins/org.eclipse.jdt.core
-3542907623.index
-1228250669.index
-4073588135.index
-2917771758.index
-1715361649.index
-3542238586.index
-3395176179.index
-607184470.index
+INDEX VERSION 1.126+/Users/johnshaughnessy/Projects/android/onesec/.metadata/.plugins/org.eclipse.jdt.core
+4039102151.index
+1114023543.index
+3380852443.index
+1947455600.index
+3879351833.index
+1511054856.index
