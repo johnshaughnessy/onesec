@@ -22,7 +22,7 @@
         android:layout_below="@id/thumbnail"
         android:maxLines="1000"
         android:layout_centerHorizontal="true" />
-
+    
     <Button
         android:id="@+id/done"
         android:layout_width="50dp"
@@ -37,27 +37,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:layout_below="@id/date"
-        android:layout_centerHorizontal="true"
+        android:maxLines="1"
+        android:inputType="text"
         android:ems="10" />
-
+    
     <Button
         android:id="@+id/addTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/done"
-        android:layout_alignLeft="@+id/date"
+        android:layout_below="@id/date"
+        android:layout_toRightOf="@id/newSecSprinkle"
         android:onClick="addTag"
         android:text="@string/addTag" />
-
-    <Button
-        android:id="@+id/uploadSecond"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/addTag"
-        android:layout_alignBottom="@+id/addTag"
-        android:layout_toLeftOf="@+id/addTag"
-        android:onClick="uploadSecond"
-        android:text="@string/upload" />
-
+    
 </RelativeLayout>
 

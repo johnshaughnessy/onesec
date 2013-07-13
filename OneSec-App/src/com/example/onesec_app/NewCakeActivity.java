@@ -81,6 +81,8 @@ public class NewCakeActivity extends Activity {
 	public void previewCake() {
 		Cake cake = Kitchen.getCakeByUid(this, uid);
 		
+		uploadCake();
+		
 		thumbnailView.setImageBitmap(cake.getThumbnail(this));
 		dateView.setText(Utilities.dateToNiceString(cake.getDate()));
 		
@@ -136,7 +138,7 @@ public class NewCakeActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	public void uploadCake(View view){
+	public void uploadCake(){
 		Cake cake = Kitchen.getCakeByUid(this, uid);
 		
 		// Upload Cake to Server

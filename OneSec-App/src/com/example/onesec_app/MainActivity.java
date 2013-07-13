@@ -29,6 +29,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        // TODO temp
+//        Intent intent = new Intent(this, NewSecondActivity.class);
+//        intent.putExtra("second_uid", "VID_20130712_203300");
+//        startActivity(intent);
     }
     
 	@Override
@@ -91,7 +96,19 @@ public class MainActivity extends Activity {
     	} 
     }
     
-    public void takeSecond(View v) {
+    public void takeSecond1(View v) {
+    	takeSecond(1);
+    }
+    
+    public void takeSecond2(View v) {
+    	takeSecond(2);
+    }
+    
+    public void takeSecond3(View v) {
+    	takeSecond(3);
+    }
+    
+    public void takeSecond(int momentLength) {
     	second = new Second();
     	Kitchen.saveSecondToLocalDb(this, second);
     	uid = second.getId();
@@ -100,7 +117,7 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         
         intent.putExtra(MediaStore.EXTRA_OUTPUT, second.getVideoUri());
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 1);	// 1 second video
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, momentLength);	// 1, 2, or 3 second video
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);	// highest quality
         
     	startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);

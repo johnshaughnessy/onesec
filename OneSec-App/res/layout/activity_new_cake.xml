@@ -54,20 +54,11 @@
     </EditText>
 
     <Button
-        android:id="@+id/uploadCake"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/done"
-        android:layout_alignLeft="@+id/newCakeSprinkle"
-        android:onClick="uploadCake"
-        android:text="@string/upload" />
-
-    <Button
         android:id="@+id/addTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/uploadCake"
-        android:layout_alignBottom="@+id/uploadCake"
+        android:layout_below="@id/date"
+        android:layout_toRightOf="@id/newCakeSprinkle"
         android:layout_centerHorizontal="true"
         android:onClick="addTag"
         android:text="@string/addTag" />

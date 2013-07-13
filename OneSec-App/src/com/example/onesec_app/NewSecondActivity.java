@@ -77,6 +77,8 @@ public class NewSecondActivity extends Activity {
 	public void previewSecond() {
 		Second second = Kitchen.getSecondByUid(this, uid);
 		
+		uploadSecond();
+		
 		dateView.setText(getDateString(second.getDate()));
 		thumbnailView.setImageBitmap(second.getThumbnail(this));
 		
@@ -119,7 +121,7 @@ public class NewSecondActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	public void uploadSecond(View view){
+	public void uploadSecond(){
 		Second second = Kitchen.getSecondByUid(this, uid);
 		
 		// Upload Second to Server

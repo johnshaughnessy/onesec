@@ -55,7 +55,7 @@ public class ViewSecondsActivity extends Activity {
 		batter = new Batter();
 		selectorOn = false;
 		mContext = this;
-		viewType = GRID;
+		viewType = LIST;
 		Button selectButton = (Button)findViewById(R.id.select_seconds);
 		selectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -146,13 +146,14 @@ public class ViewSecondsActivity extends Activity {
 				R.id.secondThumbnail };
 		c.moveToFirst();
 		
-		if(viewType == LIST) {		// Show ListView
+//		if(viewType == LIST) {		// Show ListView
+		Log.v("showSeconds", "about to set adapter");
 			SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
 					R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
 			ListView listView = (ListView)findViewById(R.id.secondsListView);
 			listView.setAdapter(adapter);
 			//listView.setLongClickable(true);
-			
+			Log.v("LIST", "clicking");
 			listView.setOnItemClickListener(new OnItemClickListener() {
 				public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
 					c.moveToPosition(pos);
@@ -170,17 +171,17 @@ public class ViewSecondsActivity extends Activity {
 					}
 				}
 			});
-		}
-		else {		// Show GridView
-			SecondsImageAdapter adapter = new SecondsImageAdapter(this, c);
-			GridView gridview = (GridView) findViewById(R.id.secondGridView);
-		    gridview.setAdapter(adapter);
-		    
-//			SecondsCursorAdapter adapter = new SecondsCursorAdapter(this,
-//					R.layout.gridview_seconds_tile, c, fromColumns, toViews, 0);
-//			GridView gridView = (GridView)findViewById(R.id.secondGridView);
-//			gridView.setAdapter(adapter);
-		}
+//		}
+//		else {		// Show GridView
+//			SecondsImageAdapter adapter = new SecondsImageAdapter(this, c);
+//			GridView gridview = (GridView) findViewById(R.id.secondGridView);
+//		    gridview.setAdapter(adapter);
+//		    
+////			SecondsCursorAdapter adapter = new SecondsCursorAdapter(this,
+////					R.layout.gridview_seconds_tile, c, fromColumns, toViews, 0);
+////			GridView gridView = (GridView)findViewById(R.id.secondGridView);
+////			gridView.setAdapter(adapter);
+//		}
 	}
 	
 	private void showSeconds(String sprinkle) {
