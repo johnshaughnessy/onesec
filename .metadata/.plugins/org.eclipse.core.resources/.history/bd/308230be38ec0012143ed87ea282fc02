@@ -1,0 +1,67 @@
+package com.example.onesec_app.adapters;
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.onesec.Kitchen;
+import com.example.onesec.impl.second.Second;
+import com.example.onesec.impl.util.Utilities;
+import com.example.onesec_app.R;
+
+public class SecondsArrayAdapter extends ArrayAdapter<String>{
+
+    Context context; 
+    int layoutResourceId;    
+    String data[] = null;		// when used in searching in ViewSecondsActivity, this data is an array of second uids
+    
+    public SecondsArrayAdapter(Context context, int layoutResourceId, String[] data) {
+        super(context, layoutResourceId, data);
+        this.layoutResourceId = layoutResourceId;
+        this.context = context;
+        this.data = data;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View row = convertView;
+        ViewHolder holder = null;
+        
+        if(row == null) {
+            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+            row = inflater.inflate(layoutResourceId, parent, false);
+            
+            holder = new ViewHolder();
+            holder.thumbnailView = (ImageView)row.findViewById(R.id.secondThumbnail);
+            holder.dateView = (TextView)row.findViewById(R.id.secondDate);
+            holder.tagsView = (TextView)row.findViewById(R.id.secondTags);
+            row.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder)row.getTag();
+        }
+        
+        String uid = data[position];
+        Second second = Kitchen.getSecondByUid(context, uid);
+        Log.v("getView", "second is " + second.getId());
+        String dateStr = Utilities.dateToString(second.getDate());
+        String date = Utilities.getNiceTime(dateStr) + " on " + Utilities.getNiceDate(dateStr);
+        holder.dateView.setText(date);
+        holder.tagsView.setText(second.getTagsString(context, uid));
+        holder.thumbnailView.setImageBitmap(second.getThumbnail(context));
+        
+        return row;
+    }
+    
+    static class ViewHolder
+    {
+    	ImageView thumbnailView;
+        TextView dateView;
+        TextView tagsView;
+    }
+}

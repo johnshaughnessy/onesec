@@ -8,29 +8,31 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".NewCakeActivity" >
 
-    <ImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_centerHorizontal="true" />
-    
     <EditText
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/thumbnail"
         android:maxLines="1"
         android:inputType="text"
         android:hint="@string/hint_cake_title"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" >
+        <requestFocus />
+    </EditText>
     
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:maxLines="1000"
+        android:maxLines="1"
+        android:layout_centerHorizontal="true" />
+    
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -45,21 +47,17 @@
         android:id="@+id/newCakeSprinkle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/title"
-        android:layout_below="@+id/date"
+        android:layout_below="@id/thumbnail"
         android:maxLines="1"
         android:inputType="text"
-        android:ems="10" >
-        <requestFocus />
-    </EditText>
+        android:ems="10" />
 
     <Button
         android:id="@+id/addTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date"
+        android:layout_below="@id/thumbnail"
         android:layout_toRightOf="@id/newCakeSprinkle"
-        android:layout_centerHorizontal="true"
         android:onClick="addTag"
         android:text="@string/addTag" />
 

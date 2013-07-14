@@ -10,30 +10,36 @@
 
     <Button
         android:id="@+id/takeSecond1"
+        style="@style/CameraButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_toLeftOf="@+id/takeSecond2"
         android:radius="10dp"
-        android:background="@drawable/pink_button"
-        android:onClick="takeSecond1" />
+        android:background="@drawable/green_button"
+        android:onClick="takeSecond1"
+        android:text="1" />
     
     <Button
         android:id="@+id/takeSecond2"
+        style="@style/CameraButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:radius="10dp"
-        android:background="@drawable/green_button"
-        android:onClick="takeSecond2" />
+        android:background="@drawable/pink_button"
+        android:onClick="takeSecond2"
+        android:text="2" />
     
     <Button
         android:id="@+id/takeSecond3"
+        style="@style/CameraButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_toRightOf="@id/takeSecond2"
         android:radius="10dp"
         android:background="@drawable/blue_button"
-        android:onClick="takeSecond3" />
+        android:onClick="takeSecond3"
+        android:text="3" />
     
     <Button
         android:id="@+id/viewSeconds"
@@ -55,20 +61,21 @@
     
     <Button
         android:id="@+id/syncSeconds"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/signin"
-        android:onClick="syncSeconds"
-        android:text="@string/syncSeconds" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_sync"
+        android:onClick="syncSeconds" />
     
-    <Button 
+    <Button
         android:id="@+id/signin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:onClick="signIn"
-        android:text="@string/sign_in" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toLeftOf="@id/syncSeconds"
+        android:layout_alignParentBottom="true"
+        android:paddingRight="20dp"
+        android:background="@drawable/ic_signin"
+        android:onClick="signIn" />
 
 </RelativeLayout>

@@ -43,12 +43,15 @@ public final class R {
         public static final int ic_camera_green=0x7f020005;
         public static final int ic_camera_light=0x7f020006;
         public static final int ic_camera_pink=0x7f020007;
-        public static final int ic_camera_yellow=0x7f020008;
-        public static final int ic_launcher=0x7f020009;
-        public static final int ic_navigation_accept=0x7f02000a;
-        public static final int ic_search=0x7f02000b;
-        public static final int pink_button=0x7f02000c;
-        public static final int yellow_button=0x7f02000d;
+        public static final int ic_camera_white=0x7f020008;
+        public static final int ic_camera_yellow=0x7f020009;
+        public static final int ic_launcher=0x7f02000a;
+        public static final int ic_navigation_accept=0x7f02000b;
+        public static final int ic_search=0x7f02000c;
+        public static final int ic_signin=0x7f02000d;
+        public static final int ic_sync=0x7f02000e;
+        public static final int pink_button=0x7f02000f;
+        public static final int yellow_button=0x7f020010;
     }
     public static final class id {
         public static final int action_forgot_password=0x7f060021;
@@ -61,7 +64,7 @@ public final class R {
         public static final int cakeThumbnail=0x7f06001b;
         public static final int cakeTitle=0x7f06001c;
         public static final int cakesListView=0x7f060016;
-        public static final int date=0x7f060011;
+        public static final int date=0x7f060010;
         public static final int done=0x7f060012;
         public static final int email=0x7f060004;
         public static final int login=0x7f060006;
@@ -84,8 +87,8 @@ public final class R {
         public static final int takeSecond1=0x7f060008;
         public static final int takeSecond2=0x7f060009;
         public static final int takeSecond3=0x7f06000a;
-        public static final int thumbnail=0x7f06000f;
-        public static final int title=0x7f060010;
+        public static final int thumbnail=0x7f060011;
+        public static final int title=0x7f06000f;
         public static final int viewCakes=0x7f06000c;
         public static final int viewSeconds=0x7f06000b;
     }
@@ -176,10 +179,14 @@ public final class R {
         public static final int Button_Green=0x7f090005;
         public static final int Button_Pink=0x7f090008;
         public static final int Button_Yellow=0x7f090007;
+        public static final int CameraButton=0x7f09000c;
+        public static final int Date=0x7f09000a;
         public static final int LoginFormContainer=0x7f090002;
         /**  Application theme. 
          */
         public static final int RetroTheme=0x7f090001;
+        public static final int Tag=0x7f09000b;
+        public static final int Title=0x7f090009;
         public static final int TitleFont=0x7f090003;
     }
     public static final class xml {

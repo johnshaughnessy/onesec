@@ -18,7 +18,7 @@
 
     <!-- Application theme. -->
 	<style name="RetroTheme" parent="AppBaseTheme">
-	    <item name="android:windowBackground">@color/light_gray</item>
+	    <item name="android:windowBackground">@color/gray1</item>
 	</style>
 
     <style name="LoginFormContainer">
@@ -48,6 +48,29 @@
     
     <style name="Button.Pink">
         <item name="android:background">@color/hot_pink</item>
+    </style>
+    
+    <style name="Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="Date">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+    
+    <style name="Tag">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="CameraButton">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">6dp</item>
     </style>
 
 </resources>

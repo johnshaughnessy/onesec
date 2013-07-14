@@ -5,7 +5,9 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -24,16 +26,13 @@ public class CakesCursorAdapter extends SimpleCursorAdapter {
         super(context, layoutResourceId, c, from, to, 0);
     }
     
-//    @Override
-//    public void setViewText(TextView textView, String string)
-//    {
-//    	textView.setText(string);
-//    }
-//    
-//    public void setViewImage(ImageView imageView, String thumbnailUri)
-//    {
-//    	imageView.setImageURI(Uri.parse(thumbnailUri));
-//    }
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    	LayoutInflater inflater = LayoutInflater.from(context);
+		View v = inflater.inflate(R.layout.listview_cakes_row, parent, false);
+		bindView(v, context, cursor);
+		return v;
+    }
     
     @Override
     public void bindView(View view, Context context, Cursor cursor) {

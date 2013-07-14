@@ -155,6 +155,7 @@ public class Kitchen {
 		    );
 		
 		List<String> sprinklesList = new ArrayList<String>();
+		Log.v("getSprinklesByUid", "START");
 		if (c.moveToFirst()){
 			do{		// do/while? ew
 				String spr = c.getString(KitchenContract.SPRINKLE_TAG_COL_NUM);
@@ -162,6 +163,7 @@ public class Kitchen {
 				Log.v("getSprinklesByUid", "adding " + spr);
 			} while(c.moveToNext());
 		}
+		Log.v("getSprinklesByUid", "END");
 		c.close();
 		db.close();
 		

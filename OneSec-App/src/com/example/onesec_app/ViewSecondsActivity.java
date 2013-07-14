@@ -47,7 +47,6 @@ public class ViewSecondsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setTitle("My Seconds");
 		setContentView(R.layout.activity_view_seconds);
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -147,13 +146,16 @@ public class ViewSecondsActivity extends Activity {
 		c.moveToFirst();
 		
 //		if(viewType == LIST) {		// Show ListView
-		Log.v("showSeconds", "about to set adapter");
+		Log.v("showSeconds", "about to make adapter");
 			SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
 					R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
+			Log.v("showSeconds", "just made adapter");
 			ListView listView = (ListView)findViewById(R.id.secondsListView);
+			Log.v("showSeconds", "just found listview");
 			listView.setAdapter(adapter);
+			Log.v("showSeconds", "just set adapter");
 			//listView.setLongClickable(true);
-			Log.v("LIST", "clicking");
+//			Log.v("LIST", "clicking");
 			listView.setOnItemClickListener(new OnItemClickListener() {
 				public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
 					c.moveToPosition(pos);
