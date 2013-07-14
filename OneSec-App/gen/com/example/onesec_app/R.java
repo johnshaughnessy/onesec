@@ -45,13 +45,14 @@ public final class R {
         public static final int ic_camera_pink=0x7f020007;
         public static final int ic_camera_white=0x7f020008;
         public static final int ic_camera_yellow=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
-        public static final int ic_navigation_accept=0x7f02000b;
-        public static final int ic_search=0x7f02000c;
-        public static final int ic_signin=0x7f02000d;
-        public static final int ic_sync=0x7f02000e;
-        public static final int pink_button=0x7f02000f;
-        public static final int yellow_button=0x7f020010;
+        public static final int ic_device_access_camera_green=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int ic_navigation_accept=0x7f02000c;
+        public static final int ic_search=0x7f02000d;
+        public static final int ic_signin=0x7f02000e;
+        public static final int ic_sync=0x7f02000f;
+        public static final int pink_button=0x7f020010;
+        public static final int yellow_button=0x7f020011;
     }
     public static final class id {
         public static final int action_forgot_password=0x7f060021;
