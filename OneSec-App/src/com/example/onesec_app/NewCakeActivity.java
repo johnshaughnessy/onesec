@@ -159,7 +159,7 @@ public class NewCakeActivity extends Activity {
 		RequestParams params = OneSecRestClient.buildParams(new String[] {"token", "cake_uid", "sprinkle_tag"}, 
 							   								new String[] {TokenManager.getToken(this), cake.getId(), sprinkleTag});
 		OneSecRestClient.post("mobile_cake_sprinkles", params, OneSecRestClient.getResponseHandler("addTag"));
-		//newCakeSprinkle.setText("");
+		newCakeSprinkle.setText("");
 	}
 	
     private void signout() {

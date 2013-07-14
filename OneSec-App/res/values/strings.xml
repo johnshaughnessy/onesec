@@ -32,6 +32,8 @@
     <string name="addTag">Add tag</string>
     <string name="upload">Upload</string>
     <string name="syncSeconds">Sync Moments</string>
+    
+    <string name="thumbnail_description">Video thumbnail</string>
 
 
 </resources>

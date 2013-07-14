@@ -10,12 +10,11 @@
 
     <EditText
         android:id="@+id/title"
+		style="@style/Input.Title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:inputType="text"
-        android:hint="@string/hint_cake_title"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:hint="@string/hint_cake_title" >
         <requestFocus />
     </EditText>
     
@@ -33,32 +32,26 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/thumbnail_description" />
 
     <Button
         android:id="@+id/done"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/ic_navigation_accept" />
+        style="@style/CheckButton"
+        android:onClick="viewCakes" />
 
     <EditText
         android:id="@+id/newCakeSprinkle"
+        style="@style/Input.Tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/thumbnail"
-        android:maxLines="1"
-        android:inputType="text"
-        android:ems="10" />
+        android:layout_below="@id/thumbnail" />
 
     <Button
         android:id="@+id/addTag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+		style="@style/PlusButton"
         android:layout_below="@id/thumbnail"
         android:layout_toRightOf="@id/newCakeSprinkle"
-        android:onClick="addTag"
-        android:text="@string/addTag" />
+        android:onClick="addTag" />
 
 </RelativeLayout>

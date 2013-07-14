@@ -13,7 +13,8 @@
         android:id="@+id/thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/thumbnail_description" />
     
     <TextView
         android:id="@+id/date"
@@ -25,30 +26,22 @@
     
     <Button
         android:id="@+id/done"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/ic_navigation_accept"
+        style="@style/CheckButton"
         android:onClick="viewSeconds" />
 
     <EditText
         android:id="@+id/newSecSprinkle"
+        style="@style/Input.Tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:layout_below="@id/date"
-        android:maxLines="1"
-        android:inputType="text"
-        android:ems="10" />
+		android:layout_below="@id/date" />
     
     <Button
         android:id="@+id/addTag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/PlusButton"
         android:layout_below="@id/date"
         android:layout_toRightOf="@id/newSecSprinkle"
-        android:onClick="addTag"
-        android:text="@string/addTag" />
+        android:onClick="addTag" />
     
 </RelativeLayout>
 
