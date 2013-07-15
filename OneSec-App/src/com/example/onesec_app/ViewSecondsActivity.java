@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnCloseListener;
@@ -32,7 +31,6 @@ import com.example.onesec.impl.http.TokenManager;
 import com.example.onesec.impl.second.Second;
 import com.example.onesec_app.adapters.SecondsArrayAdapter;
 import com.example.onesec_app.adapters.SecondsCursorAdapter;
-import com.example.onesec_app.adapters.SecondsImageAdapter;
 
 public class ViewSecondsActivity extends Activity {
 
@@ -40,9 +38,11 @@ public class ViewSecondsActivity extends Activity {
 	private Batter batter;
 	private boolean selectorOn;
 	private Context mContext;
-	private int LIST = 0;
-	private int GRID = 1;
-	private int viewType;
+//	private int LIST = 0;
+//	private int GRID = 1;
+//	private int viewType;
+	private ListView listView;
+	public View row;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +53,18 @@ public class ViewSecondsActivity extends Activity {
 		
 		batter = new Batter();
 		selectorOn = false;
+		changeSelectButtonColor(R.color.white);
 		mContext = this;
-		viewType = LIST;
+//		viewType = LIST;
 		Button selectButton = (Button)findViewById(R.id.select_seconds);
+		
 		selectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				if (selectorOn){
+					changeSelectButtonColor(R.color.white);
+				}else{
+					changeSelectButtonColor(R.color.hot_pink);
+				}
 				selectorOn = !selectorOn;
 			}
 		});
@@ -65,6 +72,12 @@ public class ViewSecondsActivity extends Activity {
 		showSeconds();
 	}
 	
+	protected void changeSelectButtonColor(int color) {
+		Button selectButton = (Button) findViewById(R.id.select_seconds);
+		selectButton.setTextColor(getResources().getColor(color));
+		
+	}
+
 	@SuppressLint("NewApi")
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,45 +158,29 @@ public class ViewSecondsActivity extends Activity {
 				R.id.secondThumbnail };
 		c.moveToFirst();
 		
-//		if(viewType == LIST) {		// Show ListView
-		Log.v("showSeconds", "about to make adapter");
-			SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
-					R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
-			Log.v("showSeconds", "just made adapter");
-			ListView listView = (ListView)findViewById(R.id.secondsListView);
-			Log.v("showSeconds", "just found listview");
-			listView.setAdapter(adapter);
-			Log.v("showSeconds", "just set adapter");
-			//listView.setLongClickable(true);
-//			Log.v("LIST", "clicking");
-			listView.setOnItemClickListener(new OnItemClickListener() {
-				public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-					c.moveToPosition(pos);
-					Second second = new Second(c);
-					if(selectorOn)
-					{
-						//SecondsCursorAdapter adapter = (SecondsCursorAdapter) adapterView.getAdapter();
-						batter.addSecond(second);
-					}
-					else{
-						Intent intent = new Intent();
-						intent.setAction(Intent.ACTION_VIEW);
-						intent.setDataAndType(second.getVideoUri(), "video/mp4");
-						startActivity(intent);
-					}
+		SecondsCursorAdapter adapter = new SecondsCursorAdapter(this, 
+				R.layout.listview_seconds_row, c, fromColumns, toViews, 0);
+
+		listView = (ListView)findViewById(R.id.secondsListView);
+
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+				c.moveToPosition(pos);
+				Second second = new Second(c);
+				if(selectorOn)
+				{
+					//SecondsCursorAdapter adapter = (SecondsCursorAdapter) adapterView.getAdapter();
+					batter.addSecond(second);
 				}
-			});
-//		}
-//		else {		// Show GridView
-//			SecondsImageAdapter adapter = new SecondsImageAdapter(this, c);
-//			GridView gridview = (GridView) findViewById(R.id.secondGridView);
-//		    gridview.setAdapter(adapter);
-//		    
-////			SecondsCursorAdapter adapter = new SecondsCursorAdapter(this,
-////					R.layout.gridview_seconds_tile, c, fromColumns, toViews, 0);
-////			GridView gridView = (GridView)findViewById(R.id.secondGridView);
-////			gridView.setAdapter(adapter);
-//		}
+				else{
+					Intent intent = new Intent();
+					intent.setAction(Intent.ACTION_VIEW);
+					intent.setDataAndType(second.getVideoUri(), "video/mp4");
+					startActivity(intent);
+				}
+			}
+		});
 	}
 	
 	private void showSeconds(String sprinkle) {

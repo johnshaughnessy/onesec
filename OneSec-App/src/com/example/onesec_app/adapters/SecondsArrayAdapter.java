@@ -17,7 +17,8 @@ import com.example.onesec_app.R;
 public class SecondsArrayAdapter extends ArrayAdapter<String>{
 
     Context context; 
-    int layoutResourceId;    
+    int layoutResourceId;
+
     String data[] = null;		// when used in searching in ViewSecondsActivity, this data is an array of second uids
     
     public SecondsArrayAdapter(Context context, int layoutResourceId, String[] data) {
@@ -56,6 +57,10 @@ public class SecondsArrayAdapter extends ArrayAdapter<String>{
         
         return row;
     }
+    
+
+    
+    
     
     static class ViewHolder
     {
