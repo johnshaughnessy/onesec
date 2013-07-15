@@ -9,49 +9,59 @@
     tools:context=".MainActivity" >
 
     <Button
+        android:id="@+id/takeSecond"
+        style="@style/CameraButton"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"
+        android:radius="10dp"
+         />
+    
+    <Button
         android:id="@+id/takeSecond1"
         style="@style/CameraButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
         android:layout_toLeftOf="@+id/takeSecond2"
+                android:layout_below="@id/takeSecond"
         android:radius="10dp"
-        android:background="@drawable/green_camera"
+        android:background="@drawable/green_square"
         android:onClick="takeSecond1"
         android:text="1" />
     
     <Button
         android:id="@+id/takeSecond2"
         style="@style/CameraButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_below="@id/takeSecond"
         android:layout_centerHorizontal="true"
         android:radius="10dp"
-        android:background="@drawable/pink_camera"
+        android:background="@drawable/pink_square"
         android:onClick="takeSecond2"
         android:text="2" />
     
     <Button
         android:id="@+id/takeSecond3"
         style="@style/CameraButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
         android:layout_toRightOf="@id/takeSecond2"
+                android:layout_below="@id/takeSecond"
         android:radius="10dp"
-        android:background="@drawable/blue_camera"
+        android:background="@drawable/blue_square"
         android:onClick="takeSecond3"
         android:text="3" />
     
     <Button
         android:id="@+id/viewSeconds"
+        style="@style/WhiteText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/takeSecond2"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:onClick="viewSeconds"
         android:text="@string/text_viewSeconds" />
     
     <Button
         android:id="@+id/viewCakes"
+        style="@style/WhiteText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/viewSeconds"

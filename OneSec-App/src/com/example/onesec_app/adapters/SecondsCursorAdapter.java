@@ -1,10 +1,12 @@
 package com.example.onesec_app.adapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ public class SecondsCursorAdapter extends SimpleCursorAdapter {
 	Context context; 
     int layoutResourceId;    
     List<Second> secondsList;
+    public ArrayList<String> selectedIds = new ArrayList<String>();
     
     @SuppressLint("NewApi")
 	public SecondsCursorAdapter(Context context, int layoutResourceId, Cursor c, String[] from, int[] to, int flags) {
@@ -30,22 +33,44 @@ public class SecondsCursorAdapter extends SimpleCursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
     	LayoutInflater inflater = LayoutInflater.from(context);
 		View v = inflater.inflate(R.layout.listview_seconds_row, parent, false);
+		Log.v("newView", "fuck");
 		bindView(v, context, cursor);
 		return v;
     }
+    
+    public void toggleSelected(String uid)
+	{
+	   if (selectedIds.contains(uid)) {
+		   System.out.println("removing " + uid);
+		   selectedIds.remove(uid); 
+	   } else {
+		   System.out.println("adding " + uid);
+		   selectedIds.add(uid);
+	   }
+	   System.out.println("selectedIds is now" + print(selectedIds));
+	}
 
-    @Override
+    private String print(ArrayList<String> strings) {
+    	String result = "";
+		for (String str : strings){
+			result += str + "\n";
+		}
+		return result;
+	}
+
+	@Override
     public void bindView(View view, Context context, Cursor cursor) {
         super.bindView(view, context, cursor);
+        Log.v("bindView", "shit");
     	
         ViewHolder holder = (ViewHolder) view.getTag();
         if (holder == null) {
             holder = new ViewHolder();
-//            holder.thumbnailView = (ImageView) view.findViewById(R.id.secondThumbnail);
             holder.dateView = (TextView) view.findViewById(R.id.secondDate);
             holder.tagsView = (TextView) view.findViewById(R.id.secondTags);
             view.setTag(holder);
         }
+        
 
         // set text of date
         String dateStr = cursor.getString(KitchenContract.SECOND_DATE_COL_NUM);
@@ -58,17 +83,7 @@ public class SecondsCursorAdapter extends SimpleCursorAdapter {
         String tags = second.getTagsString(context, uid);
         holder.tagsView.setText(tags);
         
-        // set image
-//		Uri thumbnailUri = Uri.fromFile(new File(cursor.getString(KitchenContract.SECOND_THUMBNAIL_PATH_COL_NUM)));
-//		Bitmap thumbnail = null;
-//		try {
-//			thumbnail = MediaStore.Images.Media.getBitmap(context.getContentResolver(), thumbnailUri);
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//        holder.thumbnailView.setImageBitmap(thumbnail);
+
     }
 
     static class ViewHolder {
