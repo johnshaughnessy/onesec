@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.example.onesec.Kitchen;
 import com.example.onesec.impl.http.SyncManager;
@@ -30,10 +32,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        // TODO temp
-//        Intent intent = new Intent(this, NewSecondActivity.class);
-//        intent.putExtra("second_uid", "VID_20130712_203300");
-//        startActivity(intent);
+        Button takeSecond = (Button) findViewById(R.id.takeSecond);
+        takeSecond.setBackgroundResource(R.drawable.pink_camera);
+        takeSecond.setText("2");
+        takeSecond.setTextSize(42);
+        takeSecond.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		takeSecond(2);
+        	}
+        });
+        
+        
     }
     
 	@Override
@@ -97,15 +106,39 @@ public class MainActivity extends Activity {
     }
     
     public void takeSecond1(View v) {
-    	takeSecond(1);
+    	Button takeSecond = (Button) findViewById(R.id.takeSecond);
+        takeSecond.setBackgroundResource(R.drawable.green_camera);
+        takeSecond.setText("1");
+        takeSecond.setTextSize(42);
+        takeSecond.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		takeSecond(1);
+        	}
+        });
     }
     
     public void takeSecond2(View v) {
-    	takeSecond(2);
+    	Button takeSecond = (Button) findViewById(R.id.takeSecond);
+        takeSecond.setBackgroundResource(R.drawable.pink_camera);
+        takeSecond.setText("2");
+        takeSecond.setTextSize(42);
+        takeSecond.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		takeSecond(2);
+        	}
+        });
     }
     
     public void takeSecond3(View v) {
-    	takeSecond(3);
+    	Button takeSecond = (Button) findViewById(R.id.takeSecond);
+        takeSecond.setBackgroundResource(R.drawable.blue_camera);
+        takeSecond.setText("3");
+        takeSecond.setTextSize(42);
+        takeSecond.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		takeSecond(3);
+        	}
+        });
     }
     
     public void takeSecond(int momentLength) {
